@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.">
+<title>Arhiva fără frontiere — răsfoiește Archive.org fără cont</title>
+<style>
+  :root{
+    --ink:#10161A; --ink-2:#161D22; --ink-panel:#1B2328; --line:#2E383E;
+    --paper:#EDE6D6; --paper-2:#E2D9C4; --paper-shadow:rgba(0,0,0,.35);
+    --text-light:#ECE6D8; --text-light-dim:#A7A092;
+    --text-dark:#241E15; --text-dark-dim:#6b6153;
+    --brass:#B8863B; --brass-bright:#E0AA55; --stamp:#A6402E; --focus:#6FB6A8;
+    --font-display:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --font-ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:'SF Mono','Cascadia Mono',Consolas,'Liberation Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--ink);color:var(--text-light);font-family:var(--font-ui);line-height:1.5;min-height:100vh;}
+  body.modal-open{overflow:hidden;}
+  body.is-loading .results-grid{opacity:.55;transition:opacity .2s;}
+  a{color:var(--brass-bright);}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+  .icon{width:1em;height:1em;display:inline-block;vertical-align:-0.15em;}
+  .icon path,.icon rect,.icon line,.icon circle,.icon ellipse,.icon polygon{
+    fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  .masthead{padding:2.5rem 1.5rem 1.75rem;text-align:center;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--ink-2),var(--ink));position:relative;}
+  .lang-switcher{position:absolute;top:.9rem;right:1.1rem;}
+  .lang-switcher select{background:var(--ink-panel);border:1px solid var(--line);color:var(--text-light);
+    padding:.35rem .55rem;border-radius:5px;font-family:var(--font-ui);font-size:.8rem;cursor:pointer;}
+  @media (max-width:600px){
+    .lang-switcher{position:static;display:flex;justify-content:center;margin-bottom:.7rem;}
+  }
+  .wordmark{font-family:var(--font-display);font-size:clamp(1.7rem,5vw,2.5rem);letter-spacing:.03em;margin:0;font-weight:400;}
+  .wordmark .accent{color:var(--brass-bright);font-style:italic;letter-spacing:0;}
+  .tagline{color:var(--text-light-dim);max-width:38em;margin:.7rem auto 0;font-size:.95rem;}
+
+  .search-panel{max-width:960px;margin:-1.1rem auto 0;padding:0 1.25rem;position:relative;z-index:2;}
+  .search-card{background:var(--ink-panel);border:1px solid var(--line);border-radius:8px;padding:1.25rem;
+    box-shadow:0 14px 34px rgba(0,0,0,.38);}
+  .input-row{display:flex;gap:.6rem;flex-wrap:wrap;}
+  #identifierInput{flex:1 1 260px;background:var(--ink);border:1px solid var(--line);color:var(--text-light);
+    padding:.7rem .85rem;border-radius:5px;font-size:1rem;font-family:var(--font-ui);}
+  #identifierInput::placeholder{color:var(--text-light-dim);}
+  #identifierInput:focus-visible,button:focus-visible,select:focus-visible,a:focus-visible,input[type=file]:focus-visible{
+    outline:2px solid var(--focus);outline-offset:2px;}
+
+  .btn{background:var(--brass);color:#1B1400;border:none;padding:.7rem 1.15rem;border-radius:5px;font-weight:600;
+    cursor:pointer;font-family:var(--font-ui);font-size:.92rem;transition:background .15s ease,transform .1s ease;}
+  .btn:hover{background:var(--brass-bright);}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text-light);}
+  .btn-ghost:hover{border-color:var(--brass);color:var(--brass-bright);background:transparent;}
+  .btn-ghost.active{border-color:var(--brass);color:var(--brass-bright);}
+
+  .mode-selector{display:flex;gap:.4rem;margin-top:.9rem;flex-wrap:wrap;}
+  .mode-btn{background:transparent;border:1px solid var(--line);color:var(--text-light-dim);
+    padding:.4rem .85rem;border-radius:999px;font-size:.84rem;cursor:pointer;font-family:var(--font-ui);}
+  .mode-btn.active{background:var(--brass);border-color:var(--brass);color:#1B1400;font-weight:600;}
+
+  .filters-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.9rem;align-items:center;}
+  .filters-row select{background:var(--ink);border:1px solid var(--line);color:var(--text-light);
+    padding:.5rem .6rem;border-radius:5px;font-family:var(--font-ui);font-size:.87rem;}
+  .year-range{display:flex;align-items:center;gap:.35rem;color:var(--text-light-dim);font-size:.87rem;}
+  .year-range input[type=number]{background:var(--ink);border:1px solid var(--line);color:var(--text-light);
+    padding:.5rem .6rem;border-radius:5px;font-family:var(--font-ui);font-size:.87rem;width:5.2em;
+    -moz-appearance:textfield;}
+  .year-range input[type=number]::placeholder{color:var(--text-light-dim);}
+  .year-range input[type=number]::-webkit-outer-spin-button,
+  .year-range input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+
+  .examples-row{margin-top:1rem;display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;}
+  .examples-row .label{color:var(--text-light-dim);font-size:.78rem;margin-right:.15rem;}
+  .example-chip{background:transparent;border:1px dashed var(--line);color:var(--text-light-dim);
+    padding:.25rem .6rem;border-radius:999px;font-size:.76rem;cursor:pointer;font-family:var(--font-mono);}
+  .example-chip:hover{border-color:var(--brass);color:var(--brass-bright);}
+
+  .status-line{max-width:960px;margin:1rem auto 0;padding:0 1.25rem;font-size:.88rem;color:var(--text-light-dim);}
+  .status-line.status-error{color:#E8998A;}
+
+  .toolbar-row{max-width:1180px;margin:1.3rem auto 0;padding:0 1.25rem;display:flex;justify-content:flex-end;
+    gap:.5rem;flex-wrap:wrap;}
+
+  .results-grid{max-width:1180px;margin:1.1rem auto;padding:0 1.25rem;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;}
+
+  .card{background:var(--paper);color:var(--text-dark);border-radius:4px;overflow:hidden;cursor:pointer;
+    box-shadow:0 2px 0 var(--paper-shadow),0 8px 18px rgba(0,0,0,.28);display:flex;flex-direction:column;
+    animation:card-in .3s ease both;border:1px solid rgba(0,0,0,.08);}
+  @keyframes card-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .card:hover{transform:translateY(-3px);box-shadow:0 4px 0 var(--paper-shadow),0 14px 26px rgba(0,0,0,.35);}
+  .card:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .card-thumb{position:relative;aspect-ratio:4/3;background:var(--paper-2);overflow:hidden;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card-thumb-icon{width:2.4rem;height:2.4rem;position:absolute;inset:0;margin:auto;color:var(--text-dark-dim);}
+
+  .call-tab{position:absolute;left:0;bottom:0;max-width:100%;background:var(--brass);color:#1B1400;
+    font-family:var(--font-mono);font-size:.7rem;padding:.2rem .45rem;letter-spacing:.02em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .fav-btn{position:absolute;top:.4rem;right:.4rem;background:rgba(16,22,26,.55);border:none;color:#F0E6C8;
+    width:1.85rem;height:1.85rem;border-radius:50%;font-size:1rem;cursor:pointer;line-height:1;}
+  .fav-btn:hover{background:rgba(16,22,26,.8);}
+  .fav-btn[data-fav="true"]{color:var(--stamp);}
+
+  .card-body{padding:.7rem .8rem .85rem;}
+  .card-body h3{margin:0 0 .3rem;font-family:var(--font-display);font-size:1rem;line-height:1.3;font-weight:400;}
+  .card-meta{margin:0;font-size:.75rem;color:var(--text-dark-dim);}
+
+  .empty-state{max-width:640px;margin:3rem auto;padding:0 1.25rem;text-align:center;color:var(--text-light-dim);}
+
+  .load-more-wrap{display:flex;justify-content:center;margin:0 0 3rem;}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(6,9,11,.8);z-index:50;display:flex;
+    align-items:flex-start;justify-content:center;padding:3vh 1rem;overflow:auto;}
+  .modal-overlay[hidden]{display:none;}
+  .modal-card{background:var(--paper);color:var(--text-dark);width:100%;max-width:820px;border-radius:8px;
+    position:relative;box-shadow:0 30px 60px rgba(0,0,0,.5);max-height:94vh;overflow:auto;}
+  .modal-header{padding:1.2rem 3.2rem 0 1.4rem;position:relative;}
+  .modal-close{position:absolute;top:.8rem;right:.8rem;background:var(--ink);color:var(--text-light);
+    border:none;width:2.1rem;height:2.1rem;border-radius:50%;font-size:1.15rem;cursor:pointer;line-height:1;}
+  .modal-close:hover{background:var(--ink-2);}
+  #modalCallTab{display:inline-block;font-family:var(--font-mono);font-size:.7rem;background:var(--brass);
+    color:#1B1400;padding:.2rem .5rem;border-radius:2px;margin-bottom:.5rem;}
+  #modalTitle{font-family:var(--font-display);margin:.15rem 0 .3rem;font-size:1.4rem;font-weight:400;}
+  #modalMeta{color:var(--text-dark-dim);font-size:.85rem;margin:0 0 1rem;}
+
+  .viewer{padding:0 1.4rem;}
+  .viewer-inner.viewer-video{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:5px;overflow:hidden;}
+  .viewer-inner.viewer-video iframe{width:100%;height:100%;border:0;}
+  .viewer-inner.viewer-audio iframe{width:100%;height:180px;border:0;border-radius:5px;}
+  .viewer-inner.viewer-texts iframe{width:100%;height:65vh;border:0;border-radius:5px;background:#000;}
+  .viewer-inner.viewer-software iframe{width:100%;height:480px;border:0;border-radius:5px;background:#000;}
+  .viewer-inner img{width:100%;max-height:70vh;object-fit:contain;border-radius:5px;background:#000;display:block;}
+  .viewer-note{color:var(--text-dark-dim);font-style:italic;}
+  .viewer-note.error{color:var(--stamp);}
+  .viewer-loading{color:var(--text-dark-dim);}
+
+  .record{padding:1.1rem 1.4rem 1.6rem;}
+  .modal-fav-btn{background:none;border:1px solid var(--line);border-radius:999px;padding:.35rem .75rem;
+    cursor:pointer;font-size:.85rem;color:var(--text-dark);margin-bottom:.9rem;font-family:var(--font-ui);}
+  .modal-fav-btn[data-fav="true"]{border-color:var(--stamp);color:var(--stamp);}
+  #modalDescription{white-space:pre-wrap;font-size:.92rem;line-height:1.6;margin:0 0 .4rem;}
+
+  .mini-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dark-dim);margin:1rem 0 .35rem;}
+  .subject-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .subject-tag,.collection-chip{background:var(--paper-2);border-radius:999px;padding:.2rem .6rem;font-size:.72rem;
+    color:var(--text-dark-dim);border:1px solid transparent;font-family:var(--font-ui);}
+  .collection-chip{cursor:pointer;}
+  .collection-chip:hover{border-color:var(--brass);color:#7A5322;background:var(--paper);}
+
+  .files-list{list-style:none;margin:.3rem 0 0;padding:0;border-top:1px solid rgba(0,0,0,.1);}
+  .files-list li{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;
+    border-bottom:1px solid rgba(0,0,0,.08);font-size:.85rem;}
+  .files-list a{color:#7A5322;word-break:break-all;}
+  .file-meta{color:var(--text-dark-dim);white-space:nowrap;font-family:var(--font-mono);font-size:.72rem;}
+  .files-more-note{color:var(--text-dark-dim);font-size:.8rem;margin:.5rem 0 0;}
+
+  .open-ia-link{display:inline-block;margin-top:1.1rem;font-weight:600;color:#7A5322;}
+
+  footer{text-align:center;color:var(--text-light-dim);font-size:.78rem;padding:2rem 1.25rem 3rem;max-width:640px;margin:0 auto;}
+
+  @media (max-width:600px){
+    .modal-overlay{padding:0;}
+    .modal-card{max-width:none;width:100%;min-height:100%;border-radius:0;max-height:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+<noscript><p style="padding:2rem;text-align:center;" data-i18n="noscriptMsg">Acest instrument necesită JavaScript activ pentru a funcționa.</p></noscript>
+
+<header class="masthead">
+  <div class="lang-switcher">
+    <select id="uiLangSelect" aria-label="Language">
+      <option value="ro">Română</option>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="it">Italiano</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
+  <h1 class="wordmark">ARHIVA <span class="accent">fără frontiere</span></h1>
+  <p class="tagline" data-i18n="tagline">Răsfoiește colecții, autori și încărcări publice de pe Internet Archive — video, audio, cărți și software — direct în browser, fără cont. Aplicația nu face statistici, dar cererile merg direct la archive.org.</p>
+</header>
+
+<main>
+  <section class="search-panel">
+    <form id="searchForm" class="search-card">
+      <div class="input-row">
+        <label for="identifierInput" class="sr-only" data-i18n="identifierInputLabel">Identificator, uploader, autor sau link Archive.org</label>
+        <input type="text" id="identifierInput" autocomplete="off"
+               placeholder="ex: prelinger · @uploader · nume autor · link archive.org/details/...">
+        <button type="submit" class="btn" id="searchSubmitBtn" data-i18n="searchBtn">Caută</button>
+      </div>
+
+      <div class="mode-selector" role="group" data-i18n-aria="modeSelectorLabel" aria-label="Mod de căutare">
+        <button type="button" class="mode-btn active" data-mode="auto" aria-pressed="true" data-i18n="modeAuto">Auto</button>
+        <button type="button" class="mode-btn" data-mode="collection" aria-pressed="false" data-i18n="modeCollection">Colecție</button>
+        <button type="button" class="mode-btn" data-mode="uploader" aria-pressed="false" data-i18n="modeUploader">Uploader</button>
+        <button type="button" class="mode-btn" data-mode="creator" aria-pressed="false" data-i18n="modeCreator">Autor</button>
+        <button type="button" class="mode-btn" data-mode="subject" aria-pressed="false" data-i18n="modeSubject">Subiect</button>
+      </div>
+
+      <div class="filters-row">
+        <select id="mediatypeSelect" data-i18n-aria="mediatypeLabel" aria-label="Tip de conținut">
+          <option value="" data-i18n="mtAll">Toate tipurile</option>
+          <option value="movies" data-i18n="mtMovies">Video</option>
+          <option value="audio" data-i18n="mtAudio">Audio</option>
+          <option value="texts" data-i18n="mtTexts">Texte / Cărți</option>
+          <option value="image" data-i18n="mtImage">Imagini</option>
+          <option value="software" data-i18n="mtSoftware">Software</option>
+          <option value="etree" data-i18n="mtEtree">Concerte (etree)</option>
+          <option value="data" data-i18n="mtData">Date</option>
+          <option value="web" data-i18n="mtWeb">Arhive web</option>
+          <option value="collection" data-i18n="mtCollection">Colecții</option>
+        </select>
+        <select id="sortSelect" data-i18n-aria="sortLabel" aria-label="Sortare">
+          <option value="" data-i18n="sortDefault">Ordine implicită</option>
+          <option value="date desc" data-i18n="sortNewest">Cele mai noi</option>
+          <option value="date asc" data-i18n="sortOldest">Cele mai vechi</option>
+          <option value="addeddate desc" data-i18n="sortAddedRecent">Adăugate recent pe archive.org</option>
+          <option value="titleSorter asc" data-i18n="sortTitleAZ">Titlu A–Z</option>
+          <option value="titleSorter desc" data-i18n="sortTitleZA">Titlu Z–A</option>
+          <option value="downloads desc" data-i18n="sortMostDownloaded">Cele mai descărcate</option>
+          <option value="week desc" data-i18n="sortWeek">Populare (ultima săptămână)</option>
+          <option value="month desc" data-i18n="sortMonth">Populare (ultima lună)</option>
+          <option value="item_size desc" data-i18n="sortSizeDesc">Fișiere mari primele</option>
+          <option value="item_size asc" data-i18n="sortSizeAsc">Fișiere mici primele</option>
+          <option value="random asc" data-i18n="sortRandom">Aleatoriu</option>
+        </select>
+        <select id="rowsSelect" data-i18n-aria="rowsLabel" aria-label="Rezultate per pagină">
+          <option value="24" data-i18n="rows24">24 / pagină</option>
+          <option value="48" selected data-i18n="rows48">48 / pagină</option>
+          <option value="96" data-i18n="rows96">96 / pagină</option>
+        </select>
+        <select id="languageSelect" data-i18n-aria="languageLabel" aria-label="Limbă">
+          <option value="" data-i18n="langAll">Toate limbile</option>
+          <option value="English|eng|en" data-i18n="langEnglish">Engleză</option>
+          <option value="Romanian|rum|ron|ro" data-i18n="langRomanian">Română</option>
+          <option value="French|fre|fra|fr" data-i18n="langFrench">Franceză</option>
+          <option value="German|ger|deu|de" data-i18n="langGerman">Germană</option>
+          <option value="Spanish|spa|es" data-i18n="langSpanish">Spaniolă</option>
+          <option value="Italian|ita|it" data-i18n="langItalian">Italiană</option>
+          <option value="Portuguese|por|pt" data-i18n="langPortuguese">Portugheză</option>
+          <option value="Russian|rus|ru" data-i18n="langRussian">Rusă</option>
+          <option value="Chinese|chi|zho|zh" data-i18n="langChinese">Chineză</option>
+          <option value="Japanese|jpn|ja" data-i18n="langJapanese">Japoneză</option>
+          <option value="Arabic|ara|ar" data-i18n="langArabic">Arabă</option>
+        </select>
+        <div class="year-range" role="group" data-i18n-aria="yearRangeLabel" aria-label="Interval de ani">
+          <input type="number" id="yearFromInput" inputmode="numeric" placeholder="an de la" data-i18n-ph="yearFromPlaceholder" aria-label="An de la" data-i18n-aria="yearFromLabel" step="1">
+          <span aria-hidden="true">–</span>
+          <input type="number" id="yearToInput" inputmode="numeric" placeholder="an până la" data-i18n-ph="yearToPlaceholder" aria-label="An până la" data-i18n-aria="yearToLabel" step="1">
+        </div>
+      </div>
+
+      <div class="examples-row">
+        <span class="label" data-i18n="examplesLabel">Exemple:</span>
+        <button type="button" class="example-chip" data-id="prelinger">prelinger</button>
+        <button type="button" class="example-chip" data-id="librivoxaudio">librivoxaudio</button>
+        <button type="button" class="example-chip" data-id="nasa">nasa</button>
+        <button type="button" class="example-chip" data-id="etree">etree</button>
+        <button type="button" class="example-chip" data-id="internetarcade">internetarcade</button>
+        <button type="button" class="example-chip" data-id="gutenberg">gutenberg</button>
+      </div>
+    </form>
+  </section>
+
+  <p class="status-line" id="statusLine" role="status" aria-live="polite" hidden></p>
+
+  <div class="toolbar-row">
+    <button type="button" id="favoritesToggleBtn" class="btn btn-ghost" aria-pressed="false">☆ Favorite (0)</button>
+    <button type="button" id="exportFavBtn" class="btn btn-ghost" data-i18n="exportFavBtn">Exportă favorite</button>
+    <button type="button" id="importFavBtn" class="btn btn-ghost" data-i18n="importFavBtn">Importă favorite</button>
+    <input type="file" id="importFavInput" accept="application/json" hidden>
+  </div>
+
+  <section class="results-grid" id="resultsGrid"></section>
+  <p class="empty-state" id="emptyState" data-i18n="emptyStateMsg">Introdu un identificator de colecție, un uploader sau un autor mai sus, apoi apasă „Caută”. Sau alege unul dintre exemplele de mai sus.</p>
+
+  <div class="load-more-wrap" id="loadMoreWrap" hidden>
+    <button type="button" class="btn btn-ghost" id="loadMoreBtn" data-i18n="loadMoreBtn">Încarcă mai multe</button>
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <button type="button" class="modal-close" id="modalClose" data-i18n-aria="modalCloseAria" aria-label="Închide">×</button>
+      <span id="modalCallTab"></span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalMeta"></p>
+    </div>
+    <div class="viewer">
+      <div id="viewerHost"></div>
+      <button type="button" id="modalCollectionAction" class="btn" hidden style="margin-top:.9rem;" data-i18n="modalExploreCollection">Explorează colecția →</button>
+    </div>
+    <div class="record">
+      <button type="button" id="modalFavBtn" class="modal-fav-btn">☆ Adaugă la favorite</button>
+      <p id="modalDescription"></p>
+
+      <div id="subjectsBlock" hidden>
+        <p class="mini-label" data-i18n="subjectsLabel">Subiecte</p>
+        <div class="subject-tags" id="modalSubjects"></div>
+      </div>
+
+      <div id="collectionsBlock" hidden>
+        <p class="mini-label" data-i18n="collectionsLabel">Face parte din</p>
+        <div class="subject-tags" id="modalCollections"></div>
+      </div>
+
+      <div id="filesBlock" hidden>
+        <p class="mini-label" data-i18n="filesLabel">Fișiere disponibile</p>
+        <div id="modalFiles"></div>
+      </div>
+
+      <a href="#" target="_blank" rel="noopener noreferrer" class="open-ia-link" id="modalOpenOnIA" data-i18n="openOnIA">Deschide pe archive.org →</a>
+    </div>
+  </div>
+</div>
+
+<footer data-i18n="footerText">
+  Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu și nu salvează nimic în browser (favoritele se păstrează doar prin export). Acest instrument nu este afiliat oficial cu Internet Archive.
+</footer>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="ic-movies" viewBox="0 0 24 24">
+    <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+    <line x1="8" y1="5" x2="8" y2="19"/><line x1="16" y1="5" x2="16" y2="19"/>
+    <line x1="3" y1="9" x2="8" y2="9"/><line x1="3" y1="14" x2="8" y2="14"/>
+    <line x1="16" y1="9" x2="21" y2="9"/><line x1="16" y1="14" x2="21" y2="14"/>
+  </symbol>
+  <symbol id="ic-audio" viewBox="0 0 24 24">
+    <path d="M4 10v4h4l5 4V6L8 10H4z"/>
+    <path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19 7a8 8 0 0 1 0 10"/>
+  </symbol>
+  <symbol id="ic-texts" viewBox="0 0 24 24">
+    <path d="M12 6c-1.8-1.3-4-2-6-2-1 0-2 .1-3 .4v13c1-.3 2-.4 3-.4 2 0 4.2.7 6 2 1.8-1.3 4-2 6-2 1 0 2 .1 3 .4v-13c-1-.3-2-.4-3-.4-2 0-4.2.7-6 2z"/>
+    <line x1="12" y1="6" x2="12" y2="20"/>
+  </symbol>
+  <symbol id="ic-image" viewBox="0 0 24 24">
+    <rect x="3" y="4" width="18" height="16" rx="1.5"/>
+    <circle cx="8.5" cy="9.5" r="1.75"/>
+    <path d="M3 16l5-5 4 4 3-3 6 6"/>
+  </symbol>
+  <symbol id="ic-software" viewBox="0 0 24 24">
+    <path d="M4 4h13l3 3v13H4V4z"/>
+    <rect x="7" y="4" width="8" height="5"/>
+    <rect x="7" y="14" width="10" height="6"/>
+  </symbol>
+  <symbol id="ic-etree" viewBox="0 0 24 24">
+    <circle cx="8" cy="17" r="2.5"/><circle cx="17" cy="15" r="2.5"/>
+    <path d="M10.5 17V5.5L19.5 4v10.5"/><path d="M10.5 8.5l9-1.5"/>
+  </symbol>
+  <symbol id="ic-data" viewBox="0 0 24 24">
+    <ellipse cx="12" cy="6" rx="8" ry="3"/>
+    <path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/>
+    <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>
+  </symbol>
+  <symbol id="ic-collection" viewBox="0 0 24 24">
+    <rect x="3" y="7" width="14" height="13" rx="1"/>
+    <rect x="6" y="4" width="14" height="13" rx="1"/>
+  </symbol>
+  <symbol id="ic-web" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/>
+  </symbol>
+  <symbol id="ic-other" viewBox="0 0 24 24">
+    <path d="M6 3h9l4 4v14H6V3z"/><path d="M15 3v4h4"/>
+    <line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/>
+  </symbol>
+</svg>
+
+<script>
+(function(){
+  'use strict';
+
+  var API_BASE = 'https://archive.org';
+  var SEARCH_URL = API_BASE + '/advancedsearch.php';
+  var FIELDS = ['identifier','title','mediatype','creator','uploader','date','publicdate','description','downloads','item_size','collection','subject','language'];
+  var MODE_LABEL_KEYS = { auto:'modeAuto', collection:'modeCollection', uploader:'modeUploader', creator:'modeCreator', subject:'modeSubject' };
+  var MODE_PLACEHOLDER_KEYS = { auto:'placeholderAuto', collection:'placeholderCollection', uploader:'placeholderUploader', creator:'placeholderCreator', subject:'placeholderSubject' };
+  var ICON_MAP = { movies:'ic-movies', audio:'ic-audio', texts:'ic-texts', image:'ic-image',
+    software:'ic-software', etree:'ic-etree', data:'ic-data', collection:'ic-collection', web:'ic-web' };
+  var EMBEDDABLE = ['movies','audio','texts','software','etree'];
+
+  // ---------- i18n ----------
+  var SUPPORTED_LANGS = ["ro", "en", "fr", "it", "es", "pt", "de"];
+  var I18N = {
+  "ro": {
+    "pageTitle": "Arhiva fără frontiere — răsfoiește Archive.org fără cont",
+    "noscriptMsg": "Acest instrument necesită JavaScript activ pentru a funcționa.",
+    "tagline": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive — video, audio, cărți și software — direct în browser, fără cont. Aplicația nu face statistici, dar cererile merg direct la archive.org.",
+    "identifierInputLabel": "Identificator, uploader, autor sau link Archive.org",
+    "searchBtn": "Caută",
+    "modeSelectorLabel": "Mod de căutare",
+    "modeAuto": "Auto",
+    "modeCollection": "Colecție",
+    "modeUploader": "Uploader",
+    "modeCreator": "Autor",
+    "modeSubject": "Subiect",
+    "mediatypeLabel": "Tip de conținut",
+    "mtAll": "Toate tipurile",
+    "mtMovies": "Video",
+    "mtAudio": "Audio",
+    "mtTexts": "Texte / Cărți",
+    "mtImage": "Imagini",
+    "mtSoftware": "Software",
+    "mtEtree": "Concerte (etree)",
+    "mtData": "Date",
+    "mtWeb": "Arhive web",
+    "mtCollection": "Colecții",
+    "sortLabel": "Sortare",
+    "sortDefault": "Ordine implicită",
+    "sortNewest": "Cele mai noi",
+    "sortOldest": "Cele mai vechi",
+    "sortAddedRecent": "Adăugate recent pe archive.org",
+    "sortTitleAZ": "Titlu A–Z",
+    "sortTitleZA": "Titlu Z–A",
+    "sortMostDownloaded": "Cele mai descărcate",
+    "sortWeek": "Populare (ultima săptămână)",
+    "sortMonth": "Populare (ultima lună)",
+    "sortSizeDesc": "Fișiere mari primele",
+    "sortSizeAsc": "Fișiere mici primele",
+    "sortRandom": "Aleatoriu",
+    "rowsLabel": "Rezultate per pagină",
+    "rows24": "24 / pagină",
+    "rows48": "48 / pagină",
+    "rows96": "96 / pagină",
+    "languageLabel": "Limbă",
+    "langAll": "Toate limbile",
+    "langEnglish": "Engleză",
+    "langRomanian": "Română",
+    "langFrench": "Franceză",
+    "langGerman": "Germană",
+    "langSpanish": "Spaniolă",
+    "langItalian": "Italiană",
+    "langPortuguese": "Portugheză",
+    "langRussian": "Rusă",
+    "langChinese": "Chineză",
+    "langJapanese": "Japoneză",
+    "langArabic": "Arabă",
+    "yearRangeLabel": "Interval de ani",
+    "yearFromPlaceholder": "an de la",
+    "yearFromLabel": "An de la",
+    "yearToPlaceholder": "an până la",
+    "yearToLabel": "An până la",
+    "examplesLabel": "Exemple:",
+    "favoritesBtn": "☆ Favorite ({n})",
+    "exportFavBtn": "Exportă favorite",
+    "importFavBtn": "Importă favorite",
+    "emptyStateMsg": "Introdu un identificator de colecție, un uploader sau un autor mai sus, apoi apasă „Caută”. Sau alege unul dintre exemplele de mai sus.",
+    "loadMoreBtn": "Încarcă mai multe",
+    "footerText": "Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu și nu salvează nimic în browser (favoritele se păstrează doar prin export). Acest instrument nu este afiliat oficial cu Internet Archive.",
+    "statusEnterIdentifier": "Introdu un identificator, un uploader/autor, sau un link Archive.org.",
+    "statusSearching": "Se caută...",
+    "statusNoResults": "Niciun rezultat pentru „{id}” ({mode}). Încearcă alt mod de căutare sau verifică identificatorul.",
+    "statusResultsFound": "{n} rezultate găsite · afișate {m}.",
+    "statusFetchError": "Nu am putut contacta Archive.org. Verifică conexiunea la internet și încearcă din nou.",
+    "statusCheckingLink": "Se verifică linkul...",
+    "statusItemOpened": "Element deschis mai jos.",
+    "statusNoFavorites": "Nu ai favorite salvate încă. Apasă pe ☆ pe orice element pentru a-l adăuga.",
+    "statusFavoritesSaved": "{n} favorite salvate.",
+    "statusFavoritesImported": "{n} favorite importate.",
+    "statusFavoritesImportError": "Fișierul de favorite nu a putut fi citit. Verifică formatul JSON.",
+    "favAddAria": "Adaugă la favorite",
+    "favRemoveAria": "Elimină din favorite",
+    "favAddBtnText": "☆ Adaugă la favorite",
+    "favRemoveBtnText": "★ Elimină din favorite",
+    "cardOpenAria": "Deschide {title}",
+    "downloadsSuffix": "{n} descărcări",
+    "modalCloseAria": "Închide",
+    "modalExploreCollection": "Explorează colecția →",
+    "modalByPrefix": "De: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Limbă: {langs}",
+    "modalSizePrefix": "Dimensiune: {size}",
+    "subjectsLabel": "Subiecte",
+    "collectionsLabel": "Face parte din",
+    "filesLabel": "Fișiere disponibile",
+    "openOnIA": "Deschide pe archive.org →",
+    "viewerCollectionNote": "Aceasta este o colecție — poți răsfoi elementele din interior.",
+    "viewerFallbackNote": "Acest tip de conținut nu poate fi previzualizat direct aici. Vezi fișierele mai jos sau deschide elementul pe archive.org.",
+    "viewerLoadError": "Previzualizarea nu a putut fi încărcată. Poți deschide elementul direct pe archive.org.",
+    "viewerLoading": "Se încarcă previzualizarea...",
+    "filesMoreNote": "+ încă {n} fișiere — vezi-le pe pagina archive.org.",
+    "noDescription": "Fără descriere disponibilă.",
+    "playerTitle": "Player Archive.org",
+    "placeholderAuto": "ex: prelinger · @uploader · nume autor · link archive.org/details/...",
+    "placeholderCollection": "ex: prelinger, nasa, gutenberg...",
+    "placeholderUploader": "ex: @nume_uploader",
+    "placeholderCreator": "ex: numele autorului",
+    "placeholderSubject": "ex: science fiction, jazz, astronomie..."
+  },
+  "en": {
+    "pageTitle": "Arhiva fără frontiere — browse Archive.org without an account",
+    "noscriptMsg": "This tool requires JavaScript to be enabled in order to work.",
+    "tagline": "Browse collections, authors, and public uploads from the Internet Archive — video, audio, books, and software — right in your browser, with no account. The app has no analytics, but requests go directly to archive.org.",
+    "identifierInputLabel": "Identifier, uploader, author, or Archive.org link",
+    "searchBtn": "Search",
+    "modeSelectorLabel": "Search mode",
+    "modeAuto": "Auto",
+    "modeCollection": "Collection",
+    "modeUploader": "Uploader",
+    "modeCreator": "Author",
+    "modeSubject": "Subject",
+    "mediatypeLabel": "Content type",
+    "mtAll": "All types",
+    "mtMovies": "Video",
+    "mtAudio": "Audio",
+    "mtTexts": "Texts / Books",
+    "mtImage": "Images",
+    "mtSoftware": "Software",
+    "mtEtree": "Live music (etree)",
+    "mtData": "Data",
+    "mtWeb": "Web archives",
+    "mtCollection": "Collections",
+    "sortLabel": "Sort",
+    "sortDefault": "Default order",
+    "sortNewest": "Newest first",
+    "sortOldest": "Oldest first",
+    "sortAddedRecent": "Recently added to archive.org",
+    "sortTitleAZ": "Title A–Z",
+    "sortTitleZA": "Title Z–A",
+    "sortMostDownloaded": "Most downloaded",
+    "sortWeek": "Trending (past week)",
+    "sortMonth": "Trending (past month)",
+    "sortSizeDesc": "Largest files first",
+    "sortSizeAsc": "Smallest files first",
+    "sortRandom": "Random",
+    "rowsLabel": "Results per page",
+    "rows24": "24 / page",
+    "rows48": "48 / page",
+    "rows96": "96 / page",
+    "languageLabel": "Language",
+    "langAll": "All languages",
+    "langEnglish": "English",
+    "langRomanian": "Romanian",
+    "langFrench": "French",
+    "langGerman": "German",
+    "langSpanish": "Spanish",
+    "langItalian": "Italian",
+    "langPortuguese": "Portuguese",
+    "langRussian": "Russian",
+    "langChinese": "Chinese",
+    "langJapanese": "Japanese",
+    "langArabic": "Arabic",
+    "yearRangeLabel": "Year range",
+    "yearFromPlaceholder": "from year",
+    "yearFromLabel": "From year",
+    "yearToPlaceholder": "to year",
+    "yearToLabel": "To year",
+    "examplesLabel": "Examples:",
+    "favoritesBtn": "☆ Favorites ({n})",
+    "exportFavBtn": "Export favorites",
+    "importFavBtn": "Import favorites",
+    "emptyStateMsg": "Enter a collection identifier, an uploader, or an author above, then press \"Search\". Or pick one of the examples above.",
+    "loadMoreBtn": "Load more",
+    "footerText": "Data comes directly from the Internet Archive's public API (archive.org). Searches, thumbnails, the player and downloads are requests to archive.org, which receives your IP address and what you look for; no request goes to any other server. The app has no server of its own and stores nothing in the browser (favorites persist only through export). This tool is not officially affiliated with the Internet Archive.",
+    "statusEnterIdentifier": "Enter an identifier, an uploader/author, or an Archive.org link.",
+    "statusSearching": "Searching...",
+    "statusNoResults": "No results for \"{id}\" ({mode}). Try a different search mode or check the identifier.",
+    "statusResultsFound": "{n} results found · showing {m}.",
+    "statusFetchError": "Couldn't reach Archive.org. Check your internet connection and try again.",
+    "statusCheckingLink": "Checking the link...",
+    "statusItemOpened": "Item opened below.",
+    "statusNoFavorites": "You don't have any saved favorites yet. Tap ☆ on any item to add it.",
+    "statusFavoritesSaved": "{n} favorites saved.",
+    "statusFavoritesImported": "{n} favorites imported.",
+    "statusFavoritesImportError": "The favorites file couldn't be read. Check the JSON format.",
+    "favAddAria": "Add to favorites",
+    "favRemoveAria": "Remove from favorites",
+    "favAddBtnText": "☆ Add to favorites",
+    "favRemoveBtnText": "★ Remove from favorites",
+    "cardOpenAria": "Open {title}",
+    "downloadsSuffix": "{n} downloads",
+    "modalCloseAria": "Close",
+    "modalExploreCollection": "Explore the collection →",
+    "modalByPrefix": "By: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Language: {langs}",
+    "modalSizePrefix": "Size: {size}",
+    "subjectsLabel": "Subjects",
+    "collectionsLabel": "Part of",
+    "filesLabel": "Available files",
+    "openOnIA": "Open on archive.org →",
+    "viewerCollectionNote": "This is a collection — you can browse the items inside it.",
+    "viewerFallbackNote": "This content type can't be previewed directly here. See the files below or open the item on archive.org.",
+    "viewerLoadError": "The preview couldn't be loaded. You can open the item directly on archive.org.",
+    "viewerLoading": "Loading preview...",
+    "filesMoreNote": "+ {n} more files — see them on the archive.org page.",
+    "noDescription": "No description available.",
+    "playerTitle": "Archive.org player",
+    "placeholderAuto": "e.g. prelinger · @uploader · author name · archive.org/details/... link",
+    "placeholderCollection": "e.g. prelinger, nasa, gutenberg...",
+    "placeholderUploader": "e.g. @uploader_name",
+    "placeholderCreator": "e.g. the author's name",
+    "placeholderSubject": "e.g. science fiction, jazz, astronomy..."
+  },
+  "fr": {
+    "pageTitle": "Arhiva fără frontiere — parcourez Archive.org sans compte",
+    "noscriptMsg": "Cet outil nécessite l'activation de JavaScript pour fonctionner.",
+    "tagline": "Parcourez des collections, des auteurs et des contenus publics de l'Internet Archive — vidéo, audio, livres et logiciels — directement dans le navigateur, sans compte. L'application n'a pas de statistiques, mais les requêtes vont directement à archive.org.",
+    "identifierInputLabel": "Identifiant, uploader, auteur ou lien Archive.org",
+    "searchBtn": "Rechercher",
+    "modeSelectorLabel": "Mode de recherche",
+    "modeAuto": "Auto",
+    "modeCollection": "Collection",
+    "modeUploader": "Uploader",
+    "modeCreator": "Auteur",
+    "modeSubject": "Sujet",
+    "mediatypeLabel": "Type de contenu",
+    "mtAll": "Tous les types",
+    "mtMovies": "Vidéo",
+    "mtAudio": "Audio",
+    "mtTexts": "Textes / Livres",
+    "mtImage": "Images",
+    "mtSoftware": "Logiciels",
+    "mtEtree": "Concerts (etree)",
+    "mtData": "Données",
+    "mtWeb": "Archives web",
+    "mtCollection": "Collections",
+    "sortLabel": "Trier",
+    "sortDefault": "Ordre par défaut",
+    "sortNewest": "Les plus récents",
+    "sortOldest": "Les plus anciens",
+    "sortAddedRecent": "Récemment ajoutés sur archive.org",
+    "sortTitleAZ": "Titre A–Z",
+    "sortTitleZA": "Titre Z–A",
+    "sortMostDownloaded": "Les plus téléchargés",
+    "sortWeek": "Tendance (7 derniers jours)",
+    "sortMonth": "Tendance (30 derniers jours)",
+    "sortSizeDesc": "Fichiers les plus volumineux d'abord",
+    "sortSizeAsc": "Fichiers les plus petits d'abord",
+    "sortRandom": "Aléatoire",
+    "rowsLabel": "Résultats par page",
+    "rows24": "24 / page",
+    "rows48": "48 / page",
+    "rows96": "96 / page",
+    "languageLabel": "Langue",
+    "langAll": "Toutes les langues",
+    "langEnglish": "Anglais",
+    "langRomanian": "Roumain",
+    "langFrench": "Français",
+    "langGerman": "Allemand",
+    "langSpanish": "Espagnol",
+    "langItalian": "Italien",
+    "langPortuguese": "Portugais",
+    "langRussian": "Russe",
+    "langChinese": "Chinois",
+    "langJapanese": "Japonais",
+    "langArabic": "Arabe",
+    "yearRangeLabel": "Plage d'années",
+    "yearFromPlaceholder": "de l'année",
+    "yearFromLabel": "De l'année",
+    "yearToPlaceholder": "à l'année",
+    "yearToLabel": "À l'année",
+    "examplesLabel": "Exemples :",
+    "favoritesBtn": "☆ Favoris ({n})",
+    "exportFavBtn": "Exporter les favoris",
+    "importFavBtn": "Importer les favoris",
+    "emptyStateMsg": "Saisissez un identifiant de collection, un uploader ou un auteur ci-dessus, puis cliquez sur « Rechercher ». Ou choisissez l'un des exemples ci-dessus.",
+    "loadMoreBtn": "Charger plus",
+    "footerText": "Les données proviennent directement de l'API publique de l'Internet Archive (archive.org). Recherches, miniatures, lecteur et téléchargements sont des requêtes vers archive.org, qui reçoit votre adresse IP et ce que vous cherchez ; aucune requête ne va vers un autre serveur. L'application n'a pas de serveur propre et ne stocke rien dans le navigateur (les favoris ne persistent que par export). Cet outil n'est pas officiellement affilié à l'Internet Archive.",
+    "statusEnterIdentifier": "Saisissez un identifiant, un uploader/auteur, ou un lien Archive.org.",
+    "statusSearching": "Recherche en cours...",
+    "statusNoResults": "Aucun résultat pour « {id} » ({mode}). Essayez un autre mode de recherche ou vérifiez l'identifiant.",
+    "statusResultsFound": "{n} résultats trouvés · {m} affichés.",
+    "statusFetchError": "Impossible de contacter Archive.org. Vérifiez votre connexion internet et réessayez.",
+    "statusCheckingLink": "Vérification du lien...",
+    "statusItemOpened": "Élément ouvert ci-dessous.",
+    "statusNoFavorites": "Vous n'avez pas encore de favoris enregistrés. Appuyez sur ☆ sur un élément pour l'ajouter.",
+    "statusFavoritesSaved": "{n} favoris enregistrés.",
+    "statusFavoritesImported": "{n} favoris importés.",
+    "statusFavoritesImportError": "Le fichier de favoris n'a pas pu être lu. Vérifiez le format JSON.",
+    "favAddAria": "Ajouter aux favoris",
+    "favRemoveAria": "Retirer des favoris",
+    "favAddBtnText": "☆ Ajouter aux favoris",
+    "favRemoveBtnText": "★ Retirer des favoris",
+    "cardOpenAria": "Ouvrir {title}",
+    "downloadsSuffix": "{n} téléchargements",
+    "modalCloseAria": "Fermer",
+    "modalExploreCollection": "Explorer la collection →",
+    "modalByPrefix": "Par : {names}",
+    "modalUploaderPrefix": "Uploader : {name}",
+    "modalLanguagePrefix": "Langue : {langs}",
+    "modalSizePrefix": "Taille : {size}",
+    "subjectsLabel": "Sujets",
+    "collectionsLabel": "Fait partie de",
+    "filesLabel": "Fichiers disponibles",
+    "openOnIA": "Ouvrir sur archive.org →",
+    "viewerCollectionNote": "Il s'agit d'une collection — vous pouvez parcourir les éléments qu'elle contient.",
+    "viewerFallbackNote": "Ce type de contenu ne peut pas être prévisualisé directement ici. Consultez les fichiers ci-dessous ou ouvrez l'élément sur archive.org.",
+    "viewerLoadError": "L'aperçu n'a pas pu être chargé. Vous pouvez ouvrir l'élément directement sur archive.org.",
+    "viewerLoading": "Chargement de l'aperçu...",
+    "filesMoreNote": "+ {n} fichiers supplémentaires — consultez-les sur la page archive.org.",
+    "noDescription": "Aucune description disponible.",
+    "playerTitle": "Lecteur Archive.org",
+    "placeholderAuto": "ex. : prelinger · @uploader · nom d'auteur · lien archive.org/details/...",
+    "placeholderCollection": "ex. : prelinger, nasa, gutenberg...",
+    "placeholderUploader": "ex. : @nom_uploader",
+    "placeholderCreator": "ex. : nom de l'auteur",
+    "placeholderSubject": "ex. : science-fiction, jazz, astronomie..."
+  },
+  "it": {
+    "pageTitle": "Arhiva fără frontiere — naviga Archive.org senza account",
+    "noscriptMsg": "Questo strumento richiede JavaScript attivo per funzionare.",
+    "tagline": "Sfoglia collezioni, autori e contenuti pubblici dell'Internet Archive — video, audio, libri e software — direttamente nel browser, senza account. L'app non ha statistiche, ma le richieste vanno direttamente ad archive.org.",
+    "identifierInputLabel": "Identificatore, uploader, autore o link Archive.org",
+    "searchBtn": "Cerca",
+    "modeSelectorLabel": "Modalità di ricerca",
+    "modeAuto": "Auto",
+    "modeCollection": "Collezione",
+    "modeUploader": "Uploader",
+    "modeCreator": "Autore",
+    "modeSubject": "Soggetto",
+    "mediatypeLabel": "Tipo di contenuto",
+    "mtAll": "Tutti i tipi",
+    "mtMovies": "Video",
+    "mtAudio": "Audio",
+    "mtTexts": "Testi / Libri",
+    "mtImage": "Immagini",
+    "mtSoftware": "Software",
+    "mtEtree": "Concerti (etree)",
+    "mtData": "Dati",
+    "mtWeb": "Archivi web",
+    "mtCollection": "Collezioni",
+    "sortLabel": "Ordina",
+    "sortDefault": "Ordine predefinito",
+    "sortNewest": "Più recenti",
+    "sortOldest": "Meno recenti",
+    "sortAddedRecent": "Aggiunti di recente su archive.org",
+    "sortTitleAZ": "Titolo A–Z",
+    "sortTitleZA": "Titolo Z–A",
+    "sortMostDownloaded": "Più scaricati",
+    "sortWeek": "Di tendenza (ultima settimana)",
+    "sortMonth": "Di tendenza (ultimo mese)",
+    "sortSizeDesc": "File più grandi per primi",
+    "sortSizeAsc": "File più piccoli per primi",
+    "sortRandom": "Casuale",
+    "rowsLabel": "Risultati per pagina",
+    "rows24": "24 / pagina",
+    "rows48": "48 / pagina",
+    "rows96": "96 / pagina",
+    "languageLabel": "Lingua",
+    "langAll": "Tutte le lingue",
+    "langEnglish": "Inglese",
+    "langRomanian": "Rumeno",
+    "langFrench": "Francese",
+    "langGerman": "Tedesco",
+    "langSpanish": "Spagnolo",
+    "langItalian": "Italiano",
+    "langPortuguese": "Portoghese",
+    "langRussian": "Russo",
+    "langChinese": "Cinese",
+    "langJapanese": "Giapponese",
+    "langArabic": "Arabo",
+    "yearRangeLabel": "Intervallo di anni",
+    "yearFromPlaceholder": "dall'anno",
+    "yearFromLabel": "Dall'anno",
+    "yearToPlaceholder": "all'anno",
+    "yearToLabel": "All'anno",
+    "examplesLabel": "Esempi:",
+    "favoritesBtn": "☆ Preferiti ({n})",
+    "exportFavBtn": "Esporta preferiti",
+    "importFavBtn": "Importa preferiti",
+    "emptyStateMsg": "Inserisci l'identificatore di una collezione, un uploader o un autore qui sopra, poi premi \"Cerca\". Oppure scegli uno degli esempi qui sopra.",
+    "loadMoreBtn": "Carica altri",
+    "footerText": "I dati provengono direttamente dall'API pubblica dell'Internet Archive (archive.org). Ricerche, miniature, player e download sono richieste ad archive.org, che riceve il tuo indirizzo IP e ciò che cerchi; nessuna richiesta va ad altri server. L'app non ha un server proprio e non salva nulla nel browser (i preferiti persistono solo tramite esportazione). Questo strumento non è affiliato ufficialmente all'Internet Archive.",
+    "statusEnterIdentifier": "Inserisci un identificatore, un uploader/autore, o un link Archive.org.",
+    "statusSearching": "Ricerca in corso...",
+    "statusNoResults": "Nessun risultato per \"{id}\" ({mode}). Prova un'altra modalità di ricerca o controlla l'identificatore.",
+    "statusResultsFound": "{n} risultati trovati · {m} mostrati.",
+    "statusFetchError": "Impossibile contattare Archive.org. Controlla la connessione a internet e riprova.",
+    "statusCheckingLink": "Verifica del link in corso...",
+    "statusItemOpened": "Elemento aperto qui sotto.",
+    "statusNoFavorites": "Non hai ancora preferiti salvati. Tocca ☆ su un elemento per aggiungerlo.",
+    "statusFavoritesSaved": "{n} preferiti salvati.",
+    "statusFavoritesImported": "{n} preferiti importati.",
+    "statusFavoritesImportError": "Il file dei preferiti non è stato letto correttamente. Controlla il formato JSON.",
+    "favAddAria": "Aggiungi ai preferiti",
+    "favRemoveAria": "Rimuovi dai preferiti",
+    "favAddBtnText": "☆ Aggiungi ai preferiti",
+    "favRemoveBtnText": "★ Rimuovi dai preferiti",
+    "cardOpenAria": "Apri {title}",
+    "downloadsSuffix": "{n} download",
+    "modalCloseAria": "Chiudi",
+    "modalExploreCollection": "Esplora la collezione →",
+    "modalByPrefix": "Di: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Lingua: {langs}",
+    "modalSizePrefix": "Dimensione: {size}",
+    "subjectsLabel": "Soggetti",
+    "collectionsLabel": "Fa parte di",
+    "filesLabel": "File disponibili",
+    "openOnIA": "Apri su archive.org →",
+    "viewerCollectionNote": "Questa è una collezione — puoi sfogliare gli elementi al suo interno.",
+    "viewerFallbackNote": "Questo tipo di contenuto non può essere visualizzato in anteprima qui. Guarda i file qui sotto oppure apri l'elemento su archive.org.",
+    "viewerLoadError": "Non è stato possibile caricare l'anteprima. Puoi aprire l'elemento direttamente su archive.org.",
+    "viewerLoading": "Caricamento dell'anteprima...",
+    "filesMoreNote": "+ altri {n} file — guardali sulla pagina archive.org.",
+    "noDescription": "Nessuna descrizione disponibile.",
+    "playerTitle": "Player Archive.org",
+    "placeholderAuto": "es: prelinger · @uploader · nome autore · link archive.org/details/...",
+    "placeholderCollection": "es: prelinger, nasa, gutenberg...",
+    "placeholderUploader": "es: @nome_uploader",
+    "placeholderCreator": "es: nome dell'autore",
+    "placeholderSubject": "es: fantascienza, jazz, astronomia..."
+  },
+  "es": {
+    "pageTitle": "Arhiva fără frontiere — explora Archive.org sin cuenta",
+    "noscriptMsg": "Esta herramienta requiere que JavaScript esté activado para funcionar.",
+    "tagline": "Explora colecciones, autores y contenidos públicos de Internet Archive — vídeo, audio, libros y software — directamente en el navegador, sin cuenta. La aplicación no tiene estadísticas, pero las solicitudes van directamente a archive.org.",
+    "identifierInputLabel": "Identificador, uploader, autor o enlace de Archive.org",
+    "searchBtn": "Buscar",
+    "modeSelectorLabel": "Modo de búsqueda",
+    "modeAuto": "Auto",
+    "modeCollection": "Colección",
+    "modeUploader": "Uploader",
+    "modeCreator": "Autor",
+    "modeSubject": "Tema",
+    "mediatypeLabel": "Tipo de contenido",
+    "mtAll": "Todos los tipos",
+    "mtMovies": "Vídeo",
+    "mtAudio": "Audio",
+    "mtTexts": "Textos / Libros",
+    "mtImage": "Imágenes",
+    "mtSoftware": "Software",
+    "mtEtree": "Conciertos (etree)",
+    "mtData": "Datos",
+    "mtWeb": "Archivos web",
+    "mtCollection": "Colecciones",
+    "sortLabel": "Ordenar",
+    "sortDefault": "Orden predeterminado",
+    "sortNewest": "Más recientes",
+    "sortOldest": "Más antiguos",
+    "sortAddedRecent": "Añadidos recientemente a archive.org",
+    "sortTitleAZ": "Título A–Z",
+    "sortTitleZA": "Título Z–A",
+    "sortMostDownloaded": "Más descargados",
+    "sortWeek": "Tendencia (última semana)",
+    "sortMonth": "Tendencia (último mes)",
+    "sortSizeDesc": "Archivos más grandes primero",
+    "sortSizeAsc": "Archivos más pequeños primero",
+    "sortRandom": "Aleatorio",
+    "rowsLabel": "Resultados por página",
+    "rows24": "24 / página",
+    "rows48": "48 / página",
+    "rows96": "96 / página",
+    "languageLabel": "Idioma",
+    "langAll": "Todos los idiomas",
+    "langEnglish": "Inglés",
+    "langRomanian": "Rumano",
+    "langFrench": "Francés",
+    "langGerman": "Alemán",
+    "langSpanish": "Español",
+    "langItalian": "Italiano",
+    "langPortuguese": "Portugués",
+    "langRussian": "Ruso",
+    "langChinese": "Chino",
+    "langJapanese": "Japonés",
+    "langArabic": "Árabe",
+    "yearRangeLabel": "Rango de años",
+    "yearFromPlaceholder": "desde el año",
+    "yearFromLabel": "Desde el año",
+    "yearToPlaceholder": "hasta el año",
+    "yearToLabel": "Hasta el año",
+    "examplesLabel": "Ejemplos:",
+    "favoritesBtn": "☆ Favoritos ({n})",
+    "exportFavBtn": "Exportar favoritos",
+    "importFavBtn": "Importar favoritos",
+    "emptyStateMsg": "Introduce un identificador de colección, un uploader o un autor arriba, y luego pulsa «Buscar». O elige uno de los ejemplos de arriba.",
+    "loadMoreBtn": "Cargar más",
+    "footerText": "Los datos provienen directamente de la API pública de Internet Archive (archive.org). Las búsquedas, miniaturas, el reproductor y las descargas son solicitudes a archive.org, que recibe tu dirección IP y lo que buscas; ninguna solicitud va a otro servidor. La aplicación no tiene servidor propio y no guarda nada en el navegador (los favoritos solo persisten mediante exportación). Esta herramienta no está afiliada oficialmente a Internet Archive.",
+    "statusEnterIdentifier": "Introduce un identificador, un uploader/autor, o un enlace de Archive.org.",
+    "statusSearching": "Buscando...",
+    "statusNoResults": "Sin resultados para «{id}» ({mode}). Prueba otro modo de búsqueda o revisa el identificador.",
+    "statusResultsFound": "{n} resultados encontrados · mostrando {m}.",
+    "statusFetchError": "No se pudo contactar con Archive.org. Comprueba tu conexión a internet e inténtalo de nuevo.",
+    "statusCheckingLink": "Comprobando el enlace...",
+    "statusItemOpened": "Elemento abierto abajo.",
+    "statusNoFavorites": "Aún no tienes favoritos guardados. Toca ☆ en cualquier elemento para añadirlo.",
+    "statusFavoritesSaved": "{n} favoritos guardados.",
+    "statusFavoritesImported": "{n} favoritos importados.",
+    "statusFavoritesImportError": "No se pudo leer el archivo de favoritos. Comprueba el formato JSON.",
+    "favAddAria": "Añadir a favoritos",
+    "favRemoveAria": "Quitar de favoritos",
+    "favAddBtnText": "☆ Añadir a favoritos",
+    "favRemoveBtnText": "★ Quitar de favoritos",
+    "cardOpenAria": "Abrir {title}",
+    "downloadsSuffix": "{n} descargas",
+    "modalCloseAria": "Cerrar",
+    "modalExploreCollection": "Explorar la colección →",
+    "modalByPrefix": "De: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Idioma: {langs}",
+    "modalSizePrefix": "Tamaño: {size}",
+    "subjectsLabel": "Temas",
+    "collectionsLabel": "Forma parte de",
+    "filesLabel": "Archivos disponibles",
+    "openOnIA": "Abrir en archive.org →",
+    "viewerCollectionNote": "Esto es una colección — puedes explorar los elementos que contiene.",
+    "viewerFallbackNote": "Este tipo de contenido no se puede previsualizar directamente aquí. Consulta los archivos de abajo o abre el elemento en archive.org.",
+    "viewerLoadError": "No se pudo cargar la vista previa. Puedes abrir el elemento directamente en archive.org.",
+    "viewerLoading": "Cargando la vista previa...",
+    "filesMoreNote": "+ {n} archivos más — consúltalos en la página de archive.org.",
+    "noDescription": "No hay descripción disponible.",
+    "playerTitle": "Reproductor de Archive.org",
+    "placeholderAuto": "ej.: prelinger · @uploader · nombre del autor · enlace archive.org/details/...",
+    "placeholderCollection": "ej.: prelinger, nasa, gutenberg...",
+    "placeholderUploader": "ej.: @nombre_uploader",
+    "placeholderCreator": "ej.: el nombre del autor",
+    "placeholderSubject": "ej.: ciencia ficción, jazz, astronomía..."
+  },
+  "pt": {
+    "pageTitle": "Arhiva fără frontiere — navegue no Archive.org sem conta",
+    "noscriptMsg": "Esta ferramenta requer JavaScript ativado para funcionar.",
+    "tagline": "Navegue por coleções, autores e conteúdos públicos do Internet Archive — vídeo, áudio, livros e software — diretamente no navegador, sem conta. A aplicação não tem estatísticas, mas os pedidos vão diretamente para archive.org.",
+    "identifierInputLabel": "Identificador, uploader, autor ou link do Archive.org",
+    "searchBtn": "Pesquisar",
+    "modeSelectorLabel": "Modo de pesquisa",
+    "modeAuto": "Auto",
+    "modeCollection": "Coleção",
+    "modeUploader": "Uploader",
+    "modeCreator": "Autor",
+    "modeSubject": "Assunto",
+    "mediatypeLabel": "Tipo de conteúdo",
+    "mtAll": "Todos os tipos",
+    "mtMovies": "Vídeo",
+    "mtAudio": "Áudio",
+    "mtTexts": "Textos / Livros",
+    "mtImage": "Imagens",
+    "mtSoftware": "Software",
+    "mtEtree": "Concertos (etree)",
+    "mtData": "Dados",
+    "mtWeb": "Arquivos web",
+    "mtCollection": "Coleções",
+    "sortLabel": "Ordenar",
+    "sortDefault": "Ordem padrão",
+    "sortNewest": "Mais recentes",
+    "sortOldest": "Mais antigos",
+    "sortAddedRecent": "Adicionados recentemente ao archive.org",
+    "sortTitleAZ": "Título A–Z",
+    "sortTitleZA": "Título Z–A",
+    "sortMostDownloaded": "Mais transferidos",
+    "sortWeek": "Em alta (última semana)",
+    "sortMonth": "Em alta (último mês)",
+    "sortSizeDesc": "Ficheiros maiores primeiro",
+    "sortSizeAsc": "Ficheiros menores primeiro",
+    "sortRandom": "Aleatório",
+    "rowsLabel": "Resultados por página",
+    "rows24": "24 / página",
+    "rows48": "48 / página",
+    "rows96": "96 / página",
+    "languageLabel": "Idioma",
+    "langAll": "Todos os idiomas",
+    "langEnglish": "Inglês",
+    "langRomanian": "Romeno",
+    "langFrench": "Francês",
+    "langGerman": "Alemão",
+    "langSpanish": "Espanhol",
+    "langItalian": "Italiano",
+    "langPortuguese": "Português",
+    "langRussian": "Russo",
+    "langChinese": "Chinês",
+    "langJapanese": "Japonês",
+    "langArabic": "Árabe",
+    "yearRangeLabel": "Intervalo de anos",
+    "yearFromPlaceholder": "a partir do ano",
+    "yearFromLabel": "A partir do ano",
+    "yearToPlaceholder": "até o ano",
+    "yearToLabel": "Até o ano",
+    "examplesLabel": "Exemplos:",
+    "favoritesBtn": "☆ Favoritos ({n})",
+    "exportFavBtn": "Exportar favoritos",
+    "importFavBtn": "Importar favoritos",
+    "emptyStateMsg": "Introduza um identificador de coleção, um uploader ou um autor acima e depois prima \"Pesquisar\". Ou escolha um dos exemplos acima.",
+    "loadMoreBtn": "Carregar mais",
+    "footerText": "Os dados vêm diretamente da API pública do Internet Archive (archive.org). Pesquisas, miniaturas, o leitor e as transferências são pedidos ao archive.org, que recebe o seu endereço IP e o que procura; nenhum pedido vai para outro servidor. A aplicação não tem servidor próprio e não guarda nada no navegador (os favoritos só persistem através de exportação). Esta ferramenta não é oficialmente afiliada ao Internet Archive.",
+    "statusEnterIdentifier": "Introduza um identificador, um uploader/autor, ou um link do Archive.org.",
+    "statusSearching": "A pesquisar...",
+    "statusNoResults": "Sem resultados para \"{id}\" ({mode}). Tente outro modo de pesquisa ou verifique o identificador.",
+    "statusResultsFound": "{n} resultados encontrados · a mostrar {m}.",
+    "statusFetchError": "Não foi possível contactar o Archive.org. Verifique a sua ligação à internet e tente novamente.",
+    "statusCheckingLink": "A verificar o link...",
+    "statusItemOpened": "Item aberto abaixo.",
+    "statusNoFavorites": "Ainda não tem favoritos guardados. Toque em ☆ em qualquer item para o adicionar.",
+    "statusFavoritesSaved": "{n} favoritos guardados.",
+    "statusFavoritesImported": "{n} favoritos importados.",
+    "statusFavoritesImportError": "Não foi possível ler o ficheiro de favoritos. Verifique o formato JSON.",
+    "favAddAria": "Adicionar aos favoritos",
+    "favRemoveAria": "Remover dos favoritos",
+    "favAddBtnText": "☆ Adicionar aos favoritos",
+    "favRemoveBtnText": "★ Remover dos favoritos",
+    "cardOpenAria": "Abrir {title}",
+    "downloadsSuffix": "{n} downloads",
+    "modalCloseAria": "Fechar",
+    "modalExploreCollection": "Explorar a coleção →",
+    "modalByPrefix": "De: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Idioma: {langs}",
+    "modalSizePrefix": "Tamanho: {size}",
+    "subjectsLabel": "Assuntos",
+    "collectionsLabel": "Faz parte de",
+    "filesLabel": "Ficheiros disponíveis",
+    "openOnIA": "Abrir no archive.org →",
+    "viewerCollectionNote": "Isto é uma coleção — pode navegar pelos itens que contém.",
+    "viewerFallbackNote": "Este tipo de conteúdo não pode ser pré-visualizado diretamente aqui. Veja os ficheiros abaixo ou abra o item no archive.org.",
+    "viewerLoadError": "Não foi possível carregar a pré-visualização. Pode abrir o item diretamente no archive.org.",
+    "viewerLoading": "A carregar a pré-visualização...",
+    "filesMoreNote": "+ mais {n} ficheiros — veja-os na página do archive.org.",
+    "noDescription": "Sem descrição disponível.",
+    "playerTitle": "Leitor Archive.org",
+    "placeholderAuto": "ex.: prelinger · @uploader · nome do autor · link archive.org/details/...",
+    "placeholderCollection": "ex.: prelinger, nasa, gutenberg...",
+    "placeholderUploader": "ex.: @nome_uploader",
+    "placeholderCreator": "ex.: o nome do autor",
+    "placeholderSubject": "ex.: ficção científica, jazz, astronomia..."
+  },
+  "de": {
+    "pageTitle": "Arhiva fără frontiere — Archive.org ohne Konto durchstöbern",
+    "noscriptMsg": "Dieses Tool benötigt aktiviertes JavaScript, um zu funktionieren.",
+    "tagline": "Durchstöbere Sammlungen, Autoren und öffentliche Uploads des Internet Archive — Video, Audio, Bücher und Software — direkt im Browser, ohne Konto. Die App hat keine Statistik, aber Anfragen gehen direkt an archive.org.",
+    "identifierInputLabel": "Kennung, Uploader, Autor oder Archive.org-Link",
+    "searchBtn": "Suchen",
+    "modeSelectorLabel": "Suchmodus",
+    "modeAuto": "Auto",
+    "modeCollection": "Sammlung",
+    "modeUploader": "Uploader",
+    "modeCreator": "Autor",
+    "modeSubject": "Thema",
+    "mediatypeLabel": "Inhaltstyp",
+    "mtAll": "Alle Typen",
+    "mtMovies": "Video",
+    "mtAudio": "Audio",
+    "mtTexts": "Texte / Bücher",
+    "mtImage": "Bilder",
+    "mtSoftware": "Software",
+    "mtEtree": "Konzerte (etree)",
+    "mtData": "Daten",
+    "mtWeb": "Web-Archive",
+    "mtCollection": "Sammlungen",
+    "sortLabel": "Sortieren",
+    "sortDefault": "Standardreihenfolge",
+    "sortNewest": "Neueste zuerst",
+    "sortOldest": "Älteste zuerst",
+    "sortAddedRecent": "Kürzlich zu archive.org hinzugefügt",
+    "sortTitleAZ": "Titel A–Z",
+    "sortTitleZA": "Titel Z–A",
+    "sortMostDownloaded": "Meiste Downloads",
+    "sortWeek": "Beliebt (letzte Woche)",
+    "sortMonth": "Beliebt (letzter Monat)",
+    "sortSizeDesc": "Größte Dateien zuerst",
+    "sortSizeAsc": "Kleinste Dateien zuerst",
+    "sortRandom": "Zufällig",
+    "rowsLabel": "Ergebnisse pro Seite",
+    "rows24": "24 / Seite",
+    "rows48": "48 / Seite",
+    "rows96": "96 / Seite",
+    "languageLabel": "Sprache",
+    "langAll": "Alle Sprachen",
+    "langEnglish": "Englisch",
+    "langRomanian": "Rumänisch",
+    "langFrench": "Französisch",
+    "langGerman": "Deutsch",
+    "langSpanish": "Spanisch",
+    "langItalian": "Italienisch",
+    "langPortuguese": "Portugiesisch",
+    "langRussian": "Russisch",
+    "langChinese": "Chinesisch",
+    "langJapanese": "Japanisch",
+    "langArabic": "Arabisch",
+    "yearRangeLabel": "Zeitraum (Jahre)",
+    "yearFromPlaceholder": "ab Jahr",
+    "yearFromLabel": "Ab Jahr",
+    "yearToPlaceholder": "bis Jahr",
+    "yearToLabel": "Bis Jahr",
+    "examplesLabel": "Beispiele:",
+    "favoritesBtn": "☆ Favoriten ({n})",
+    "exportFavBtn": "Favoriten exportieren",
+    "importFavBtn": "Favoriten importieren",
+    "emptyStateMsg": "Gib oben eine Sammlungs-Kennung, einen Uploader oder einen Autor ein und klicke dann auf „Suchen“. Oder wähle eines der Beispiele oben.",
+    "loadMoreBtn": "Mehr laden",
+    "footerText": "Die Daten stammen direkt von der öffentlichen API des Internet Archive (archive.org). Suchen, Vorschaubilder, Player und Downloads sind Anfragen an archive.org, das deine IP-Adresse und deine Suchbegriffe erhält; keine Anfrage geht an einen anderen Server. Die App hat keinen eigenen Server und speichert nichts im Browser (Favoriten bleiben nur per Export erhalten). Dieses Tool ist nicht offiziell mit dem Internet Archive verbunden.",
+    "statusEnterIdentifier": "Gib eine Kennung, einen Uploader/Autor oder einen Archive.org-Link ein.",
+    "statusSearching": "Suche läuft...",
+    "statusNoResults": "Keine Ergebnisse für „{id}“ ({mode}). Versuche einen anderen Suchmodus oder überprüfe die Kennung.",
+    "statusResultsFound": "{n} Ergebnisse gefunden · {m} angezeigt.",
+    "statusFetchError": "Archive.org konnte nicht erreicht werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+    "statusCheckingLink": "Link wird überprüft...",
+    "statusItemOpened": "Element unten geöffnet.",
+    "statusNoFavorites": "Du hast noch keine Favoriten gespeichert. Tippe bei einem Element auf ☆, um es hinzuzufügen.",
+    "statusFavoritesSaved": "{n} Favoriten gespeichert.",
+    "statusFavoritesImported": "{n} Favoriten importiert.",
+    "statusFavoritesImportError": "Die Favoriten-Datei konnte nicht gelesen werden. Überprüfe das JSON-Format.",
+    "favAddAria": "Zu Favoriten hinzufügen",
+    "favRemoveAria": "Aus Favoriten entfernen",
+    "favAddBtnText": "☆ Zu Favoriten hinzufügen",
+    "favRemoveBtnText": "★ Aus Favoriten entfernen",
+    "cardOpenAria": "{title} öffnen",
+    "downloadsSuffix": "{n} Downloads",
+    "modalCloseAria": "Schließen",
+    "modalExploreCollection": "Sammlung erkunden →",
+    "modalByPrefix": "Von: {names}",
+    "modalUploaderPrefix": "Uploader: {name}",
+    "modalLanguagePrefix": "Sprache: {langs}",
+    "modalSizePrefix": "Größe: {size}",
+    "subjectsLabel": "Themen",
+    "collectionsLabel": "Teil von",
+    "filesLabel": "Verfügbare Dateien",
+    "openOnIA": "Auf archive.org öffnen →",
+    "viewerCollectionNote": "Dies ist eine Sammlung — du kannst die enthaltenen Elemente durchstöbern.",
+    "viewerFallbackNote": "Dieser Inhaltstyp kann hier nicht direkt angezeigt werden. Sieh dir die Dateien unten an oder öffne das Element auf archive.org.",
+    "viewerLoadError": "Die Vorschau konnte nicht geladen werden. Du kannst das Element direkt auf archive.org öffnen.",
+    "viewerLoading": "Vorschau wird geladen...",
+    "filesMoreNote": "+ {n} weitere Dateien — auf der archive.org-Seite ansehen.",
+    "noDescription": "Keine Beschreibung verfügbar.",
+    "playerTitle": "Archive.org-Player",
+    "placeholderAuto": "z. B. prelinger · @uploader · Autorenname · archive.org/details/...-Link",
+    "placeholderCollection": "z. B. prelinger, nasa, gutenberg...",
+    "placeholderUploader": "z. B. @uploader_name",
+    "placeholderCreator": "z. B. der Name des Autors",
+    "placeholderSubject": "z. B. Science-Fiction, Jazz, Astronomie..."
+  }
+};
+  var LOCALE_MAP = { ro:'ro-RO', en:'en-US', fr:'fr-FR', it:'it-IT', es:'es-ES', pt:'pt-PT', de:'de-DE' };
+  var DATE_ORDER_MAP = { ro:'DMY.', it:'DMY/', fr:'DMY/', es:'DMY/', pt:'DMY/', de:'DMY.', en:'MDY/' };
+
+  function detectInitialLang(){
+    try {
+      var urlLang = new URLSearchParams(location.search).get('lang');
+      if (urlLang && SUPPORTED_LANGS.indexOf(urlLang.toLowerCase()) !== -1) return urlLang.toLowerCase();
+    } catch(e){}
+    try {
+      var nav = String(navigator.language || navigator.userLanguage || '').slice(0,2).toLowerCase();
+      if (SUPPORTED_LANGS.indexOf(nav) !== -1) return nav;
+    } catch(e){}
+    return 'ro';
+  }
+  var currentLang = detectInitialLang();
+
+  function t(key, vars){
+    var dict = I18N[currentLang] || I18N.ro;
+    var s = dict[key];
+    if (s === undefined) s = (I18N.ro[key] !== undefined ? I18N.ro[key] : key);
+    if (vars) {
+      Object.keys(vars).forEach(function(k){ s = s.split('{' + k + '}').join(vars[k]); });
+    }
+    return s;
+  }
+
+  var lastStatus = null; // { render: function()->string, kind: 'info'|'error' }
+  function setLastStatus(renderFn, kind){
+    lastStatus = { render: renderFn, kind: kind };
+    showStatus(renderFn(), kind);
+  }
+  function clearStatus(){
+    lastStatus = null;
+    showStatus('', 'info');
+  }
+
+  var state = {
+    mode: 'auto',
+    docs: [],
+    numFound: 0,
+    renderedCount: 0,
+    loading: false,
+    hasSearched: false,
+    showFavoritesOnly: false,
+    favorites: new Map(),
+    page: 1
+  };
+
+  var currentModalDoc = null;
+  var currentModalMeta = null;
+  var lastFocusedEl = null;
+
+  // ---------- small utilities ----------
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function toArray(v){ return Array.isArray(v) ? v : (v === null || v === undefined || v === '' ? [] : [v]); }
+  function escAttr(s){ return String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"'); }
+
+  // DOMParser builds an inert document: no scripts run and no resources
+  // (e.g. <img onerror>) are loaded. A detached div.innerHTML would NOT be safe.
+  function htmlToText(html){
+    try { return new DOMParser().parseFromString(html, 'text/html').body.textContent || ''; }
+    catch(e){ return String(html).replace(/<[^>]*>/g, ''); }
+  }
+  function stripHtml(html){
+    if (html === null || html === undefined) return '';
+    return htmlToText(String(html));
+  }
+  function sanitizeDescription(html){
+    if (html === null || html === undefined) return '';
+    var s = String(html)
+      .replace(/<br\s*\/?>/gi,'\n')
+      .replace(/<\/p>/gi,'\n\n')
+      .replace(/<\/div>/gi,'\n');
+    return htmlToText(s).replace(/\n{3,}/g,'\n\n').trim();
+  }
+  function escapeLucenePhrase(v){ return String(v).trim().replace(/\\/g,'\\\\').replace(/"/g,'\\"'); }
+
+  function formatBytes(bytes){
+    var n = Number(bytes);
+    if (!isFinite(n) || n <= 0) return null;
+    var units = ['B','KB','MB','GB','TB'], i = 0, val = n;
+    while (val >= 1024 && i < units.length-1){ val/=1024; i++; }
+    return (val>=100?val.toFixed(0):val>=10?val.toFixed(1):val.toFixed(2)) + ' ' + units[i];
+  }
+  function formatNumber(n){
+    var num = Number(n);
+    if (!isFinite(num)) return null;
+    try { return num.toLocaleString(LOCALE_MAP[currentLang] || 'ro-RO'); } catch(e){ return String(num); }
+  }
+  function formatDate(str){
+    if (!str) return null;
+    var m = String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) {
+      var yyyy = m[1], mm = m[2], dd = m[3];
+      var fmt = DATE_ORDER_MAP[currentLang] || DATE_ORDER_MAP.ro;
+      var order = fmt.slice(0,3), sep = fmt.slice(3);
+      var parts = { D: dd, M: mm, Y: yyyy };
+      return order.split('').map(function(c){ return parts[c]; }).join(sep);
+    }
+    var y = String(str).match(/^(\d{4})/);
+    if (y) return y[1];
+    return null;
+  }
+
+  function buildIcon(mediatype, className){
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns,'svg');
+    svg.setAttribute('class','icon ' + (className||''));
+    svg.setAttribute('aria-hidden','true');
+    var use = document.createElementNS(ns,'use');
+    use.setAttribute('href','#' + (ICON_MAP[mediatype] || 'ic-other'));
+    svg.appendChild(use);
+    return svg;
+  }
+
+  // ---------- query building ----------
+  function buildFieldQuery(mode, identifier){
+    var v = escapeLucenePhrase(identifier);
+    if (mode === 'collection') return 'collection:"' + v + '"';
+    if (mode === 'uploader') return 'uploader:"' + v + '"';
+    if (mode === 'creator') return 'creator:"' + v + '"';
+    if (mode === 'subject') return 'subject:"' + v + '"';
+    return '(collection:"' + v + '" OR uploader:"' + v + '" OR creator:"' + v + '")';
+  }
+
+  // language metadata on archive.org is inconsistently stored as either a MARC/ISO
+  // code ("eng") or a canonical name ("English"), so each option carries every
+  // known variant and we OR them together rather than matching a single value.
+  function buildLanguageQuery(optionValue){
+    if (!optionValue) return '';
+    var variants = optionValue.split('|').map(escapeLucenePhrase);
+    return '(' + variants.map(function(v){ return 'language:"' + v + '"'; }).join(' OR ') + ')';
+  }
+
+  function pad4(n){ var s = String(Math.abs(Math.trunc(n))); while (s.length < 4) s = '0' + s; return s; }
+  function buildDateRangeQuery(fromYearRaw, toYearRaw){
+    var f = parseInt(fromYearRaw, 10), t = parseInt(toYearRaw, 10);
+    var hasFrom = String(fromYearRaw||'').trim() !== '' && isFinite(f);
+    var hasTo = String(toYearRaw||'').trim() !== '' && isFinite(t);
+    if (!hasFrom && !hasTo) return '';
+    if (hasFrom && hasTo && f > t) { var tmp = f; f = t; t = tmp; }
+    var lo = hasFrom ? (pad4(f) + '-01-01') : '*';
+    var hi = hasTo ? (pad4(t) + '-12-31') : '*';
+    return 'date:[' + lo + ' TO ' + hi + ']';
+  }
+  function buildSearchUrl(opts){
+    var params = new URLSearchParams();
+    params.set('q', opts.q);
+    FIELDS.forEach(function(f){ params.append('fl[]', f); });
+    if (opts.sort) params.append('sort[]', opts.sort);
+    params.set('rows', String(opts.rows));
+    params.set('page', String(opts.page));
+    params.set('output', 'json');
+    return SEARCH_URL + '?' + params.toString();
+  }
+
+  // ---------- input parsing ----------
+  function parseArchiveInput(raw){
+    var text = String(raw||'').trim();
+    if (!text) return { mode:null, identifier:'', directItem:null };
+    try {
+      var u = new URL(text);
+      if (/(^|\.)archive\.org$/i.test(u.hostname)) {
+        var parts = u.pathname.split('/').filter(Boolean);
+        if (parts.length >= 2 && ['details','metadata','download','embed'].indexOf(parts[0]) !== -1) {
+          var id = decodeURIComponent(parts[1]);
+          if (id.charAt(0) === '@') return { mode:'uploader', identifier:id.slice(1), directItem:null };
+          return { mode:null, identifier:id, directItem:id };
+        }
+      }
+    } catch(e) { /* not a URL, fall through to plain text */ }
+    if (text.charAt(0) === '@') return { mode:'uploader', identifier:text.slice(1), directItem:null };
+    return { mode:null, identifier:text, directItem:null };
+  }
+
+  // ---------- networking ----------
+  function fetchJson(url){
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, 20000);
+    return fetch(url, { headers: { 'Accept':'application/json' }, signal: ctrl.signal, credentials: 'omit', referrerPolicy: 'strict-origin-when-cross-origin' }).then(function(res){
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).finally(function(){ clearTimeout(timer); });
+  }
+
+  // ---------- status / loading UI ----------
+  function showStatus(message, kind){
+    var line = qs('#statusLine');
+    if (!message) { line.hidden = true; line.textContent=''; return; }
+    line.hidden = false;
+    line.textContent = message;
+    line.className = 'status-line' + (kind === 'error' ? ' status-error' : '');
+  }
+  function setLoadingUI(isLoading){
+    qs('#searchSubmitBtn').disabled = isLoading;
+    qs('#loadMoreBtn').disabled = isLoading;
+    document.body.classList.toggle('is-loading', isLoading);
+  }
+  function updateInputPlaceholder(){
+    var input = qs('#identifierInput');
+    if (input) input.placeholder = t(MODE_PLACEHOLDER_KEYS[state.mode] || MODE_PLACEHOLDER_KEYS.auto);
+  }
+  function setActiveMode(mode){
+    state.mode = mode;
+    qsa('.mode-btn').forEach(function(btn){
+      var active = btn.getAttribute('data-mode') === mode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    updateInputPlaceholder();
+  }
+
+  // ---------- search ----------
+  function performSearch(opts){
+    var reset = opts.reset;
+    if (state.loading) return Promise.resolve();
+    state.showFavoritesOnly = false;
+    var favBtn = qs('#favoritesToggleBtn');
+    favBtn.classList.remove('active');
+    favBtn.setAttribute('aria-pressed','false');
+
+    var identifier = qs('#identifierInput').value.trim().replace(/^@/,'');
+    if (!identifier) {
+      setLastStatus(function(){ return t('statusEnterIdentifier'); }, 'error');
+      return Promise.resolve();
+    }
+
+    var mode = state.mode;
+    var mediatype = qs('#mediatypeSelect').value;
+    var sort = qs('#sortSelect').value;
+    var rows = parseInt(qs('#rowsSelect').value, 10) || 48;
+    var language = qs('#languageSelect').value;
+    var yearFrom = qs('#yearFromInput').value;
+    var yearTo = qs('#yearToInput').value;
+
+    if (reset) {
+      state.page = 1;
+      state.docs = [];
+      state.numFound = 0;
+      renderResults(false);
+      qs('#loadMoreWrap').hidden = true;
+    } else {
+      state.page += 1;
+    }
+
+    state.loading = true;
+    setLoadingUI(true);
+    if (reset) setLastStatus(function(){ return t('statusSearching'); }, 'info');
+
+    var q = buildFieldQuery(mode, identifier);
+    if (mediatype) q += ' AND mediatype:(' + mediatype + ')';
+    var langQ = buildLanguageQuery(language);
+    if (langQ) q += ' AND ' + langQ;
+    var dateQ = buildDateRangeQuery(yearFrom, yearTo);
+    if (dateQ) q += ' AND ' + dateQ;
+    var url = buildSearchUrl({ q:q, rows:rows, page:state.page, sort:sort });
+
+    return fetchJson(url).then(function(data){
+      var resp = data.response || {};
+      var docs = resp.docs || [];
+      state.numFound = resp.numFound || 0;
+      state.docs = reset ? docs : state.docs.concat(docs);
+      renderResults(!reset);
+
+      if (state.docs.length === 0) {
+        setLastStatus(function(){ return t('statusNoResults', { id: identifier, mode: t(MODE_LABEL_KEYS[mode]) }); }, 'error');
+      } else {
+        setLastStatus(function(){ return t('statusResultsFound', { n: formatNumber(state.numFound), m: formatNumber(state.docs.length) }); }, 'info');
+      }
+      var reachedCap = (state.page * rows) >= 9990 || state.docs.length >= state.numFound;
+      qs('#loadMoreWrap').hidden = reachedCap || state.docs.length === 0;
+    }).catch(function(err){
+      if (!reset) state.page -= 1;
+      setLastStatus(function(){ return t('statusFetchError'); }, 'error');
+      console.error(err);
+    }).finally(function(){
+      state.loading = false;
+      setLoadingUI(false);
+    });
+  }
+
+  function tryOpenDirectItem(identifier){
+    return fetchJson(API_BASE + '/metadata/' + encodeURIComponent(identifier)).then(function(meta){
+      if (!meta || !meta.metadata || !meta.metadata.identifier) return false;
+      if (meta.metadata.mediatype === 'collection') return 'collection';
+      var doc = {
+        identifier: meta.metadata.identifier || identifier,
+        title: meta.metadata.title,
+        mediatype: meta.metadata.mediatype,
+        creator: meta.metadata.creator,
+        uploader: meta.metadata.uploader,
+        date: meta.metadata.date,
+        description: meta.metadata.description,
+        item_size: meta.item_size
+      };
+      openItem(doc, meta);
+      return 'opened';
+    }).catch(function(){ return false; });
+  }
+
+  function handleSearchSubmit(e){
+    if (e && e.preventDefault) e.preventDefault();
+    var raw = qs('#identifierInput').value;
+    var parsed = parseArchiveInput(raw);
+    if (!parsed.identifier) {
+      setLastStatus(function(){ return t('statusEnterIdentifier'); }, 'error');
+      return;
+    }
+    qs('#identifierInput').value = parsed.identifier;
+    if (parsed.mode) setActiveMode(parsed.mode);
+
+    if (parsed.directItem) {
+      setLoadingUI(true);
+      setLastStatus(function(){ return t('statusCheckingLink'); }, 'info');
+      tryOpenDirectItem(parsed.directItem).then(function(result){
+        setLoadingUI(false);
+        if (result === 'opened') { setLastStatus(function(){ return t('statusItemOpened'); }, 'info'); return; }
+        if (result === 'collection') {
+          setActiveMode('collection');
+          state.hasSearched = true;
+          return performSearch({ reset:true });
+        }
+        state.hasSearched = true;
+        return performSearch({ reset:true });
+      });
+      return;
+    }
+    state.hasSearched = true;
+    performSearch({ reset:true });
+  }
+
+  // ---------- rendering: grid ----------
+  function renderResults(append){
+    var grid = qs('#resultsGrid');
+    if (!append) { grid.innerHTML = ''; state.renderedCount = 0; }
+    var frag = document.createDocumentFragment();
+    for (var i = state.renderedCount; i < state.docs.length; i++){
+      var card = createCard(state.docs[i]);
+      card.style.animationDelay = (Math.min(i - state.renderedCount, 20) * 25) + 'ms';
+      frag.appendChild(card);
+    }
+    state.renderedCount = state.docs.length;
+    grid.appendChild(frag);
+    qs('#emptyState').hidden = state.docs.length > 0;
+  }
+
+  function renderFavoritesView(){
+    var grid = qs('#resultsGrid');
+    grid.innerHTML = '';
+    state.renderedCount = 0;
+    var favs = Array.from(state.favorites.values());
+    var frag = document.createDocumentFragment();
+    favs.forEach(function(doc, i){
+      var card = createCard(doc);
+      card.style.animationDelay = (Math.min(i,20)*25) + 'ms';
+      frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+    qs('#loadMoreWrap').hidden = true;
+    qs('#emptyState').hidden = favs.length > 0;
+    if (favs.length === 0) {
+      setLastStatus(function(){ return t('statusNoFavorites'); }, 'info');
+    } else {
+      setLastStatus(function(){ return t('statusFavoritesSaved', { n: favs.length }); }, 'info');
+    }
+  }
+
+  function createCard(doc){
+    doc.identifier = String(doc.identifier);
+    if (typeof doc.mediatype !== 'string') doc.mediatype = 'other';
+    var card = document.createElement('article');
+    card.className = 'card';
+    card.tabIndex = 0;
+    card.setAttribute('role','button');
+    card.setAttribute('data-identifier', doc.identifier);
+    var title = doc.title || doc.identifier;
+    card.setAttribute('aria-label', t('cardOpenAria', { title: title }));
+
+    var thumbWrap = document.createElement('div');
+    thumbWrap.className = 'card-thumb';
+    var img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = '';
+    img.src = API_BASE + '/services/img/' + encodeURIComponent(doc.identifier);
+    img.addEventListener('error', function(){
+      img.remove();
+      thumbWrap.appendChild(buildIcon(doc.mediatype, 'card-thumb-icon'));
+    }, { once:true });
+    thumbWrap.appendChild(img);
+
+    var tab = document.createElement('span');
+    tab.className = 'call-tab';
+    tab.textContent = (doc.mediatype||'other').toUpperCase() + ' · ' + doc.identifier;
+    thumbWrap.appendChild(tab);
+
+    var isFav = state.favorites.has(doc.identifier);
+    var favBtn = document.createElement('button');
+    favBtn.type = 'button';
+    favBtn.className = 'fav-btn';
+    favBtn.dataset.fav = isFav ? 'true' : 'false';
+    favBtn.setAttribute('aria-label', isFav ? t('favRemoveAria') : t('favAddAria'));
+    favBtn.textContent = isFav ? '★' : '☆';
+    favBtn.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      toggleFavorite(doc, favBtn);
+    });
+    thumbWrap.appendChild(favBtn);
+
+    card.appendChild(thumbWrap);
+
+    var body = document.createElement('div');
+    body.className = 'card-body';
+    var h3 = document.createElement('h3');
+    h3.textContent = title;
+    body.appendChild(h3);
+
+    var metaLine = document.createElement('p');
+    metaLine.className = 'card-meta';
+    var bits = [];
+    var creators = toArray(doc.creator);
+    if (creators.length) bits.push(creators[0]);
+    else if (doc.uploader) bits.push(doc.uploader);
+    var dateStr = formatDate(doc.date, currentLang) || formatDate(doc.publicdate, currentLang);
+    if (dateStr) bits.push(dateStr);
+    var dl = formatNumber(doc.downloads);
+    if (dl) bits.push(t('downloadsSuffix', { n: dl }));
+    metaLine.textContent = bits.join(' · ');
+    body.appendChild(metaLine);
+
+    card.appendChild(body);
+
+    function openHandler(){ openItem(doc); }
+    card.addEventListener('click', openHandler);
+    card.addEventListener('keydown', function(ev){
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openHandler(); }
+    });
+
+    return card;
+  }
+
+  // ---------- favorites ----------
+  function updateFavoritesCount(){
+    qs('#favoritesToggleBtn').textContent = t('favoritesBtn', { n: state.favorites.size });
+  }
+  function updateModalFavButton(){
+    var btn = qs('#modalFavBtn');
+    var has = currentModalDoc && state.favorites.has(currentModalDoc.identifier);
+    btn.textContent = has ? t('favRemoveBtnText') : t('favAddBtnText');
+    btn.dataset.fav = has ? 'true' : 'false';
+  }
+  function toggleFavorite(doc, btnEl){
+    var wasFav = state.favorites.has(doc.identifier);
+    if (wasFav) {
+      state.favorites.delete(doc.identifier);
+    } else {
+      state.favorites.set(doc.identifier, {
+        identifier: doc.identifier, title: doc.title, mediatype: doc.mediatype,
+        creator: doc.creator, uploader: doc.uploader, date: doc.date, downloads: doc.downloads
+      });
+    }
+    var nowFav = !wasFav;
+    updateFavoritesCount();
+    if (btnEl) {
+      btnEl.textContent = nowFav ? '★' : '☆';
+      btnEl.dataset.fav = nowFav ? 'true' : 'false';
+      btnEl.setAttribute('aria-label', nowFav ? t('favRemoveAria') : t('favAddAria'));
+    }
+    qsa('.card[data-identifier] .fav-btn').forEach(function(b){
+      if (b !== btnEl && b.closest('.card').getAttribute('data-identifier') === doc.identifier) {
+        b.textContent = nowFav ? '★' : '☆';
+        b.dataset.fav = nowFav ? 'true' : 'false';
+      }
+    });
+    if (currentModalDoc && currentModalDoc.identifier === doc.identifier) updateModalFavButton();
+    if (state.showFavoritesOnly) renderFavoritesView();
+  }
+  function exportFavorites(){
+    var arr = Array.from(state.favorites.values());
+    var blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), favorites: arr }, null, 2)], { type:'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'arhiva-fara-frontiere-favorite.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  }
+  function sanitizeFavorite(item){
+    if (!item || typeof item.identifier !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._@-]{0,199}$/.test(item.identifier)) return null;
+    function s(v){ return typeof v === 'string' ? v.slice(0, 500) : undefined; }
+    function sa(v){ return Array.isArray(v) ? v.filter(function(x){ return typeof x === 'string'; }).map(function(x){ return x.slice(0,500); }).slice(0,20) : s(v); }
+    return {
+      identifier: item.identifier, title: s(item.title),
+      mediatype: (typeof item.mediatype === 'string' && /^[a-z]{2,20}$/.test(item.mediatype)) ? item.mediatype : undefined,
+      creator: sa(item.creator), uploader: s(item.uploader), date: s(item.date),
+      downloads: isFinite(Number(item.downloads)) ? Number(item.downloads) : undefined
+    };
+  }
+  function importFavoritesFromFile(file){
+    if (file.size > 10 * 1024 * 1024) { setLastStatus(function(){ return t('statusFavoritesImportError'); }, 'error'); return; }
+    var reader = new FileReader();
+    reader.onload = function(){
+      try {
+        var data = JSON.parse(reader.result);
+        var arr = Array.isArray(data) ? data : (Array.isArray(data.favorites) ? data.favorites : null);
+        if (!arr) throw new Error('format necunoscut');
+        var added = 0;
+        arr.slice(0, 5000).forEach(function(item){
+          var clean = sanitizeFavorite(item);
+          if (clean) { state.favorites.set(clean.identifier, clean); added++; }
+        });
+        updateFavoritesCount();
+        if (state.showFavoritesOnly) renderFavoritesView();
+        setLastStatus(function(){ return t('statusFavoritesImported', { n: added }); }, 'info');
+      } catch(e){
+        setLastStatus(function(){ return t('statusFavoritesImportError'); }, 'error');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  // ---------- item viewer / modal ----------
+  function pickBestImageFile(files){
+    var imgs = (files||[]).filter(function(f){ return f.name && /\.(jpe?g|png|gif|webp|tiff?)$/i.test(f.name); });
+    if (!imgs.length) return null;
+    var nonThumb = imgs.filter(function(f){ return !/thumb/i.test(f.name); });
+    var pool = nonThumb.length ? nonThumb : imgs;
+    pool.sort(function(a,b){ return (Number(b.size)||0) - (Number(a.size)||0); });
+    return pool[0];
+  }
+
+  function buildViewer(identifier, mediatype, files){
+    var container = document.createElement('div');
+    container.className = 'viewer-inner';
+    if (mediatype === 'image') {
+      var imgFile = pickBestImageFile(files);
+      if (imgFile) {
+        var img = document.createElement('img');
+        img.src = API_BASE + '/download/' + encodeURIComponent(identifier) + '/' + encodeURIComponent(imgFile.name);
+        img.alt = '';
+        container.appendChild(img);
+        return { node: container };
+      }
+    }
+    if (EMBEDDABLE.indexOf(mediatype) !== -1) {
+      var iframe = document.createElement('iframe');
+      iframe.src = API_BASE + '/embed/' + encodeURIComponent(identifier);
+      iframe.setAttribute('frameborder','0');
+      iframe.setAttribute('allowfullscreen','true');
+      iframe.setAttribute('webkitallowfullscreen','true');
+      iframe.setAttribute('mozallowfullscreen','true');
+      iframe.setAttribute('allow','encrypted-media *;');
+      iframe.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-presentation');
+      iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+      iframe.title = t('playerTitle');
+      container.appendChild(iframe);
+      var kindClass = mediatype === 'audio' ? 'viewer-audio' : mediatype === 'texts' ? 'viewer-texts' : mediatype === 'software' ? 'viewer-software' : 'viewer-video';
+      container.classList.add(kindClass);
+      return { node: container };
+    }
+    return { node: null };
+  }
+
+  function renderFilesList(container, identifier, files, mediatype){
+    container.innerHTML = '';
+    var pool = (files||[]).filter(function(f){ return f.name && f.source !== 'metadata'; });
+    if (mediatype === 'texts') {
+      var ebook = pool.filter(function(f){ return /\.(pdf|epub|txt|djvu|mobi|azw3?)$/i.test(f.name); });
+      if (ebook.length) pool = ebook;
+    }
+    if (!pool.length) return;
+    var list = document.createElement('ul');
+    list.className = 'files-list';
+    pool.slice(0,25).forEach(function(f){
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = API_BASE + '/download/' + encodeURIComponent(identifier) + '/' + encodeURIComponent(f.name);
+      a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.textContent = f.name;
+      li.appendChild(a);
+      var metaSpan = document.createElement('span');
+      metaSpan.className = 'file-meta';
+      var bitsArr = [];
+      if (f.format) bitsArr.push(f.format);
+      var sz = formatBytes(f.size);
+      if (sz) bitsArr.push(sz);
+      metaSpan.textContent = bitsArr.join(' · ');
+      li.appendChild(metaSpan);
+      list.appendChild(li);
+    });
+    container.appendChild(list);
+    if (pool.length > 25) {
+      var more = document.createElement('p');
+      more.className = 'files-more-note';
+      more.textContent = t('filesMoreNote', { n: pool.length - 25 });
+      container.appendChild(more);
+    }
+  }
+
+  function showModalShell(doc){
+    currentModalDoc = doc;
+    lastFocusedEl = document.activeElement;
+    var overlay = qs('#modalOverlay');
+    overlay.hidden = false;
+    document.body.classList.add('modal-open');
+    qs('#modalTitle').textContent = doc.title || doc.identifier;
+    qs('#modalCallTab').textContent = (doc.mediatype||'other').toUpperCase() + ' · ' + doc.identifier;
+    qs('#modalOpenOnIA').href = API_BASE + '/details/' + encodeURIComponent(doc.identifier);
+    qs('#modalMeta').textContent = '';
+    qs('#modalDescription').textContent = '';
+    qs('#modalSubjects').innerHTML = '';
+    qs('#modalCollections').innerHTML = '';
+    qs('#modalFiles').innerHTML = '';
+    qs('#subjectsBlock').hidden = true;
+    qs('#collectionsBlock').hidden = true;
+    qs('#filesBlock').hidden = true;
+    qs('#modalCollectionAction').hidden = true;
+    var viewerHost = qs('#viewerHost');
+    viewerHost.innerHTML = '';
+    var loadingP = document.createElement('p');
+    loadingP.className = 'viewer-loading';
+    loadingP.textContent = t('viewerLoading');
+    viewerHost.appendChild(loadingP);
+    updateModalFavButton();
+    qs('.modal-card').scrollTop = 0;
+    qs('#modalClose').focus();
+  }
+
+  function populateModal(doc, meta){
+    currentModalMeta = meta || null;
+    var m = (meta && meta.metadata) || {};
+    var mediatype = doc.mediatype || m.mediatype || 'other';
+    var files = (meta && meta.files) || [];
+
+    qs('#modalTitle').textContent = m.title || doc.title || doc.identifier;
+    qs('#modalCallTab').textContent = mediatype.toUpperCase() + ' · ' + doc.identifier;
+
+    var viewerHost = qs('#viewerHost');
+    viewerHost.innerHTML = '';
+    var viewer = buildViewer(doc.identifier, mediatype, files);
+    if (viewer.node) {
+      viewerHost.appendChild(viewer.node);
+    } else if (mediatype === 'collection') {
+      var p1 = document.createElement('p');
+      p1.className = 'viewer-note';
+      p1.textContent = t('viewerCollectionNote');
+      viewerHost.appendChild(p1);
+      var actionBtn = qs('#modalCollectionAction');
+      actionBtn.hidden = false;
+      actionBtn.onclick = function(){
+        closeModal();
+        qs('#identifierInput').value = doc.identifier;
+        setActiveMode('collection');
+        state.hasSearched = true;
+        performSearch({ reset:true });
+      };
+    } else {
+      var p2 = document.createElement('p');
+      p2.className = 'viewer-note';
+      p2.textContent = t('viewerFallbackNote');
+      viewerHost.appendChild(p2);
+    }
+
+    var bits = [];
+    var creators = toArray(m.creator || doc.creator);
+    if (creators.length) bits.push(t('modalByPrefix', { names: creators.join(', ') }));
+    else if (m.uploader || doc.uploader) bits.push(t('modalUploaderPrefix', { name: m.uploader || doc.uploader }));
+    var dateStr = formatDate(m.date || doc.date, currentLang) || formatDate(m.publicdate || doc.publicdate, currentLang);
+    if (dateStr) bits.push(dateStr);
+    var languages = toArray(m.language || doc.language);
+    if (languages.length) bits.push(t('modalLanguagePrefix', { langs: languages.slice(0,3).join(', ') }));
+    var dl = formatNumber(doc.downloads);
+    if (dl) bits.push(t('downloadsSuffix', { n: dl }));
+    var sizeStr = formatBytes(m.item_size || doc.item_size);
+    if (sizeStr) bits.push(t('modalSizePrefix', { size: sizeStr }));
+    qs('#modalMeta').textContent = bits.join(' · ');
+
+    qs('#modalDescription').textContent = sanitizeDescription(m.description || doc.description) || t('noDescription');
+
+    var subjects = toArray(m.subject || doc.subject);
+    var subjectsHost = qs('#modalSubjects');
+    subjectsHost.innerHTML = '';
+    qs('#subjectsBlock').hidden = subjects.length === 0;
+    subjects.slice(0,20).forEach(function(s){
+      var tag = document.createElement('span');
+      tag.className = 'subject-tag';
+      tag.textContent = s;
+      subjectsHost.appendChild(tag);
+    });
+
+    var collections = toArray(m.collection || doc.collection).filter(function(c){ return c !== doc.identifier; });
+    var collHost = qs('#modalCollections');
+    collHost.innerHTML = '';
+    qs('#collectionsBlock').hidden = collections.length === 0;
+    collections.slice(0,10).forEach(function(c){
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'collection-chip';
+      chip.textContent = c;
+      chip.addEventListener('click', function(){
+        closeModal();
+        qs('#identifierInput').value = c;
+        setActiveMode('collection');
+        state.hasSearched = true;
+        performSearch({ reset:true });
+      });
+      collHost.appendChild(chip);
+    });
+
+    qs('#filesBlock').hidden = files.length === 0;
+    renderFilesList(qs('#modalFiles'), doc.identifier, files, mediatype);
+  }
+
+  function showModalError(){
+    var viewerHost = qs('#viewerHost');
+    viewerHost.innerHTML = '';
+    var p = document.createElement('p');
+    p.className = 'viewer-note error';
+    p.textContent = t('viewerLoadError');
+    viewerHost.appendChild(p);
+  }
+
+  function openItem(doc, prefetchedMeta){
+    showModalShell(doc);
+    if (prefetchedMeta) {
+      populateModal(doc, prefetchedMeta);
+      return;
+    }
+    fetchJson(API_BASE + '/metadata/' + encodeURIComponent(doc.identifier)).then(function(meta){
+      if (currentModalDoc !== doc) return; // modal closed or another item opened meanwhile
+      populateModal(doc, meta);
+    }).catch(function(err){
+      if (currentModalDoc !== doc) return;
+      showModalError();
+      console.error(err);
+    });
+  }
+
+  function closeModal(){
+    var overlay = qs('#modalOverlay');
+    overlay.hidden = true;
+    document.body.classList.remove('modal-open');
+    qs('#viewerHost').innerHTML = ''; // stops any playing audio/video by removing the iframe
+    currentModalDoc = null;
+    if (lastFocusedEl && typeof lastFocusedEl.focus === 'function') lastFocusedEl.focus();
+  }
+
+  // ---------- i18n: apply + language switcher ----------
+  function applyTranslations(){
+    document.documentElement.lang = currentLang;
+    document.title = t('pageTitle');
+    qsa('[data-i18n]').forEach(function(el){ el.textContent = t(el.getAttribute('data-i18n')); });
+    qsa('[data-i18n-ph]').forEach(function(el){ el.placeholder = t(el.getAttribute('data-i18n-ph')); });
+    qsa('[data-i18n-aria]').forEach(function(el){ el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))); });
+    var langSelectEl = qs('#uiLangSelect');
+    if (langSelectEl) langSelectEl.value = currentLang;
+    updateInputPlaceholder();
+    updateFavoritesCount();
+    updateModalFavButton();
+    if (state.showFavoritesOnly) {
+      renderFavoritesView();
+    } else if (state.docs.length) {
+      renderResults(false);
+    }
+    if (lastStatus) showStatus(lastStatus.render(), lastStatus.kind);
+    if (currentModalDoc && !qs('#modalOverlay').hidden) {
+      populateModal(currentModalDoc, currentModalMeta || { metadata:{}, files:[] });
+    }
+  }
+  function setUiLang(lang){
+    if (SUPPORTED_LANGS.indexOf(lang) === -1) lang = 'ro';
+    currentLang = lang;
+    try {
+      var url = new URL(location.href);
+      url.searchParams.set('lang', lang);
+      history.replaceState(null, '', url.toString());
+    } catch(e){}
+    applyTranslations();
+  }
+
+  // ---------- init ----------
+  function init(){
+    qs('#searchForm').addEventListener('submit', handleSearchSubmit);
+
+    qsa('.mode-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        setActiveMode(btn.getAttribute('data-mode'));
+        if (state.hasSearched) performSearch({ reset:true });
+      });
+    });
+
+    ['mediatypeSelect','sortSelect','rowsSelect','languageSelect','yearFromInput','yearToInput'].forEach(function(id){
+      qs('#'+id).addEventListener('change', function(){
+        if (state.hasSearched && !state.showFavoritesOnly) performSearch({ reset:true });
+      });
+    });
+
+    qsa('.example-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        qs('#identifierInput').value = chip.getAttribute('data-id');
+        setActiveMode('collection');
+        handleSearchSubmit();
+      });
+    });
+
+    qs('#loadMoreBtn').addEventListener('click', function(){ performSearch({ reset:false }); });
+
+    qs('#favoritesToggleBtn').addEventListener('click', function(){
+      state.showFavoritesOnly = !state.showFavoritesOnly;
+      var btn = qs('#favoritesToggleBtn');
+      btn.classList.toggle('active', state.showFavoritesOnly);
+      btn.setAttribute('aria-pressed', String(state.showFavoritesOnly));
+      if (state.showFavoritesOnly) {
+        renderFavoritesView();
+      } else {
+        renderResults(false);
+        if (state.docs.length) {
+          setLastStatus(function(){ return t('statusResultsFound', { n: formatNumber(state.numFound), m: formatNumber(state.docs.length) }); }, 'info');
+        } else {
+          clearStatus();
+        }
+      }
+    });
+
+    qs('#exportFavBtn').addEventListener('click', exportFavorites);
+    qs('#importFavBtn').addEventListener('click', function(){ qs('#importFavInput').click(); });
+    qs('#importFavInput').addEventListener('change', function(e){
+      var file = e.target.files[0];
+      if (file) importFavoritesFromFile(file);
+      e.target.value = '';
+    });
+
+    qs('#modalFavBtn').addEventListener('click', function(){
+      if (!currentModalDoc) return;
+      toggleFavorite(currentModalDoc, null);
+      updateModalFavButton();
+    });
+    qs('#modalClose').addEventListener('click', closeModal);
+    qs('#modalOverlay').addEventListener('click', function(e){
+      if (e.target.id === 'modalOverlay') closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+      var overlay = qs('#modalOverlay');
+      if (overlay.hidden) return;
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Tab') {
+        var focusables = qsa('#modalOverlay button, #modalOverlay a[href], #modalOverlay [tabindex]:not([tabindex="-1"])').filter(function(elm){
+          return !elm.disabled && elm.offsetParent !== null;
+        });
+        if (!focusables.length) return;
+        var first = focusables[0], last = focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    qs('#uiLangSelect').value = currentLang;
+    qs('#uiLangSelect').addEventListener('change', function(){ setUiLang(this.value); });
+
+    applyTranslations();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
