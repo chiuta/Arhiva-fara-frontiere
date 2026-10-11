@@ -6,6 +6,8 @@ Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încăr
 
 ![Captura de ecran](screenshot.png)
 
+**Ultima actualizare:** 11 octombrie 2026
+
 *(Captura folosește date de exemplu simulate local, nu rezultate reale de pe archive.org.)*
 
 ## Ce este
@@ -52,6 +54,13 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 ## Licență
 
 Licența nu este încă declarată.
+
+## Istoric / Changelog
+
+### 11 octombrie 2026
+- Reparat: butonul „Încarcă mai multe” nu mai apare în starea goală (atributul hidden era anulat de CSS).
+- Reparat: câmpurile „an de la / an până la” nu mai sunt trunchiate pe ecran îngust (lățime mărită, trecere pe rând nou).
+- Verificat: 0 violări axe-core la 1280 și 360 px, fără erori de consolă.
 
 ## Autor
 
