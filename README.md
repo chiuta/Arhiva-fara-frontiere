@@ -21,7 +21,9 @@ Verificate în cod:
 - Filtre: tip de conținut (video, audio, texte, imagini, software, etree, date, arhive web, colecții), sortare (inclusiv aleatoriu), 24/48/96 rezultate pe pagină, limbă, interval de ani; „Încarcă mai multe" (plafon ~10 000 rezultate).
 - Fișă detaliu: descriere (convertită în text simplu), subiecte, colecții părinte, primele 25 de fișiere cu link de descărcare, link „Deschide pe archive.org".
 - Previzualizare în cadru (iframe `archive.org/embed/...`) pentru video, audio, texte, software, etree; imaginea cea mai mare pentru tipul „imagini".
-- Favorite în memorie, cu export/import JSON.
+- Favorite salvate local în browser (localStorage, cheia `arhiva-ff-favorite-v1`), cu export/import JSON.
+- Mesaj clar când ești offline (fără cerere inutilă către rețea); favoritele rămân consultabile.
+- Scurtătură: `/` mută focusul în câmpul de căutare.
 - Interfață în română, engleză, franceză, italiană, spaniolă, portugheză, germană (`?lang=xx` sau limba browserului).
 - Tastatură: carduri focalizabile (Enter/Spațiu), Esc închide fereastra, focus captiv în fereastră.
 
@@ -36,9 +38,9 @@ Verificate în cod:
 ## Confidențialitate și rețea
 
 - Singura gazdă externă contactată: `archive.org` (și subdomeniile sale, prin redirecționări). Căutările, metadatele, miniaturile, imaginile, playerul din cadru și descărcările sunt cereri directe către Internet Archive: ei primesc adresa ta IP, browserul, ce cauți și ce deschizi, și pot seta cookie-uri în cadrul playerului. Aplicația nu are server propriu, analitice sau cont, dar „fără urmărire" nu poate fi garantat de partea Internet Archive; vezi politica lor de confidențialitate.
-- Stocare locală: niciuna (nu folosește localStorage, sessionStorage sau IndexedDB). Favoritele se pierd la reîncărcarea paginii dacă nu le exporți.
+- Stocare locală: doar lista de favorite (metadate minime: identificator, titlu, tip, autor, dată) în `localStorage`, pe dispozitivul tău; nu se trimite nicăieri. O ștergi golind favoritele sau datele site-ului. Dacă stocarea e blocată, favoritele rămân doar în memorie.
 - Permisiuni de browser: nu cere niciuna.
-- Securitate: textele primite de la archive.org sunt afișate ca text (nu HTML); descrierile sunt convertite cu `DOMParser`; politica CSP limitează rețeaua la archive.org; cadrul de previzualizare are `sandbox`. Importul de favorite este validat.
+- Securitate: textele primite de la archive.org sunt afișate ca text (nu HTML); descrierile sunt convertite cu `DOMParser`; politica CSP limitează rețeaua la archive.org și permite scriptul doar pe bază de hash (fără `unsafe-inline` pentru script); cadrul de previzualizare are `sandbox`. Importul de favorite este validat.
 
 ## Limite și avertismente
 
@@ -57,6 +59,10 @@ Licența nu este încă declarată.
 
 ## Istoric / Changelog
 
+### 11 octombrie 2026 (runda 6)
+- Nou: favoritele se păstrează în `localStorage`; mesaj dedicat în 7 limbi când ești offline; scurtătura `/` pentru căutare.
+- Securitate: CSP cu `script-src` pe hash (fără `'unsafe-inline'` pentru script).
+
 ### 11 octombrie 2026
 - Reparat: butonul „Încarcă mai multe” nu mai apare în starea goală (atributul hidden era anulat de CSS).
 - Reparat: câmpurile „an de la / an până la” nu mai sunt trunchiate pe ecran îngust (lățime mărită, trecere pe rând nou).
@@ -68,4 +74,4 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf
 
 ## English summary
 
-A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores nothing in the browser and has no analytics. It is not a web-archive (Wayback) search tool. License not yet declared.
+A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License not yet declared.

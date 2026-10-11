@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-465qiZFZ7iurqEnH+4M8ZkO3R74TDL7dIRaueoMWduU='; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.">
 <title>Arhiva fără frontiere — răsfoiește Archive.org fără cont</title>
@@ -203,7 +203,7 @@
     <form id="searchForm" class="search-card">
       <div class="input-row">
         <label for="identifierInput" class="sr-only" data-i18n="identifierInputLabel">Identificator, uploader, autor sau link Archive.org</label>
-        <input type="text" id="identifierInput" autocomplete="off"
+        <input type="text" id="identifierInput" aria-keyshortcuts="/" autocomplete="off"
                placeholder="ex: prelinger · @uploader · nume autor · link archive.org/details/...">
         <button type="submit" class="btn" id="searchSubmitBtn" data-i18n="searchBtn">Caută</button>
       </div>
@@ -472,6 +472,7 @@
     "statusNoResults": "Niciun rezultat pentru „{id}” ({mode}). Încearcă alt mod de căutare sau verifică identificatorul.",
     "statusResultsFound": "{n} rezultate găsite · afișate {m}.",
     "statusFetchError": "Nu am putut contacta Archive.org. Verifică conexiunea la internet și încearcă din nou.",
+    "statusOffline": "Ești offline: aplicația are nevoie de internet pentru a interoga archive.org. Favoritele salvate rămân disponibile (butonul ☆ Favorite).",
     "statusCheckingLink": "Se verifică linkul...",
     "statusItemOpened": "Element deschis mai jos.",
     "statusNoFavorites": "Nu ai favorite salvate încă. Apasă pe ☆ pe orice element pentru a-l adăuga.",
@@ -577,6 +578,7 @@
     "statusNoResults": "No results for \"{id}\" ({mode}). Try a different search mode or check the identifier.",
     "statusResultsFound": "{n} results found · showing {m}.",
     "statusFetchError": "Couldn't reach Archive.org. Check your internet connection and try again.",
+    "statusOffline": "You are offline: this app needs the internet to query archive.org. Your saved favorites remain available (the ☆ Favorites button).",
     "statusCheckingLink": "Checking the link...",
     "statusItemOpened": "Item opened below.",
     "statusNoFavorites": "You don't have any saved favorites yet. Tap ☆ on any item to add it.",
@@ -682,6 +684,7 @@
     "statusNoResults": "Aucun résultat pour « {id} » ({mode}). Essayez un autre mode de recherche ou vérifiez l'identifiant.",
     "statusResultsFound": "{n} résultats trouvés · {m} affichés.",
     "statusFetchError": "Impossible de contacter Archive.org. Vérifiez votre connexion internet et réessayez.",
+    "statusOffline": "Vous êtes hors ligne : l'application a besoin d'internet pour interroger archive.org. Vos favoris enregistrés restent disponibles (bouton ☆ Favoris).",
     "statusCheckingLink": "Vérification du lien...",
     "statusItemOpened": "Élément ouvert ci-dessous.",
     "statusNoFavorites": "Vous n'avez pas encore de favoris enregistrés. Appuyez sur ☆ sur un élément pour l'ajouter.",
@@ -787,6 +790,7 @@
     "statusNoResults": "Nessun risultato per \"{id}\" ({mode}). Prova un'altra modalità di ricerca o controlla l'identificatore.",
     "statusResultsFound": "{n} risultati trovati · {m} mostrati.",
     "statusFetchError": "Impossibile contattare Archive.org. Controlla la connessione a internet e riprova.",
+    "statusOffline": "Sei offline: l'app ha bisogno di internet per interrogare archive.org. I preferiti salvati restano disponibili (pulsante ☆ Preferiti).",
     "statusCheckingLink": "Verifica del link in corso...",
     "statusItemOpened": "Elemento aperto qui sotto.",
     "statusNoFavorites": "Non hai ancora preferiti salvati. Tocca ☆ su un elemento per aggiungerlo.",
@@ -892,6 +896,7 @@
     "statusNoResults": "Sin resultados para «{id}» ({mode}). Prueba otro modo de búsqueda o revisa el identificador.",
     "statusResultsFound": "{n} resultados encontrados · mostrando {m}.",
     "statusFetchError": "No se pudo contactar con Archive.org. Comprueba tu conexión a internet e inténtalo de nuevo.",
+    "statusOffline": "Estás sin conexión: la aplicación necesita internet para consultar archive.org. Tus favoritos guardados siguen disponibles (botón ☆ Favoritos).",
     "statusCheckingLink": "Comprobando el enlace...",
     "statusItemOpened": "Elemento abierto abajo.",
     "statusNoFavorites": "Aún no tienes favoritos guardados. Toca ☆ en cualquier elemento para añadirlo.",
@@ -997,6 +1002,7 @@
     "statusNoResults": "Sem resultados para \"{id}\" ({mode}). Tente outro modo de pesquisa ou verifique o identificador.",
     "statusResultsFound": "{n} resultados encontrados · a mostrar {m}.",
     "statusFetchError": "Não foi possível contactar o Archive.org. Verifique a sua ligação à internet e tente novamente.",
+    "statusOffline": "Está offline: a aplicação precisa de internet para consultar o archive.org. Os favoritos guardados continuam disponíveis (botão ☆ Favoritos).",
     "statusCheckingLink": "A verificar o link...",
     "statusItemOpened": "Item aberto abaixo.",
     "statusNoFavorites": "Ainda não tem favoritos guardados. Toque em ☆ em qualquer item para o adicionar.",
@@ -1102,6 +1108,7 @@
     "statusNoResults": "Keine Ergebnisse für „{id}“ ({mode}). Versuche einen anderen Suchmodus oder überprüfe die Kennung.",
     "statusResultsFound": "{n} Ergebnisse gefunden · {m} angezeigt.",
     "statusFetchError": "Archive.org konnte nicht erreicht werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+    "statusOffline": "Du bist offline: Die App braucht Internet, um archive.org abzufragen. Gespeicherte Favoriten bleiben verfügbar (Schaltfläche ☆ Favoriten).",
     "statusCheckingLink": "Link wird überprüft...",
     "statusItemOpened": "Element unten geöffnet.",
     "statusNoFavorites": "Du hast noch keine Favoriten gespeichert. Tippe bei einem Element auf ☆, um es hinzuzufügen.",
@@ -1384,6 +1391,11 @@
       state.page += 1;
     }
 
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      if (!reset) state.page -= 1;
+      setLastStatus(function(){ return t('statusOffline'); }, 'error');
+      return Promise.resolve();
+    }
     state.loading = true;
     setLoadingUI(true);
     if (reset) setLastStatus(function(){ return t('statusSearching'); }, 'info');
@@ -1412,7 +1424,7 @@
       qs('#loadMoreWrap').hidden = reachedCap || state.docs.length === 0;
     }).catch(function(err){
       if (!reset) state.page -= 1;
-      setLastStatus(function(){ return t('statusFetchError'); }, 'error');
+      setLastStatus(function(){ return t((typeof navigator !== 'undefined' && navigator.onLine === false) ? 'statusOffline' : 'statusFetchError'); }, 'error');
       console.error(err);
     }).finally(function(){
       state.loading = false;
@@ -1581,7 +1593,24 @@
   }
 
   // ---------- favorites ----------
+  var FAV_KEY = 'arhiva-ff-favorite-v1';
+  function saveFavorites(){
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(state.favorites.values()))); } catch(e) { /* stocare indisponibilă: favoritele rămân doar în memorie */ }
+  }
+  function loadFavorites(){
+    try {
+      var raw = localStorage.getItem(FAV_KEY);
+      if (!raw) return;
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return;
+      arr.slice(0, 5000).forEach(function(item){
+        var clean = sanitizeFavorite(item);
+        if (clean) state.favorites.set(clean.identifier, clean);
+      });
+    } catch(e) { /* date corupte: ignorate */ }
+  }
   function updateFavoritesCount(){
+    saveFavorites();
     qs('#favoritesToggleBtn').textContent = t('favoritesBtn', { n: state.favorites.size });
   }
   function updateModalFavButton(){
@@ -1920,6 +1949,8 @@
 
   // ---------- init ----------
   function init(){
+    loadFavorites();
+    updateFavoritesCount();
     qs('#searchForm').addEventListener('submit', handleSearchSubmit);
 
     qsa('.mode-btn').forEach(function(btn){
@@ -1981,6 +2012,15 @@
     });
     document.addEventListener('keydown', function(e){
       var overlay = qs('#modalOverlay');
+      if (e.key === '/' && overlay.hidden && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        var tg = e.target, tag = tg && tg.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT' && !(tg && tg.isContentEditable)) {
+          e.preventDefault();
+          qs('#identifierInput').focus();
+          qs('#identifierInput').select();
+        }
+        return;
+      }
       if (overlay.hidden) return;
       if (e.key === 'Escape') { closeModal(); return; }
       if (e.key === 'Tab') {
