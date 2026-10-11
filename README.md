@@ -22,6 +22,8 @@ Verificate în cod:
 - Fișă detaliu: descriere (convertită în text simplu), subiecte, colecții părinte, primele 25 de fișiere cu link de descărcare, link „Deschide pe archive.org".
 - Previzualizare în cadru (iframe `archive.org/embed/...`) pentru video, audio, texte, software, etree; imaginea cea mai mare pentru tipul „imagini".
 - Favorite salvate local în browser (localStorage, cheia `arhiva-ff-favorite-v1`), cu export/import JSON.
+- Ultimele 8 căutări reușite sunt sugerate în câmpul de căutare (local, în browser; buton „Șterge căutările recente”).
+- La eroare de rețea apare un link „Încearcă aceeași căutare pe archive.org →” către căutarea oficială.
 - Mesaj clar când ești offline (fără cerere inutilă către rețea); favoritele rămân consultabile.
 - Scurtătură: `/` mută focusul în câmpul de căutare.
 - Interfață în română, engleză, franceză, italiană, spaniolă, portugheză, germană (`?lang=xx` sau limba browserului).
@@ -38,7 +40,7 @@ Verificate în cod:
 ## Confidențialitate și rețea
 
 - Singura gazdă externă contactată: `archive.org` (și subdomeniile sale, prin redirecționări). Căutările, metadatele, miniaturile, imaginile, playerul din cadru și descărcările sunt cereri directe către Internet Archive: ei primesc adresa ta IP, browserul, ce cauți și ce deschizi, și pot seta cookie-uri în cadrul playerului. Aplicația nu are server propriu, analitice sau cont, dar „fără urmărire" nu poate fi garantat de partea Internet Archive; vezi politica lor de confidențialitate.
-- Stocare locală: doar lista de favorite (metadate minime: identificator, titlu, tip, autor, dată) în `localStorage`, pe dispozitivul tău; nu se trimite nicăieri. O ștergi golind favoritele sau datele site-ului. Dacă stocarea e blocată, favoritele rămân doar în memorie.
+- Stocare locală: lista de favorite (metadate minime: identificator, titlu, tip, autor, dată; cheia `arhiva-ff-favorite-v1`) și ultimele 8 căutări (cheia `arhiva-ff-recente-v1`) în `localStorage`, pe dispozitivul tău; nu se trimit nicăieri. Le ștergi golind favoritele, cu butonul „Șterge căutările recente” sau din datele site-ului. Dacă stocarea e blocată, favoritele rămân doar în memorie.
 - Permisiuni de browser: nu cere niciuna.
 - Securitate: textele primite de la archive.org sunt afișate ca text (nu HTML); descrierile sunt convertite cu `DOMParser`; politica CSP limitează rețeaua la archive.org și permite scriptul doar pe bază de hash (fără `unsafe-inline` pentru script); cadrul de previzualizare are `sandbox`. Importul de favorite este validat.
 
@@ -58,6 +60,10 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 Licența nu este încă declarată.
 
 ## Istoric / Changelog
+
+### 11 octombrie 2026 (runda 7)
+- Reparat: textul din subsol (7 limbi) spunea că aplicația nu salvează nimic în browser, deși favoritele sunt păstrate în `localStorage`.
+- Nou: căutări recente cu sugestii și ștergere; link către căutarea oficială archive.org când cererea eșuează (traduse în 7 limbi).
 
 ### 11 octombrie 2026 (runda 6)
 - Nou: favoritele se păstrează în `localStorage`; mesaj dedicat în 7 limbi când ești offline; scurtătura `/` pentru căutare.

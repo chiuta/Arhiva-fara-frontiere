@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-465qiZFZ7iurqEnH+4M8ZkO3R74TDL7dIRaueoMWduU='; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dLcci9qXxvD1EoIzYgaBla9w5mXNkEJTq9UgOqOD89w='; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.">
 <title>Arhiva fără frontiere — răsfoiește Archive.org fără cont</title>
@@ -203,8 +203,9 @@
     <form id="searchForm" class="search-card">
       <div class="input-row">
         <label for="identifierInput" class="sr-only" data-i18n="identifierInputLabel">Identificator, uploader, autor sau link Archive.org</label>
-        <input type="text" id="identifierInput" aria-keyshortcuts="/" autocomplete="off"
+        <input type="text" id="identifierInput" aria-keyshortcuts="/" autocomplete="off" list="recentList"
                placeholder="ex: prelinger · @uploader · nume autor · link archive.org/details/...">
+        <datalist id="recentList"></datalist>
         <button type="submit" class="btn" id="searchSubmitBtn" data-i18n="searchBtn">Caută</button>
       </div>
 
@@ -282,11 +283,13 @@
   </section>
 
   <p class="status-line" id="statusLine" role="status" aria-live="polite" hidden></p>
+  <p class="status-line" id="fallbackWrap" hidden><a id="fallbackLink" href="https://archive.org/search" target="_blank" rel="noopener noreferrer" data-i18n="tryOnArchive">Încearcă aceeași căutare pe archive.org →</a></p>
 
   <div class="toolbar-row">
     <button type="button" id="favoritesToggleBtn" class="btn btn-ghost" aria-pressed="false">☆ Favorite (0)</button>
     <button type="button" id="exportFavBtn" class="btn btn-ghost" data-i18n="exportFavBtn">Exportă favorite</button>
     <button type="button" id="importFavBtn" class="btn btn-ghost" data-i18n="importFavBtn">Importă favorite</button>
+    <button type="button" id="clearRecentBtn" class="btn btn-ghost" data-i18n="clearRecentBtn" hidden>Șterge căutările recente</button>
     <input type="file" id="importFavInput" accept="application/json" hidden>
   </div>
 
@@ -335,7 +338,7 @@
 </div>
 
 <footer data-i18n="footerText">
-  Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu și nu salvează nimic în browser (favoritele se păstrează doar prin export). Acest instrument nu este afiliat oficial cu Internet Archive.
+  Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu; favoritele și ultimele căutări se păstrează doar local, în browserul tău (favoritele se pot exporta, căutările se pot șterge). Acest instrument nu este afiliat oficial cu Internet Archive.
 </footer>
 
 <svg style="display:none" aria-hidden="true">
@@ -466,7 +469,7 @@
     "importFavBtn": "Importă favorite",
     "emptyStateMsg": "Introdu un identificator de colecție, un uploader sau un autor mai sus, apoi apasă „Caută”. Sau alege unul dintre exemplele de mai sus.",
     "loadMoreBtn": "Încarcă mai multe",
-    "footerText": "Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu și nu salvează nimic în browser (favoritele se păstrează doar prin export). Acest instrument nu este afiliat oficial cu Internet Archive.",
+    "footerText": "Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu; favoritele și ultimele căutări se păstrează doar local, în browserul tău (favoritele se pot exporta, căutările se pot șterge). Acest instrument nu este afiliat oficial cu Internet Archive.",
     "statusEnterIdentifier": "Introdu un identificator, un uploader/autor, sau un link Archive.org.",
     "statusSearching": "Se caută...",
     "statusNoResults": "Niciun rezultat pentru „{id}” ({mode}). Încearcă alt mod de căutare sau verifică identificatorul.",
@@ -506,7 +509,10 @@
     "placeholderCollection": "ex: prelinger, nasa, gutenberg...",
     "placeholderUploader": "ex: @nume_uploader",
     "placeholderCreator": "ex: numele autorului",
-    "placeholderSubject": "ex: science fiction, jazz, astronomie..."
+    "placeholderSubject": "ex: science fiction, jazz, astronomie...",
+    "clearRecentBtn": "Șterge căutările recente",
+    "statusRecentCleared": "Căutările recente au fost șterse.",
+    "tryOnArchive": "Încearcă aceeași căutare pe archive.org →"
   },
   "en": {
     "pageTitle": "Arhiva fără frontiere — browse Archive.org without an account",
@@ -572,7 +578,7 @@
     "importFavBtn": "Import favorites",
     "emptyStateMsg": "Enter a collection identifier, an uploader, or an author above, then press \"Search\". Or pick one of the examples above.",
     "loadMoreBtn": "Load more",
-    "footerText": "Data comes directly from the Internet Archive's public API (archive.org). Searches, thumbnails, the player and downloads are requests to archive.org, which receives your IP address and what you look for; no request goes to any other server. The app has no server of its own and stores nothing in the browser (favorites persist only through export). This tool is not officially affiliated with the Internet Archive.",
+    "footerText": "Data comes directly from the Internet Archive's public API (archive.org). Searches, thumbnails, the player and downloads are requests to archive.org, which receives your IP address and what you look for; no request goes to any other server. The app has no server of its own; favorites and recent searches are kept only locally in your browser (favorites can be exported, searches can be cleared). This tool is not officially affiliated with the Internet Archive.",
     "statusEnterIdentifier": "Enter an identifier, an uploader/author, or an Archive.org link.",
     "statusSearching": "Searching...",
     "statusNoResults": "No results for \"{id}\" ({mode}). Try a different search mode or check the identifier.",
@@ -612,7 +618,10 @@
     "placeholderCollection": "e.g. prelinger, nasa, gutenberg...",
     "placeholderUploader": "e.g. @uploader_name",
     "placeholderCreator": "e.g. the author's name",
-    "placeholderSubject": "e.g. science fiction, jazz, astronomy..."
+    "placeholderSubject": "e.g. science fiction, jazz, astronomy...",
+    "clearRecentBtn": "Clear recent searches",
+    "statusRecentCleared": "Recent searches cleared.",
+    "tryOnArchive": "Try the same search on archive.org →"
   },
   "fr": {
     "pageTitle": "Arhiva fără frontiere — parcourez Archive.org sans compte",
@@ -678,7 +687,7 @@
     "importFavBtn": "Importer les favoris",
     "emptyStateMsg": "Saisissez un identifiant de collection, un uploader ou un auteur ci-dessus, puis cliquez sur « Rechercher ». Ou choisissez l'un des exemples ci-dessus.",
     "loadMoreBtn": "Charger plus",
-    "footerText": "Les données proviennent directement de l'API publique de l'Internet Archive (archive.org). Recherches, miniatures, lecteur et téléchargements sont des requêtes vers archive.org, qui reçoit votre adresse IP et ce que vous cherchez ; aucune requête ne va vers un autre serveur. L'application n'a pas de serveur propre et ne stocke rien dans le navigateur (les favoris ne persistent que par export). Cet outil n'est pas officiellement affilié à l'Internet Archive.",
+    "footerText": "Les données proviennent directement de l'API publique de l'Internet Archive (archive.org). Recherches, miniatures, lecteur et téléchargements sont des requêtes vers archive.org, qui reçoit votre adresse IP et ce que vous cherchez ; aucune requête ne va vers un autre serveur. L'application n'a pas de serveur propre ; favoris et recherches récentes ne sont conservés que localement dans votre navigateur (les favoris s'exportent, les recherches s'effacent). Cet outil n'est pas officiellement affilié à l'Internet Archive.",
     "statusEnterIdentifier": "Saisissez un identifiant, un uploader/auteur, ou un lien Archive.org.",
     "statusSearching": "Recherche en cours...",
     "statusNoResults": "Aucun résultat pour « {id} » ({mode}). Essayez un autre mode de recherche ou vérifiez l'identifiant.",
@@ -718,7 +727,10 @@
     "placeholderCollection": "ex. : prelinger, nasa, gutenberg...",
     "placeholderUploader": "ex. : @nom_uploader",
     "placeholderCreator": "ex. : nom de l'auteur",
-    "placeholderSubject": "ex. : science-fiction, jazz, astronomie..."
+    "placeholderSubject": "ex. : science-fiction, jazz, astronomie...",
+    "clearRecentBtn": "Effacer les recherches récentes",
+    "statusRecentCleared": "Recherches récentes effacées.",
+    "tryOnArchive": "Essayer la même recherche sur archive.org →"
   },
   "it": {
     "pageTitle": "Arhiva fără frontiere — naviga Archive.org senza account",
@@ -784,7 +796,7 @@
     "importFavBtn": "Importa preferiti",
     "emptyStateMsg": "Inserisci l'identificatore di una collezione, un uploader o un autore qui sopra, poi premi \"Cerca\". Oppure scegli uno degli esempi qui sopra.",
     "loadMoreBtn": "Carica altri",
-    "footerText": "I dati provengono direttamente dall'API pubblica dell'Internet Archive (archive.org). Ricerche, miniature, player e download sono richieste ad archive.org, che riceve il tuo indirizzo IP e ciò che cerchi; nessuna richiesta va ad altri server. L'app non ha un server proprio e non salva nulla nel browser (i preferiti persistono solo tramite esportazione). Questo strumento non è affiliato ufficialmente all'Internet Archive.",
+    "footerText": "I dati provengono direttamente dall'API pubblica dell'Internet Archive (archive.org). Ricerche, miniature, player e download sono richieste ad archive.org, che riceve il tuo indirizzo IP e ciò che cerchi; nessuna richiesta va ad altri server. L'app non ha un server proprio; preferiti e ricerche recenti restano solo in locale nel tuo browser (i preferiti si possono esportare, le ricerche cancellare). Questo strumento non è affiliato ufficialmente all'Internet Archive.",
     "statusEnterIdentifier": "Inserisci un identificatore, un uploader/autore, o un link Archive.org.",
     "statusSearching": "Ricerca in corso...",
     "statusNoResults": "Nessun risultato per \"{id}\" ({mode}). Prova un'altra modalità di ricerca o controlla l'identificatore.",
@@ -824,7 +836,10 @@
     "placeholderCollection": "es: prelinger, nasa, gutenberg...",
     "placeholderUploader": "es: @nome_uploader",
     "placeholderCreator": "es: nome dell'autore",
-    "placeholderSubject": "es: fantascienza, jazz, astronomia..."
+    "placeholderSubject": "es: fantascienza, jazz, astronomia...",
+    "clearRecentBtn": "Cancella ricerche recenti",
+    "statusRecentCleared": "Ricerche recenti cancellate.",
+    "tryOnArchive": "Prova la stessa ricerca su archive.org →"
   },
   "es": {
     "pageTitle": "Arhiva fără frontiere — explora Archive.org sin cuenta",
@@ -890,7 +905,7 @@
     "importFavBtn": "Importar favoritos",
     "emptyStateMsg": "Introduce un identificador de colección, un uploader o un autor arriba, y luego pulsa «Buscar». O elige uno de los ejemplos de arriba.",
     "loadMoreBtn": "Cargar más",
-    "footerText": "Los datos provienen directamente de la API pública de Internet Archive (archive.org). Las búsquedas, miniaturas, el reproductor y las descargas son solicitudes a archive.org, que recibe tu dirección IP y lo que buscas; ninguna solicitud va a otro servidor. La aplicación no tiene servidor propio y no guarda nada en el navegador (los favoritos solo persisten mediante exportación). Esta herramienta no está afiliada oficialmente a Internet Archive.",
+    "footerText": "Los datos provienen directamente de la API pública de Internet Archive (archive.org). Las búsquedas, miniaturas, el reproductor y las descargas son solicitudes a archive.org, que recibe tu dirección IP y lo que buscas; ninguna solicitud va a otro servidor. La aplicación no tiene servidor propio; los favoritos y las búsquedas recientes se guardan solo localmente en tu navegador (los favoritos se pueden exportar, las búsquedas borrar). Esta herramienta no está afiliada oficialmente a Internet Archive.",
     "statusEnterIdentifier": "Introduce un identificador, un uploader/autor, o un enlace de Archive.org.",
     "statusSearching": "Buscando...",
     "statusNoResults": "Sin resultados para «{id}» ({mode}). Prueba otro modo de búsqueda o revisa el identificador.",
@@ -930,7 +945,10 @@
     "placeholderCollection": "ej.: prelinger, nasa, gutenberg...",
     "placeholderUploader": "ej.: @nombre_uploader",
     "placeholderCreator": "ej.: el nombre del autor",
-    "placeholderSubject": "ej.: ciencia ficción, jazz, astronomía..."
+    "placeholderSubject": "ej.: ciencia ficción, jazz, astronomía...",
+    "clearRecentBtn": "Borrar búsquedas recientes",
+    "statusRecentCleared": "Búsquedas recientes borradas.",
+    "tryOnArchive": "Probar la misma búsqueda en archive.org →"
   },
   "pt": {
     "pageTitle": "Arhiva fără frontiere — navegue no Archive.org sem conta",
@@ -996,7 +1014,7 @@
     "importFavBtn": "Importar favoritos",
     "emptyStateMsg": "Introduza um identificador de coleção, um uploader ou um autor acima e depois prima \"Pesquisar\". Ou escolha um dos exemplos acima.",
     "loadMoreBtn": "Carregar mais",
-    "footerText": "Os dados vêm diretamente da API pública do Internet Archive (archive.org). Pesquisas, miniaturas, o leitor e as transferências são pedidos ao archive.org, que recebe o seu endereço IP e o que procura; nenhum pedido vai para outro servidor. A aplicação não tem servidor próprio e não guarda nada no navegador (os favoritos só persistem através de exportação). Esta ferramenta não é oficialmente afiliada ao Internet Archive.",
+    "footerText": "Os dados vêm diretamente da API pública do Internet Archive (archive.org). Pesquisas, miniaturas, o leitor e as transferências são pedidos ao archive.org, que recebe o seu endereço IP e o que procura; nenhum pedido vai para outro servidor. A aplicação não tem servidor próprio; os favoritos e as pesquisas recentes ficam apenas localmente no seu navegador (os favoritos podem ser exportados, as pesquisas limpas). Esta ferramenta não é oficialmente afiliada ao Internet Archive.",
     "statusEnterIdentifier": "Introduza um identificador, um uploader/autor, ou um link do Archive.org.",
     "statusSearching": "A pesquisar...",
     "statusNoResults": "Sem resultados para \"{id}\" ({mode}). Tente outro modo de pesquisa ou verifique o identificador.",
@@ -1036,7 +1054,10 @@
     "placeholderCollection": "ex.: prelinger, nasa, gutenberg...",
     "placeholderUploader": "ex.: @nome_uploader",
     "placeholderCreator": "ex.: o nome do autor",
-    "placeholderSubject": "ex.: ficção científica, jazz, astronomia..."
+    "placeholderSubject": "ex.: ficção científica, jazz, astronomia...",
+    "clearRecentBtn": "Limpar pesquisas recentes",
+    "statusRecentCleared": "Pesquisas recentes limpas.",
+    "tryOnArchive": "Tentar a mesma pesquisa no archive.org →"
   },
   "de": {
     "pageTitle": "Arhiva fără frontiere — Archive.org ohne Konto durchstöbern",
@@ -1102,7 +1123,7 @@
     "importFavBtn": "Favoriten importieren",
     "emptyStateMsg": "Gib oben eine Sammlungs-Kennung, einen Uploader oder einen Autor ein und klicke dann auf „Suchen“. Oder wähle eines der Beispiele oben.",
     "loadMoreBtn": "Mehr laden",
-    "footerText": "Die Daten stammen direkt von der öffentlichen API des Internet Archive (archive.org). Suchen, Vorschaubilder, Player und Downloads sind Anfragen an archive.org, das deine IP-Adresse und deine Suchbegriffe erhält; keine Anfrage geht an einen anderen Server. Die App hat keinen eigenen Server und speichert nichts im Browser (Favoriten bleiben nur per Export erhalten). Dieses Tool ist nicht offiziell mit dem Internet Archive verbunden.",
+    "footerText": "Die Daten stammen direkt von der öffentlichen API des Internet Archive (archive.org). Suchen, Vorschaubilder, Player und Downloads sind Anfragen an archive.org, das deine IP-Adresse und deine Suchbegriffe erhält; keine Anfrage geht an einen anderen Server. Die App hat keinen eigenen Server; Favoriten und letzte Suchen bleiben nur lokal in deinem Browser (Favoriten lassen sich exportieren, Suchen löschen). Dieses Tool ist nicht offiziell mit dem Internet Archive verbunden.",
     "statusEnterIdentifier": "Gib eine Kennung, einen Uploader/Autor oder einen Archive.org-Link ein.",
     "statusSearching": "Suche läuft...",
     "statusNoResults": "Keine Ergebnisse für „{id}“ ({mode}). Versuche einen anderen Suchmodus oder überprüfe die Kennung.",
@@ -1142,7 +1163,10 @@
     "placeholderCollection": "z. B. prelinger, nasa, gutenberg...",
     "placeholderUploader": "z. B. @uploader_name",
     "placeholderCreator": "z. B. der Name des Autors",
-    "placeholderSubject": "z. B. Science-Fiction, Jazz, Astronomie..."
+    "placeholderSubject": "z. B. Science-Fiction, Jazz, Astronomie...",
+    "clearRecentBtn": "Letzte Suchen löschen",
+    "statusRecentCleared": "Letzte Suchen gelöscht.",
+    "tryOnArchive": "Dieselbe Suche auf archive.org versuchen →"
   }
 };
   var LOCALE_MAP = { ro:'ro-RO', en:'en-US', fr:'fr-FR', it:'it-IT', es:'es-ES', pt:'pt-PT', de:'de-DE' };
@@ -1339,6 +1363,12 @@
     line.textContent = message;
     line.className = 'status-line' + (kind === 'error' ? ' status-error' : '');
   }
+  function setFallback(identifier){
+    var w = qs('#fallbackWrap');
+    if (!identifier) { w.hidden = true; return; }
+    qs('#fallbackLink').href = 'https://archive.org/search?query=' + encodeURIComponent(identifier);
+    w.hidden = false;
+  }
   function setLoadingUI(isLoading){
     qs('#searchSubmitBtn').disabled = isLoading;
     qs('#loadMoreBtn').disabled = isLoading;
@@ -1385,6 +1415,7 @@
       state.page = 1;
       state.docs = [];
       state.numFound = 0;
+      setFallback(null);
       renderResults(false);
       qs('#loadMoreWrap').hidden = true;
     } else {
@@ -1420,10 +1451,13 @@
       } else {
         setLastStatus(function(){ return t('statusResultsFound', { n: formatNumber(state.numFound), m: formatNumber(state.docs.length) }); }, 'info');
       }
+      setFallback(null);
+      if (reset && state.docs.length) rememberSearch(identifier);
       var reachedCap = (state.page * rows) >= 9990 || state.docs.length >= state.numFound;
       qs('#loadMoreWrap').hidden = reachedCap || state.docs.length === 0;
     }).catch(function(err){
       if (!reset) state.page -= 1;
+      setFallback(identifier);
       setLastStatus(function(){ return t((typeof navigator !== 'undefined' && navigator.onLine === false) ? 'statusOffline' : 'statusFetchError'); }, 'error');
       console.error(err);
     }).finally(function(){
@@ -1594,6 +1628,29 @@
 
   // ---------- favorites ----------
   var FAV_KEY = 'arhiva-ff-favorite-v1';
+  var RECENT_KEY = 'arhiva-ff-recente-v1';
+  var recent = [];
+  function loadRecent(){
+    try { var r = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); recent = Array.isArray(r) ? r.filter(function(x){ return typeof x === 'string' && x; }).map(function(x){ return x.slice(0,120); }).slice(0,8) : []; } catch(e) { recent = []; }
+    renderRecent();
+  }
+  function renderRecent(){
+    var dl = qs('#recentList'); dl.innerHTML = '';
+    recent.forEach(function(v){ var o = document.createElement('option'); o.value = v; dl.appendChild(o); });
+    qs('#clearRecentBtn').hidden = recent.length === 0;
+  }
+  function rememberSearch(v){
+    v = String(v || '').trim().slice(0,120); if (!v) return;
+    recent = [v].concat(recent.filter(function(x){ return x.toLowerCase() !== v.toLowerCase(); })).slice(0,8);
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); } catch(e) { /* doar în memorie */ }
+    renderRecent();
+  }
+  function clearRecent(){
+    recent = [];
+    try { localStorage.removeItem(RECENT_KEY); } catch(e) {}
+    renderRecent();
+    setLastStatus(function(){ return t('statusRecentCleared'); }, 'info');
+  }
   function saveFavorites(){
     try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(state.favorites.values()))); } catch(e) { /* stocare indisponibilă: favoritele rămân doar în memorie */ }
   }
@@ -1950,6 +2007,8 @@
   // ---------- init ----------
   function init(){
     loadFavorites();
+    loadRecent();
+    qs('#clearRecentBtn').addEventListener('click', clearRecent);
     updateFavoritesCount();
     qs('#searchForm').addEventListener('submit', handleSearchSubmit);
 
