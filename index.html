@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dLcci9qXxvD1EoIzYgaBla9w5mXNkEJTq9UgOqOD89w='; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-m8ZS9fAbIoDJs8/6+2tTrj9jvxK2DYC5UWgGdThALa0='; style-src 'unsafe-inline'; img-src https://archive.org https://*.archive.org data:; connect-src https://archive.org https://*.archive.org; frame-src https://archive.org https://*.archive.org; base-uri 'none'; form-action 'none'">
+<meta name="application-version" content="1.0.0">
+<meta name="last-updated" content="2026-10-12">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.">
 <title>Arhiva fără frontiere — răsfoiește Archive.org fără cont</title>
@@ -168,6 +170,7 @@
 
   .open-ia-link{display:inline-block;margin-top:1.1rem;font-weight:600;color:#7A5322;}
 
+  .appver{margin:.8rem 0 0;font-size:.78rem;}
   footer{text-align:center;color:var(--text-light-dim);font-size:.78rem;padding:2rem 1.25rem 3rem;max-width:640px;margin:0 auto;}
 
   @media (max-width:600px){
@@ -337,8 +340,9 @@
   </div>
 </div>
 
-<footer data-i18n="footerText">
-  Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu; favoritele și ultimele căutări se păstrează doar local, în browserul tău (favoritele se pot exporta, căutările se pot șterge). Acest instrument nu este afiliat oficial cu Internet Archive.
+<footer>
+<span data-i18n="footerText">  Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu; favoritele și ultimele căutări se păstrează doar local, în browserul tău (favoritele se pot exporta, căutările se pot șterge). Acest instrument nu este afiliat oficial cu Internet Archive.</span>
+<p class="appver"><span data-i18n="versionLabel">Versiune</span> <span id="app-version">v 1.0.0 · 2026-10-12</span></p>
 </footer>
 
 <svg style="display:none" aria-hidden="true">
@@ -470,6 +474,7 @@
     "emptyStateMsg": "Introdu un identificator de colecție, un uploader sau un autor mai sus, apoi apasă „Caută”. Sau alege unul dintre exemplele de mai sus.",
     "loadMoreBtn": "Încarcă mai multe",
     "footerText": "Datele provin direct din API-ul public al Internet Archive (archive.org). Căutările, miniaturile, playerul și descărcările sunt cereri către archive.org, care primește adresa ta IP și ce cauți; nicio cerere nu merge către alte servere. Aplicația nu are server propriu; favoritele și ultimele căutări se păstrează doar local, în browserul tău (favoritele se pot exporta, căutările se pot șterge). Acest instrument nu este afiliat oficial cu Internet Archive.",
+    "versionLabel": "Versiune",
     "statusEnterIdentifier": "Introdu un identificator, un uploader/autor, sau un link Archive.org.",
     "statusSearching": "Se caută...",
     "statusNoResults": "Niciun rezultat pentru „{id}” ({mode}). Încearcă alt mod de căutare sau verifică identificatorul.",
@@ -579,6 +584,7 @@
     "emptyStateMsg": "Enter a collection identifier, an uploader, or an author above, then press \"Search\". Or pick one of the examples above.",
     "loadMoreBtn": "Load more",
     "footerText": "Data comes directly from the Internet Archive's public API (archive.org). Searches, thumbnails, the player and downloads are requests to archive.org, which receives your IP address and what you look for; no request goes to any other server. The app has no server of its own; favorites and recent searches are kept only locally in your browser (favorites can be exported, searches can be cleared). This tool is not officially affiliated with the Internet Archive.",
+    "versionLabel": "Version",
     "statusEnterIdentifier": "Enter an identifier, an uploader/author, or an Archive.org link.",
     "statusSearching": "Searching...",
     "statusNoResults": "No results for \"{id}\" ({mode}). Try a different search mode or check the identifier.",
@@ -688,6 +694,7 @@
     "emptyStateMsg": "Saisissez un identifiant de collection, un uploader ou un auteur ci-dessus, puis cliquez sur « Rechercher ». Ou choisissez l'un des exemples ci-dessus.",
     "loadMoreBtn": "Charger plus",
     "footerText": "Les données proviennent directement de l'API publique de l'Internet Archive (archive.org). Recherches, miniatures, lecteur et téléchargements sont des requêtes vers archive.org, qui reçoit votre adresse IP et ce que vous cherchez ; aucune requête ne va vers un autre serveur. L'application n'a pas de serveur propre ; favoris et recherches récentes ne sont conservés que localement dans votre navigateur (les favoris s'exportent, les recherches s'effacent). Cet outil n'est pas officiellement affilié à l'Internet Archive.",
+    "versionLabel": "Version",
     "statusEnterIdentifier": "Saisissez un identifiant, un uploader/auteur, ou un lien Archive.org.",
     "statusSearching": "Recherche en cours...",
     "statusNoResults": "Aucun résultat pour « {id} » ({mode}). Essayez un autre mode de recherche ou vérifiez l'identifiant.",
@@ -797,6 +804,7 @@
     "emptyStateMsg": "Inserisci l'identificatore di una collezione, un uploader o un autore qui sopra, poi premi \"Cerca\". Oppure scegli uno degli esempi qui sopra.",
     "loadMoreBtn": "Carica altri",
     "footerText": "I dati provengono direttamente dall'API pubblica dell'Internet Archive (archive.org). Ricerche, miniature, player e download sono richieste ad archive.org, che riceve il tuo indirizzo IP e ciò che cerchi; nessuna richiesta va ad altri server. L'app non ha un server proprio; preferiti e ricerche recenti restano solo in locale nel tuo browser (i preferiti si possono esportare, le ricerche cancellare). Questo strumento non è affiliato ufficialmente all'Internet Archive.",
+    "versionLabel": "Versione",
     "statusEnterIdentifier": "Inserisci un identificatore, un uploader/autore, o un link Archive.org.",
     "statusSearching": "Ricerca in corso...",
     "statusNoResults": "Nessun risultato per \"{id}\" ({mode}). Prova un'altra modalità di ricerca o controlla l'identificatore.",
@@ -906,6 +914,7 @@
     "emptyStateMsg": "Introduce un identificador de colección, un uploader o un autor arriba, y luego pulsa «Buscar». O elige uno de los ejemplos de arriba.",
     "loadMoreBtn": "Cargar más",
     "footerText": "Los datos provienen directamente de la API pública de Internet Archive (archive.org). Las búsquedas, miniaturas, el reproductor y las descargas son solicitudes a archive.org, que recibe tu dirección IP y lo que buscas; ninguna solicitud va a otro servidor. La aplicación no tiene servidor propio; los favoritos y las búsquedas recientes se guardan solo localmente en tu navegador (los favoritos se pueden exportar, las búsquedas borrar). Esta herramienta no está afiliada oficialmente a Internet Archive.",
+    "versionLabel": "Versión",
     "statusEnterIdentifier": "Introduce un identificador, un uploader/autor, o un enlace de Archive.org.",
     "statusSearching": "Buscando...",
     "statusNoResults": "Sin resultados para «{id}» ({mode}). Prueba otro modo de búsqueda o revisa el identificador.",
@@ -1015,6 +1024,7 @@
     "emptyStateMsg": "Introduza um identificador de coleção, um uploader ou um autor acima e depois prima \"Pesquisar\". Ou escolha um dos exemplos acima.",
     "loadMoreBtn": "Carregar mais",
     "footerText": "Os dados vêm diretamente da API pública do Internet Archive (archive.org). Pesquisas, miniaturas, o leitor e as transferências são pedidos ao archive.org, que recebe o seu endereço IP e o que procura; nenhum pedido vai para outro servidor. A aplicação não tem servidor próprio; os favoritos e as pesquisas recentes ficam apenas localmente no seu navegador (os favoritos podem ser exportados, as pesquisas limpas). Esta ferramenta não é oficialmente afiliada ao Internet Archive.",
+    "versionLabel": "Versão",
     "statusEnterIdentifier": "Introduza um identificador, um uploader/autor, ou um link do Archive.org.",
     "statusSearching": "A pesquisar...",
     "statusNoResults": "Sem resultados para \"{id}\" ({mode}). Tente outro modo de pesquisa ou verifique o identificador.",
@@ -1124,6 +1134,7 @@
     "emptyStateMsg": "Gib oben eine Sammlungs-Kennung, einen Uploader oder einen Autor ein und klicke dann auf „Suchen“. Oder wähle eines der Beispiele oben.",
     "loadMoreBtn": "Mehr laden",
     "footerText": "Die Daten stammen direkt von der öffentlichen API des Internet Archive (archive.org). Suchen, Vorschaubilder, Player und Downloads sind Anfragen an archive.org, das deine IP-Adresse und deine Suchbegriffe erhält; keine Anfrage geht an einen anderen Server. Die App hat keinen eigenen Server; Favoriten und letzte Suchen bleiben nur lokal in deinem Browser (Favoriten lassen sich exportieren, Suchen löschen). Dieses Tool ist nicht offiziell mit dem Internet Archive verbunden.",
+    "versionLabel": "Version",
     "statusEnterIdentifier": "Gib eine Kennung, einen Uploader/Autor oder einen Archive.org-Link ein.",
     "statusSearching": "Suche läuft...",
     "statusNoResults": "Keine Ergebnisse für „{id}“ ({mode}). Versuche einen anderen Suchmodus oder überprüfe die Kennung.",

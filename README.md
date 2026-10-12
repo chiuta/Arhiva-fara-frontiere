@@ -6,7 +6,7 @@ Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încăr
 
 ![Captura de ecran](screenshot.png)
 
-**Ultima actualizare:** 11 octombrie 2026
+**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
 
 *(Captura folosește date de exemplu simulate local, nu rezultate reale de pe archive.org.)*
 
@@ -60,6 +60,9 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 Licența nu este încă declarată.
 
 ## Istoric / Changelog
+
+### 1.0.0 — 2026-10-12
+- Versiunea și data ultimei actualizări sunt afișate în aplicație (subsol, în 7 limbi).
 
 ### 11 octombrie 2026 (runda 7)
 - Reparat: textul din subsol (7 limbi) spunea că aplicația nu salvează nimic în browser, deși favoritele sunt păstrate în `localStorage`.
