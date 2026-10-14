@@ -1,0 +1,37 @@
+{
+  "name": "Arhiva fără frontiere",
+  "short_name": "Arhiva",
+  "description": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "lang": "ro",
+  "background_color": "#10161a",
+  "theme_color": "#10161a",
+  "categories": [
+    "entertainment",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "x_fff_pwa": 1
+}

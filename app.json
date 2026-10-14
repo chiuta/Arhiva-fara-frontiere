@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "slug": "arhiva-fara-frontiere",
+  "name": "Arhiva fără frontiere — răsfoiește Archive.org fără cont",
+  "version": "1.1.0",
+  "updated": "2026-10-14",
+  "description": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.",
+  "egress": [
+    {
+      "host": "*.archive.org",
+      "via": [
+        "csp:connect-src",
+        "csp:frame-src",
+        "csp:img-src"
+      ]
+    },
+    {
+      "host": "archive.org",
+      "via": [
+        "csp:connect-src",
+        "csp:frame-src",
+        "csp:img-src"
+      ]
+    }
+  ],
+  "permissions": [
+    "serviceWorker",
+    "localStorage"
+  ],
+  "storageKeys": [],
+  "sizeBytes": 197193,
+  "sha256": "947821532a33162d2716b39faf51abc66bf79c4b8f77f628cd34e506d5246f6a",
+  "csp": {
+    "present": true,
+    "directives": {
+      "default-src": "'none'",
+      "script-src": "sha256×3",
+      "style-src": "'unsafe-inline'",
+      "img-src": "'self' https://archive.org https://*.archive.org data:",
+      "connect-src": "https://archive.org https://*.archive.org",
+      "frame-src": "https://archive.org https://*.archive.org",
+      "base-uri": "'none'",
+      "form-action": "'none'",
+      "manifest-src": "'self'",
+      "worker-src": "'self'"
+    },
+    "scriptInline": "hash",
+    "connect": "https://archive.org https://*.archive.org"
+  },
+  "features": {
+    "export": true,
+    "import": true,
+    "i18n": [
+      "ro",
+      "en",
+      "fr",
+      "it",
+      "es",
+      "pt",
+      "de"
+    ],
+    "pwa": {
+      "manifest": true,
+      "serviceWorker": true
+    },
+    "modules": [
+      "core",
+      "label",
+      "bundle"
+    ]
+  },
+  "kit": {
+    "version": "1.0.0",
+    "modules": [
+      "core",
+      "label",
+      "bundle"
+    ]
+  },
+  "selfSerializing": false
+}

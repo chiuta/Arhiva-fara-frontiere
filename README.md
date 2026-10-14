@@ -6,7 +6,7 @@ Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încăr
 
 ![Captura de ecran](screenshot.png)
 
-**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
+**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
 
 *(Captura folosește date de exemplu simulate local, nu rezultate reale de pe archive.org.)*
 
@@ -60,6 +60,9 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 Licența nu este încă declarată.
 
 ## Istoric / Changelog
+
+### 1.1.0 — 2026-10-14
+- Copie de rezervă și etichetare date (fff-kit).
 
 ### 1.0.0 — 2026-10-12
 - Versiunea și data ultimei actualizări sunt afișate în aplicație (subsol, în 7 limbi).
