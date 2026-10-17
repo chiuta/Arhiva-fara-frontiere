@@ -57,7 +57,7 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 
 ## Licență
 
-Licența nu este încă declarată.
+MIT — vezi fișierul [LICENSE](LICENSE).
 
 ## Istoric / Changelog
 
@@ -86,4 +86,4 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf
 
 ## English summary
 
-A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License not yet declared.
+A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License: MIT (see LICENSE).
