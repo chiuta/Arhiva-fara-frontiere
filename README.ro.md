@@ -10,7 +10,7 @@ Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încăr
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Captura de ecran](screenshot.png)
+![Captura de ecran](screenshot.ro.png)
 
 *(Captura folosește date de exemplu simulate local, nu rezultate reale de pe archive.org.)*
 

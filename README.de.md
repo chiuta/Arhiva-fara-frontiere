@@ -10,7 +10,7 @@ Eine einzige HTML-Datei zum Suchen und Durchstöbern von Sammlungen, Autoren und
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.de.png)
 
 *(Der Screenshot verwendet lokal simulierte Beispieldaten, keine echten Ergebnisse von archive.org.)*
 

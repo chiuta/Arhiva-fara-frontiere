@@ -10,7 +10,7 @@ Egyetlen HTML-fájl az Internet Archive (archive.org) gyűjteményeinek, szerző
 
 **Élő verzió:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Képernyőkép](screenshot.png)
+![Képernyőkép](screenshot.hu.png)
 
 *(A képernyőkép helyben szimulált mintaadatokat használ, nem az archive.org valódi találatait.)*
 

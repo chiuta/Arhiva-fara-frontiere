@@ -10,7 +10,7 @@ Un solo archivo HTML para buscar y explorar colecciones, autores y subidas públ
 
 **En línea:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Captura de pantalla](screenshot.png)
+![Captura de pantalla](screenshot.es.png)
 
 *(La captura usa datos de ejemplo simulados localmente, no resultados reales de archive.org.)*
 

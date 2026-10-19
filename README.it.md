@@ -10,7 +10,7 @@ Un unico file HTML per cercare e sfogliare collezioni, autori e caricamenti pubb
 
 **Online:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Schermata](screenshot.png)
+![Schermata](screenshot.it.png)
 
 *(La schermata usa dati di esempio simulati in locale, non risultati reali di archive.org.)*
 

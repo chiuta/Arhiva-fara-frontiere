@@ -10,7 +10,7 @@ A single HTML file for searching and browsing collections, authors and public up
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.en.png)
 
 *(The screenshot uses sample data simulated locally, not real results from archive.org.)*
 
