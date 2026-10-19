@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.1.0 · **Última atualização:** 2026-10-14
+**Versão:** 1.2.0 · **Última atualização:** 2026-10-19
 
-Um único ficheiro HTML para pesquisar e explorar coleções, autores e carregamentos públicos do Internet Archive (archive.org), em 7 idiomas.
+Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Um único ficheiro HTML para pesquisar e explorar coleções, autores e carregamentos públicos do Internet Archive (archive.org), em 8 idiomas.
 
 **Online:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Verificadas no código:
 - Em caso de erro de rede, surge uma ligação «Tentar a mesma pesquisa no archive.org →» para a pesquisa oficial.
 - Mensagem clara quando está offline (sem pedidos de rede inúteis); os favoritos continuam consultáveis.
 - Atalho: `/` move o foco para o campo de pesquisa.
-- Interface em romeno, inglês, francês, italiano, espanhol, português e alemão (`?lang=xx` ou o idioma do navegador).
+- Interface em romeno, inglês, francês, italiano, espanhol, português, alemão e húngaro (`?lang=xx` ou o idioma do navegador).
 - Teclado: fichas com foco (Enter/Espaço), Esc fecha a janela, foco preso na janela.
 
 ## Manual de utilização
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, contacto: alexio@trom.tf
 
 ## Resumo
 
-Um explorador não oficial, num único ficheiro, para as APIs públicas de pesquisa e metadados do Internet Archive (interface em 7 idiomas): pesquisa por coleção, uploader, criador ou assunto, filtros, pré-visualização dos itens num leitor incorporado, exportação dos favoritos em JSON. Contacta apenas o archive.org (que vê o seu IP e as suas consultas); guarda localmente apenas a lista de favoritos (localStorage) e não tem análise de utilização. Não é uma ferramenta de pesquisa em arquivos da web (Wayback). Licença: MIT (consulte LICENSE).
+Um explorador não oficial, num único ficheiro, para as APIs públicas de pesquisa e metadados do Internet Archive (interface em 8 idiomas): pesquisa por coleção, uploader, criador ou assunto, filtros, pré-visualização dos itens num leitor incorporado, exportação dos favoritos em JSON. Contacta apenas o archive.org (que vê o seu IP e as suas consultas); guarda localmente apenas a lista de favoritos (localStorage) e não tem análise de utilização. Não é uma ferramenta de pesquisa em arquivos da web (Wayback). Licença: MIT (consulte LICENSE).

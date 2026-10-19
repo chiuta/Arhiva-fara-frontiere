@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.1.0 · **Dernière mise à jour :** 2026-10-14
+**Version :** 1.2.0 · **Dernière mise à jour :** 2026-10-19
 
-Un seul fichier HTML pour rechercher et parcourir des collections, des auteurs et des dépôts publics de l'Internet Archive (archive.org), en 7 langues.
+Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Un seul fichier HTML pour rechercher et parcourir des collections, des auteurs et des dépôts publics de l'Internet Archive (archive.org), en 8 langues.
 
 **En ligne :** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Vérifiées dans le code :
 - En cas d'erreur réseau, un lien « Essayer la même recherche sur archive.org → » vers la recherche officielle apparaît.
 - Message clair lorsque vous êtes hors ligne (sans requête réseau inutile) ; les favoris restent consultables.
 - Raccourci : `/` place le focus dans le champ de recherche.
-- Interface en roumain, anglais, français, italien, espagnol, portugais, allemand (`?lang=xx` ou langue du navigateur).
+- Interface en roumain, anglais, français, italien, espagnol, portugais, allemand, hongrois (`?lang=xx` ou langue du navigateur).
 - Clavier : cartes focalisables (Entrée/Espace), Échap ferme la fenêtre, focus piégé dans la fenêtre.
 
 ## Mode d'emploi
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, contact : alexio@trom.tf
 
 ## Résumé
 
-Un navigateur non officiel, en un seul fichier, pour les API publiques de recherche et de métadonnées de l'Internet Archive (interface en 7 langues) : recherche par collection, déposant, créateur ou sujet, filtres, aperçu des documents dans un lecteur intégré, export des favoris en JSON. Il ne contacte qu'archive.org (qui voit votre IP et vos requêtes) ; il ne stocke localement que votre liste de favoris (localStorage) et n'a aucun outil d'analyse. Ce n'est pas un outil de recherche dans les archives du web (Wayback). Licence : MIT (voir LICENSE).
+Un navigateur non officiel, en un seul fichier, pour les API publiques de recherche et de métadonnées de l'Internet Archive (interface en 8 langues) : recherche par collection, déposant, créateur ou sujet, filtres, aperçu des documents dans un lecteur intégré, export des favoris en JSON. Il ne contacte qu'archive.org (qui voit votre IP et vos requêtes) ; il ne stocke localement que votre liste de favoris (localStorage) et n'a aucun outil d'analyse. Ce n'est pas un outil de recherche dans les archives du web (Wayback). Licence : MIT (voir LICENSE).

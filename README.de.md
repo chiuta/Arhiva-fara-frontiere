@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.1.0 · **Zuletzt aktualisiert:** 2026-10-14
+**Version:** 1.2.0 · **Zuletzt aktualisiert:** 2026-10-19
 
-Eine einzige HTML-Datei zum Suchen und Durchstöbern von Sammlungen, Autoren und öffentlichen Uploads des Internet Archive (archive.org), in 7 Sprachen.
+Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Eine einzige HTML-Datei zum Suchen und Durchstöbern von Sammlungen, Autoren und öffentlichen Uploads des Internet Archive (archive.org), in 8 Sprachen.
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Im Code überprüft:
 - Bei einem Netzwerkfehler erscheint ein Link „Dieselbe Suche auf archive.org versuchen →“ zur offiziellen Suche.
 - Klare Meldung, wenn du offline bist (ohne unnötige Netzwerkanfrage); die Favoriten bleiben einsehbar.
 - Kürzel: `/` setzt den Fokus in das Suchfeld.
-- Oberfläche auf Rumänisch, Englisch, Französisch, Italienisch, Spanisch, Portugiesisch, Deutsch (`?lang=xx` oder Browsersprache).
+- Oberfläche auf Rumänisch, Englisch, Französisch, Italienisch, Spanisch, Portugiesisch, Deutsch, Ungarisch (`?lang=xx` oder Browsersprache).
 - Tastatur: fokussierbare Karten (Eingabe/Leertaste), Esc schließt das Fenster, Fokus bleibt im Fenster gefangen.
 
 ## Anleitung
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, Kontakt: alexio@trom.tf
 
 ## Zusammenfassung
 
-Ein inoffizieller Einzeldatei-Browser für die öffentlichen Such- und Metadaten-APIs des Internet Archive (Oberfläche in 7 Sprachen): Suche nach Sammlung, Uploader, Urheber oder Thema, Filter, Vorschau der Objekte in einem eingebetteten Player, Export der Favoriten als JSON. Er kontaktiert nur archive.org (das deine IP und deine Anfragen sieht); er speichert lokal nur deine Favoritenliste (localStorage) und hat keine Analytik. Er ist kein Werkzeug zur Suche in Webarchiven (Wayback). Lizenz: MIT (siehe LICENSE).
+Ein inoffizieller Einzeldatei-Browser für die öffentlichen Such- und Metadaten-APIs des Internet Archive (Oberfläche in 8 Sprachen): Suche nach Sammlung, Uploader, Urheber oder Thema, Filter, Vorschau der Objekte in einem eingebetteten Player, Export der Favoriten als JSON. Er kontaktiert nur archive.org (das deine IP und deine Anfragen sieht); er speichert lokal nur deine Favoritenliste (localStorage) und hat keine Analytik. Er ist kein Werkzeug zur Suche in Webarchiven (Wayback). Lizenz: MIT (siehe LICENSE).

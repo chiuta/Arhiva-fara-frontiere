@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.1.0 · **Utolsó frissítés:** 2026-10-14
+**Verzió:** 1.2.0 · **Utolsó frissítés:** 2026-10-19
 
-Egyetlen HTML-fájl az Internet Archive (archive.org) gyűjteményeinek, szerzőinek és nyilvános feltöltéseinek kereséséhez és böngészéséhez, 7 nyelven.
+A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Egyetlen HTML-fájl az Internet Archive (archive.org) gyűjteményeinek, szerzőinek és nyilvános feltöltéseinek kereséséhez és böngészéséhez, 8 nyelven.
 
 **Élő verzió:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ A kódban ellenőrizve:
 - Hálózati hiba esetén megjelenik a „Ugyanez a keresés az archive.org-on →” hivatkozás a hivatalos keresőre.
 - Egyértelmű üzenet, ha offline vagy (felesleges hálózati kérés nélkül); a kedvencek továbbra is megtekinthetők.
 - Gyorsbillentyű: a `/` a keresőmezőre viszi a fókuszt.
-- Felület románul, angolul, franciául, olaszul, spanyolul, portugálul, németül (`?lang=xx` vagy a böngésző nyelve).
+- Felület románul, angolul, franciául, olaszul, spanyolul, portugálul, németül, magyarul (`?lang=xx` vagy a böngésző nyelve).
 - Billentyűzet: fókuszálható kártyák (Enter/Szóköz), az Esc bezárja az ablakot, a fókusz az ablakban marad.
 
 ## Használati útmutató
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, elérhetőség: alexio@trom.tf
 
 ## Összefoglaló
 
-Nem hivatalos, egyfájlos böngésző az Internet Archive nyilvános kereső- és metaadat-API-jaihoz (7 felületi nyelv): keresés gyűjtemény, feltöltő, alkotó vagy téma szerint, szűrők, az elemek előnézete beágyazott lejátszóban, a kedvencek exportálása JSON-ként. Csak az archive.org-gal létesít kapcsolatot (amely látja az IP-címedet és a lekérdezéseidet); helyben csak a kedvencek listáját tárolja (localStorage), és nincs analitikája. Nem webarchívumokban (Wayback) kereső eszköz. Licenc: MIT (lásd LICENSE).
+Nem hivatalos, egyfájlos böngésző az Internet Archive nyilvános kereső- és metaadat-API-jaihoz (8 felületi nyelv): keresés gyűjtemény, feltöltő, alkotó vagy téma szerint, szűrők, az elemek előnézete beágyazott lejátszóban, a kedvencek exportálása JSON-ként. Csak az archive.org-gal létesít kapcsolatot (amely látja az IP-címedet és a lekérdezéseidet); helyben csak a kedvencek listáját tárolja (localStorage), és nincs analitikája. Nem webarchívumokban (Wayback) kereső eszköz. Licenc: MIT (lásd LICENSE).

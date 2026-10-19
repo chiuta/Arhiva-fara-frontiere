@@ -2,9 +2,11 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.1.0 · **Last updated:** 2026-10-14
+**Version:** 1.2.0 · **Last updated:** 2026-10-19
 
-A single HTML file for searching and browsing collections, authors and public uploads on the Internet Archive (archive.org), in 7 languages.
+Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+A single HTML file for searching and browsing collections, authors and public uploads on the Internet Archive (archive.org), in 8 languages.
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Verified in the code:
 - On a network error, a "Try the same search on archive.org →" link to the official search appears.
 - A clear message when you are offline (no pointless network request); favorites remain available.
 - Shortcut: `/` moves the focus to the search box.
-- Interface in Romanian, English, French, Italian, Spanish, Portuguese, German (`?lang=xx` or the browser language).
+- Interface in Romanian, English, French, Italian, Spanish, Portuguese, German, Hungarian (`?lang=xx` or the browser language).
 - Keyboard: focusable cards (Enter/Space), Esc closes the window, focus is trapped in the window.
 
 ## User guide
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf
 
 ## Summary
 
-A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License: MIT (see LICENSE).
+A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (8 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License: MIT (see LICENSE).

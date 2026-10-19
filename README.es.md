@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.1.0 · **Última actualización:** 2026-10-14
+**Versión:** 1.2.0 · **Última actualización:** 2026-10-19
 
-Un solo archivo HTML para buscar y explorar colecciones, autores y subidas públicas de Internet Archive (archive.org), en 7 idiomas.
+Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Un solo archivo HTML para buscar y explorar colecciones, autores y subidas públicas de Internet Archive (archive.org), en 8 idiomas.
 
 **En línea:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Verificadas en el código:
 - Ante un error de red aparece un enlace «Probar la misma búsqueda en archive.org →» a la búsqueda oficial.
 - Mensaje claro cuando estás sin conexión (sin peticiones de red inútiles); los favoritos siguen consultables.
 - Atajo: `/` lleva el foco al campo de búsqueda.
-- Interfaz en rumano, inglés, francés, italiano, español, portugués y alemán (`?lang=xx` o el idioma del navegador).
+- Interfaz en rumano, inglés, francés, italiano, español, portugués, alemán y húngaro (`?lang=xx` o el idioma del navegador).
 - Teclado: fichas enfocables (Intro/Espacio), Esc cierra la ventana, foco atrapado en la ventana.
 
 ## Manual de uso
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, contacto: alexio@trom.tf
 
 ## Resumen
 
-Un explorador no oficial, en un solo archivo, para las API públicas de búsqueda y metadatos de Internet Archive (interfaz en 7 idiomas): búsqueda por colección, uploader, creador o tema, filtros, vista previa de los elementos en un reproductor incrustado, exportación de favoritos como JSON. Solo contacta con archive.org (que ve tu IP y tus consultas); solo almacena localmente tu lista de favoritos (localStorage) y no tiene analítica. No es una herramienta de búsqueda en archivos web (Wayback). Licencia: MIT (consulta LICENSE).
+Un explorador no oficial, en un solo archivo, para las API públicas de búsqueda y metadatos de Internet Archive (interfaz en 8 idiomas): búsqueda por colección, uploader, creador o tema, filtros, vista previa de los elementos en un reproductor incrustado, exportación de favoritos como JSON. Solo contacta con archive.org (que ve tu IP y tus consultas); solo almacena localmente tu lista de favoritos (localStorage) y no tiene analítica. No es una herramienta de búsqueda en archivos web (Wayback). Licencia: MIT (consulta LICENSE).

@@ -2,9 +2,11 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.1.0 · **Ultimo aggiornamento:** 2026-10-14
+**Versione:** 1.2.0 · **Ultimo aggiornamento:** 2026-10-19
 
-Un unico file HTML per cercare e sfogliare collezioni, autori e caricamenti pubblici su Internet Archive (archive.org), in 7 lingue.
+Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+Un unico file HTML per cercare e sfogliare collezioni, autori e caricamenti pubblici su Internet Archive (archive.org), in 8 lingue.
 
 **Online:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
@@ -28,7 +30,7 @@ Verificate nel codice:
 - In caso di errore di rete compare un link «Prova la stessa ricerca su archive.org →» alla ricerca ufficiale.
 - Messaggio chiaro quando sei offline (senza richieste di rete inutili); i preferiti restano consultabili.
 - Scorciatoia: `/` sposta il focus nel campo di ricerca.
-- Interfaccia in romeno, inglese, francese, italiano, spagnolo, portoghese, tedesco (`?lang=xx` o lingua del browser).
+- Interfaccia in romeno, inglese, francese, italiano, spagnolo, portoghese, tedesco, ungherese (`?lang=xx` o lingua del browser).
 - Tastiera: schede attivabili con il focus (Invio/Spazio), Esc chiude la finestra, focus intrappolato nella finestra.
 
 ## Guida all'uso
@@ -88,4 +90,4 @@ Alexio — Alexandru-Ionuț Chiuță, contatto: alexio@trom.tf
 
 ## Riepilogo
 
-Un browser non ufficiale, in un unico file, per le API pubbliche di ricerca e metadati di Internet Archive (interfaccia in 7 lingue): ricerca per collezione, uploader, creatore o argomento, filtri, anteprima degli elementi in un player incorporato, esportazione dei preferiti in JSON. Contatta solo archive.org (che vede il tuo IP e le tue query); memorizza in locale soltanto l'elenco dei preferiti (localStorage) e non ha statistiche. Non è uno strumento di ricerca negli archivi web (Wayback). Licenza: MIT (vedi LICENSE).
+Un browser non ufficiale, in un unico file, per le API pubbliche di ricerca e metadati di Internet Archive (interfaccia in 8 lingue): ricerca per collezione, uploader, creatore o argomento, filtri, anteprima degli elementi in un player incorporato, esportazione dei preferiti in JSON. Contatta solo archive.org (che vede il tuo IP e le tue query); memorizza in locale soltanto l'elenco dei preferiti (localStorage) e non ha statistiche. Non è uno strumento di ricerca negli archivi web (Wayback). Licenza: MIT (vedi LICENSE).
