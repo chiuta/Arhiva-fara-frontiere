@@ -88,6 +88,6 @@ MIT — vezi fișierul [LICENSE](LICENSE).
 
 Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf
 
-## English summary
+## Rezumat
 
-A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (8 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License: MIT (see LICENSE).
+Un navigator neoficial într-un singur fișier pentru API-urile publice de căutare și metadate ale Internet Archive (interfață în 8 limbi): căutare după colecție, încărcător, creator sau subiect, filtrare, previzualizarea elementelor într-un player încorporat, export al favoritelor ca JSON. Contactează doar archive.org (care vede adresa ta IP și interogările); stochează local doar lista de favorite (localStorage) și nu are analitice. Nu este un instrument de căutare în arhive web (Wayback). Licență: MIT (vezi LICENSE).
