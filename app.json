@@ -27,9 +27,12 @@
     "serviceWorker",
     "localStorage"
   ],
-  "storageKeys": [],
-  "sizeBytes": 198794,
-  "sha256": "057b7e6ce074e640034fac42c80854ce21fdfac05b0c2b52b9655a21ad3c8fab",
+  "storageKeys": [
+    "arhiva-ff-favorite-v1",
+    "arhiva-ff-recente-v1"
+  ],
+  "sizeBytes": 199476,
+  "sha256": "65c8cc4e0ceafa24bd76455208a1cc471b52cee9a3706c58aa1202c397c78cf9",
   "csp": {
     "present": true,
     "directives": {
@@ -70,7 +73,7 @@
     ]
   },
   "kit": {
-    "version": "1.0.0",
+    "version": "1.1.1",
     "modules": [
       "core",
       "label",
