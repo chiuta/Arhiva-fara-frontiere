@@ -1,89 +1,91 @@
-# Arhiva fără frontiere — răsfoitor Internet Archive
+# Arhiva fără frontiere — Internet Archive browser
 
-Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încărcări publice de pe Internet Archive (archive.org), în 7 limbi.
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
+
+**Version:** 1.1.0 · **Last updated:** 2026-10-14
+
+A single HTML file for searching and browsing collections, authors and public uploads on the Internet Archive (archive.org), in 7 languages.
 
 **Live:** https://chiuta.github.io/Arhiva-fara-frontiere/
 
-![Captura de ecran](screenshot.png)
+![Screenshot](screenshot.png)
 
-**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
+*(The screenshot uses sample data simulated locally, not real results from archive.org.)*
 
-*(Captura folosește date de exemplu simulate local, nu rezultate reale de pe archive.org.)*
+## What it is
 
-## Ce este
+An unofficial web client for the Internet Archive's public API: you type a collection, an uploader, an author or a subject (or paste an `archive.org/details/...` link) and see the results as cards, with an in-app preview where possible. It is not affiliated with the Internet Archive. It is not a tool for searching web archives (Wayback Machine, Arquivo.pt, etc.): it only queries `advancedsearch.php` and `metadata` on archive.org.
 
-Un client web neoficial pentru API-ul public al Internet Archive: scrii o colecție, un uploader, un autor sau un subiect (sau lipești un link `archive.org/details/...`) și vezi rezultatele ca fișe, cu previzualizare în aplicație unde este posibil. Nu este afiliat cu Internet Archive. Nu este un instrument de căutare în arhive web (Wayback Machine, Arquivo.pt etc.): interoghează doar `advancedsearch.php` și `metadata` de pe archive.org.
+## Features
 
-## Funcții
+Verified in the code:
+- Search by collection, uploader, author, subject or "Auto" (collection OR uploader OR author); the `@` prefix and `archive.org/details|metadata|download|embed/...` links are recognized.
+- Filters: content type (video, audio, texts, images, software, etree, data, web archives, collections), sorting (including random), 24/48/96 results per page, language, year range; "Load more" (cap of ~10,000 results).
+- Detail card: description (converted to plain text), subjects, parent collections, the first 25 files with a download link, an "Open on archive.org" link.
+- Framed preview (iframe `archive.org/embed/...`) for video, audio, texts, software, etree; the largest image for the "images" type.
+- Favorites saved locally in the browser (localStorage, key `arhiva-ff-favorite-v1`), with JSON export/import.
+- The last 8 successful searches are suggested in the search box (locally, in the browser; "Clear recent searches" button).
+- On a network error, a "Try the same search on archive.org →" link to the official search appears.
+- A clear message when you are offline (no pointless network request); favorites remain available.
+- Shortcut: `/` moves the focus to the search box.
+- Interface in Romanian, English, French, Italian, Spanish, Portuguese, German (`?lang=xx` or the browser language).
+- Keyboard: focusable cards (Enter/Space), Esc closes the window, focus is trapped in the window.
 
-Verificate în cod:
-- Căutare după colecție, uploader, autor, subiect sau „Auto" (colecție OR uploader OR autor); prefixul `@` și linkurile `archive.org/details|metadata|download|embed/...` sunt recunoscute.
-- Filtre: tip de conținut (video, audio, texte, imagini, software, etree, date, arhive web, colecții), sortare (inclusiv aleatoriu), 24/48/96 rezultate pe pagină, limbă, interval de ani; „Încarcă mai multe" (plafon ~10 000 rezultate).
-- Fișă detaliu: descriere (convertită în text simplu), subiecte, colecții părinte, primele 25 de fișiere cu link de descărcare, link „Deschide pe archive.org".
-- Previzualizare în cadru (iframe `archive.org/embed/...`) pentru video, audio, texte, software, etree; imaginea cea mai mare pentru tipul „imagini".
-- Favorite salvate local în browser (localStorage, cheia `arhiva-ff-favorite-v1`), cu export/import JSON.
-- Ultimele 8 căutări reușite sunt sugerate în câmpul de căutare (local, în browser; buton „Șterge căutările recente”).
-- La eroare de rețea apare un link „Încearcă aceeași căutare pe archive.org →” către căutarea oficială.
-- Mesaj clar când ești offline (fără cerere inutilă către rețea); favoritele rămân consultabile.
-- Scurtătură: `/` mută focusul în câmpul de căutare.
-- Interfață în română, engleză, franceză, italiană, spaniolă, portugheză, germană (`?lang=xx` sau limba browserului).
-- Tastatură: carduri focalizabile (Enter/Spațiu), Esc închide fereastra, focus captiv în fereastră.
+## User guide
 
-## Manual de utilizare
+1. Type a collection (e.g. `prelinger`), an `@uploader`, an author into the search box, or paste an archive.org link.
+2. Choose the mode (Auto / Collection / Uploader / Author / Subject) and, optionally, the filters.
+3. Press "Search"; press "Load more" for the next page.
+4. Press a card for details and preview; Esc closes the window.
+5. Mark favorites with ☆; "Export favorites" saves them to a JSON file, "Import favorites" reloads them.
 
-1. Scrie în câmpul de căutare o colecție (ex. `prelinger`), un `@uploader`, un autor sau lipește un link archive.org.
-2. Alege modul (Auto / Colecție / Uploader / Autor / Subiect) și, opțional, filtrele.
-3. Apasă „Caută"; apasă „Încarcă mai multe" pentru pagina următoare.
-4. Apasă o fișă pentru detalii și previzualizare; Esc închide fereastra.
-5. Marchează cu ☆ favoritele; „Exportă favorite" le salvează într-un fișier JSON, „Importă favorite" le reîncarcă.
+## Privacy and network
 
-## Confidențialitate și rețea
+- The only external host contacted: `archive.org` (and its subdomains, through redirects). Searches, metadata, thumbnails, images, the framed player and downloads are direct requests to the Internet Archive: they receive your IP address, your browser, what you search for and what you open, and may set cookies within the player. The app has no server of its own, no analytics and no account, but "no tracking" cannot be guaranteed on the Internet Archive's side; see their privacy policy.
+- Local storage: the favorites list (minimal metadata: identifier, title, type, author, date; key `arhiva-ff-favorite-v1`) and the last 8 searches (key `arhiva-ff-recente-v1`) in `localStorage`, on your device; nothing is sent anywhere. You delete them by emptying the favorites, with the "Clear recent searches" button, or from the site data. If storage is blocked, favorites stay in memory only.
+- Browser permissions: it requests none.
+- Security: texts received from archive.org are displayed as text (not HTML); descriptions are converted with `DOMParser`; the CSP policy restricts the network to archive.org and allows the script only by hash (without `unsafe-inline` for scripts); the preview frame has `sandbox`. The favorites import is validated.
 
-- Singura gazdă externă contactată: `archive.org` (și subdomeniile sale, prin redirecționări). Căutările, metadatele, miniaturile, imaginile, playerul din cadru și descărcările sunt cereri directe către Internet Archive: ei primesc adresa ta IP, browserul, ce cauți și ce deschizi, și pot seta cookie-uri în cadrul playerului. Aplicația nu are server propriu, analitice sau cont, dar „fără urmărire" nu poate fi garantat de partea Internet Archive; vezi politica lor de confidențialitate.
-- Stocare locală: lista de favorite (metadate minime: identificator, titlu, tip, autor, dată; cheia `arhiva-ff-favorite-v1`) și ultimele 8 căutări (cheia `arhiva-ff-recente-v1`) în `localStorage`, pe dispozitivul tău; nu se trimit nicăieri. Le ștergi golind favoritele, cu butonul „Șterge căutările recente” sau din datele site-ului. Dacă stocarea e blocată, favoritele rămân doar în memorie.
-- Permisiuni de browser: nu cere niciuna.
-- Securitate: textele primite de la archive.org sunt afișate ca text (nu HTML); descrierile sunt convertite cu `DOMParser`; politica CSP limitează rețeaua la archive.org și permite scriptul doar pe bază de hash (fără `unsafe-inline` pentru script); cadrul de previzualizare are `sandbox`. Importul de favorite este validat.
+## Limits and warnings
 
-## Limite și avertismente
+- The content belongs to the Internet Archive and to those who uploaded it; copyright belongs to the rights holders. Check the legal status of each item before reusing it.
+- If archive.org is unavailable or rate-limits requests, the app shows an error message (requests time out after 20 seconds).
+- The framed preview depends on the Internet Archive player and may be blocked by the browser or by cookie settings; it has not been tested in this repository with a real network.
+- The API cap limits the search to roughly the first 10,000 results.
 
-- Conținutul aparține Internet Archive și celor care l-au încărcat; drepturile de autor sunt ale titularilor. Verifică statutul juridic al fiecărui material înainte de reutilizare.
-- Dacă archive.org este indisponibil sau limitează cererile, aplicația arată un mesaj de eroare (cererile expiră după 20 de secunde).
-- Previzualizarea în cadru depinde de playerul Internet Archive și poate fi blocată de browser sau de setările de cookie-uri; nu a fost testată în acest repository cu rețea reală.
-- Plafonul API-ului limitează căutarea la aproximativ primele 10 000 de rezultate.
+## Local / offline use
 
-## Rulare locală / offline
+Download `index.html` and open it in a browser. It does not work without internet (all the data comes from archive.org).
 
-Descarcă `index.html` și deschide-l în browser. Nu funcționează fără internet (toate datele vin de la archive.org).
+## License
 
-## Licență
+MIT — see the [LICENSE](LICENSE) file.
 
-MIT — vezi fișierul [LICENSE](LICENSE).
-
-## Istoric / Changelog
+## History / Changelog
 
 ### 1.1.0 — 2026-10-14
-- Copie de rezervă și etichetare date (fff-kit).
+- Backup and data labelling (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- Versiunea și data ultimei actualizări sunt afișate în aplicație (subsol, în 7 limbi).
+- The version and the date of the last update are shown in the app (footer, in 7 languages).
 
-### 11 octombrie 2026 (runda 7)
-- Reparat: textul din subsol (7 limbi) spunea că aplicația nu salvează nimic în browser, deși favoritele sunt păstrate în `localStorage`.
-- Nou: căutări recente cu sugestii și ștergere; link către căutarea oficială archive.org când cererea eșuează (traduse în 7 limbi).
+### 11 October 2026 (round 7)
+- Fixed: the footer text (7 languages) said the app does not save anything in the browser, although favorites are kept in `localStorage`.
+- New: recent searches with suggestions and clearing; a link to the official archive.org search when the request fails (translated into 7 languages).
 
-### 11 octombrie 2026 (runda 6)
-- Nou: favoritele se păstrează în `localStorage`; mesaj dedicat în 7 limbi când ești offline; scurtătura `/` pentru căutare.
-- Securitate: CSP cu `script-src` pe hash (fără `'unsafe-inline'` pentru script).
+### 11 October 2026 (round 6)
+- New: favorites are kept in `localStorage`; a dedicated message in 7 languages when you are offline; the `/` shortcut for search.
+- Security: CSP with a hash-based `script-src` (without `'unsafe-inline'` for scripts).
 
-### 11 octombrie 2026
-- Reparat: butonul „Încarcă mai multe” nu mai apare în starea goală (atributul hidden era anulat de CSS).
-- Reparat: câmpurile „an de la / an până la” nu mai sunt trunchiate pe ecran îngust (lățime mărită, trecere pe rând nou).
-- Verificat: 0 violări axe-core la 1280 și 360 px, fără erori de consolă.
+### 11 October 2026
+- Fixed: the "Load more" button no longer appears in the empty state (the hidden attribute was being overridden by CSS).
+- Fixed: the "year from / year to" fields are no longer truncated on a narrow screen (width increased, wrapping onto a new line).
+- Verified: 0 axe-core violations at 1280 and 360 px, no console errors.
 
-## Autor
+## Author
 
 Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf
 
-## English summary
+## Summary
 
 A single-file, unofficial browser for the Internet Archive's public search and metadata APIs (7 UI languages): search by collection, uploader, creator or subject, filter, preview items in an embedded player, export favorites as JSON. It contacts only archive.org (which sees your IP and queries); it stores only your favorites list locally (localStorage) and has no analytics. It is not a web-archive (Wayback) search tool. License: MIT (see LICENSE).
