@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.1 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.2.2 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,9 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 MIT — vezi fișierul [LICENSE](LICENSE).
 
 ## Istoric / Changelog
+
+### 1.2.2 — 2026-10-22
+- fff-kit 1.1.2: PBKDF2 600 000 iterații, protecție anti-clickjacking
 
 ### 1.2.1 — 2026-10-22
 - Timeout-ul de 20 de secunde (AbortError) este acum prins: mesaj tradus „nu a răspuns la timp”, nu eroare în consolă.

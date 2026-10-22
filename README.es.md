@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.1 · **Última actualización:** 2026-10-22
+**Versión:** 1.2.2 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,9 @@ Descarga `index.html` y ábrelo en un navegador. No funciona sin internet (todos
 MIT — consulta el archivo [LICENSE](LICENSE).
 
 ## Historial / Changelog
+
+### 1.2.2 — 2026-10-22
+- fff-kit 1.1.2: PBKDF2 600 000 iteraciones, protección anti-clickjacking
 
 ### 1.2.1 — 2026-10-22
 - El tiempo de espera de 20 segundos (AbortError) ahora se captura: mensaje traducido «sin respuesta a tiempo» en lugar de un error en la consola.
