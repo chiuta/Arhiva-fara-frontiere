@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.0 · **Last updated:** 2026-10-19
+**Version:** 1.2.1 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,11 @@ Download `index.html` and open it in a browser. It does not work without interne
 MIT — see the [LICENSE](LICENSE) file.
 
 ## History / Changelog
+
+### 1.2.1 — 2026-10-22
+- The 20-second timeout (AbortError) is now caught: a translated "no response in time" message instead of an error in the console.
+- Queries are normalised (control characters removed, spaces collapsed, 200-character limit) and javascript:/data:/vbscript: schemes are rejected before anything is sent to archive.org.
+- Mobile: no text below 12 px and touch targets of at least 24 px (WCAG 2.5.8).
 
 ### 1.1.0 — 2026-10-14
 - Backup and data labelling (fff-kit).

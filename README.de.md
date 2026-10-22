@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.0 · **Zuletzt aktualisiert:** 2026-10-19
+**Version:** 1.2.1 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,11 @@ Lade `index.html` herunter und öffne sie in einem Browser. Ohne Internet funkti
 MIT — siehe Datei [LICENSE](LICENSE).
 
 ## Verlauf / Changelog
+
+### 1.2.1 — 2026-10-22
+- Das 20-Sekunden-Zeitlimit (AbortError) wird jetzt abgefangen: übersetzte Meldung „keine rechtzeitige Antwort“ statt eines Konsolenfehlers.
+- Suchanfragen werden normalisiert (Steuerzeichen entfernt, Leerzeichen zusammengefasst, max. 200 Zeichen); javascript:-/data:-/vbscript:-Schemata werden abgelehnt, bevor etwas an archive.org gesendet wird.
+- Mobil: kein Text unter 12 px und Touch-Ziele von mindestens 24 px (WCAG 2.5.8).
 
 ### 1.1.0 — 2026-10-14
 - Datensicherung und Datenkennzeichnung (fff-kit).

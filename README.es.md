@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.0 · **Última actualización:** 2026-10-19
+**Versión:** 1.2.1 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,11 @@ Descarga `index.html` y ábrelo en un navegador. No funciona sin internet (todos
 MIT — consulta el archivo [LICENSE](LICENSE).
 
 ## Historial / Changelog
+
+### 1.2.1 — 2026-10-22
+- El tiempo de espera de 20 segundos (AbortError) ahora se captura: mensaje traducido «sin respuesta a tiempo» en lugar de un error en la consola.
+- Las consultas se normalizan (sin caracteres de control, espacios comprimidos, máximo 200 caracteres) y los esquemas javascript:/data:/vbscript: se rechazan antes de enviar nada a archive.org.
+- Móvil: ningún texto por debajo de 12 px y áreas táctiles de al menos 24 px (WCAG 2.5.8).
 
 ### 1.1.0 — 2026-10-14
 - Copia de seguridad y etiquetado de datos (fff-kit).

@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.0 · **Dernière mise à jour :** 2026-10-19
+**Version :** 1.2.1 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -64,6 +64,11 @@ Téléchargez `index.html` et ouvrez-le dans un navigateur. Il ne fonctionne pas
 MIT — voir le fichier [LICENSE](LICENSE).
 
 ## Historique / Changelog
+
+### 1.2.1 — 2026-10-22
+- Le délai de 20 secondes (AbortError) est désormais intercepté : message traduit « pas de réponse à temps » au lieu d'une erreur en console.
+- Les requêtes sont normalisées (caractères de contrôle supprimés, espaces réduits, 200 caractères max.) et les schémas javascript:/data:/vbscript: sont refusés avant tout envoi à archive.org.
+- Mobile : aucun texte sous 12 px et cibles tactiles d'au moins 24 px (WCAG 2.5.8).
 
 ### 1.1.0 — 2026-10-14
 - Sauvegarde et étiquetage des données (fff-kit).
