@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.4 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.2.5 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -80,7 +80,7 @@ MIT — lásd a [LICENSE](LICENSE) fájlt.
 - Biztonsági mentés és adatcímkézés (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- A verzió és az utolsó frissítés dátuma megjelenik az alkalmazásban (lábléc, 7 nyelven).
+- A verzió és az utolsó frissítés dátuma megjelenik az alkalmazásban (lábléc, 8 nyelven).
 
 ### 2026. október 11. (7. kör)
 - Javítva: a lábléc szövege (7 nyelven) azt állította, hogy az alkalmazás nem ment semmit a böngészőben, holott a kedvencek a `localStorage`-ban vannak.
