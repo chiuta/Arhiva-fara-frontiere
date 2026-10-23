@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.4 · **Zuletzt aktualisiert:** 2026-10-23
+**Version:** 1.2.5 · **Zuletzt aktualisiert:** 2026-10-23
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -80,7 +80,7 @@ MIT — siehe Datei [LICENSE](LICENSE).
 - Datensicherung und Datenkennzeichnung (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- Version und Datum der letzten Aktualisierung werden in der App angezeigt (Fußzeile, in 7 Sprachen).
+- Version und Datum der letzten Aktualisierung werden in der App angezeigt (Fußzeile, in 8 Sprachen).
 
 ### 11. Oktober 2026 (Runde 7)
 - Behoben: Der Fußzeilentext (7 Sprachen) besagte, die App speichere nichts im Browser, obwohl die Favoriten in `localStorage` gehalten werden.

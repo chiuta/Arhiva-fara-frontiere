@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.2.4 · **Última atualização:** 2026-10-23
+**Versão:** 1.2.5 · **Última atualização:** 2026-10-23
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -80,7 +80,7 @@ MIT — consulte o ficheiro [LICENSE](LICENSE).
 - Cópia de segurança e etiquetagem de dados (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- A versão e a data da última atualização são apresentadas na aplicação (rodapé, em 7 idiomas).
+- A versão e a data da última atualização são apresentadas na aplicação (rodapé, em 8 idiomas).
 
 ### 11 de outubro de 2026 (ronda 7)
 - Corrigido: o texto do rodapé (7 idiomas) dizia que a aplicação não guarda nada no navegador, embora os favoritos sejam mantidos em `localStorage`.

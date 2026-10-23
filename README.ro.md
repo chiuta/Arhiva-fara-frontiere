@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.4 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.5 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -80,7 +80,7 @@ MIT — vezi fișierul [LICENSE](LICENSE).
 - Copie de rezervă și etichetare date (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- Versiunea și data ultimei actualizări sunt afișate în aplicație (subsol, în 7 limbi).
+- Versiunea și data ultimei actualizări sunt afișate în aplicație (subsol, în 8 limbi).
 
 ### 11 octombrie 2026 (runda 7)
 - Reparat: textul din subsol (7 limbi) spunea că aplicația nu salvează nimic în browser, deși favoritele sunt păstrate în `localStorage`.

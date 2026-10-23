@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.4 · **Last updated:** 2026-10-23
+**Version:** 1.2.5 · **Last updated:** 2026-10-23
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -65,6 +65,9 @@ MIT — see the [LICENSE](LICENSE) file.
 
 ## History / Changelog
 
+### 1.2.5 — 2026-10-23
+- Touch targets: 24 px minimum for chips, links and buttons; 44 px on touch screens. Description corrected (8 interface languages, not 7).
+
 ### 1.2.3 — 2026-10-22
 - fff-kit 1.1.4: touch targets and minimum text size
 
@@ -80,7 +83,7 @@ MIT — see the [LICENSE](LICENSE) file.
 - Backup and data labelling (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- The version and the date of the last update are shown in the app (footer, in 7 languages).
+- The version and the date of the last update are shown in the app (footer, in 8 languages).
 
 ### 11 October 2026 (round 7)
 - Fixed: the footer text (7 languages) said the app does not save anything in the browser, although favorites are kept in `localStorage`.

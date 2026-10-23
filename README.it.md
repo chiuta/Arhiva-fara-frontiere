@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.4 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.2.5 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -80,7 +80,7 @@ MIT — vedi il file [LICENSE](LICENSE).
 - Copia di sicurezza ed etichettatura dei dati (fff-kit).
 
 ### 1.0.0 — 2026-10-12
-- La versione e la data dell'ultimo aggiornamento sono mostrate nell'app (piè di pagina, in 7 lingue).
+- La versione e la data dell'ultimo aggiornamento sono mostrate nell'app (piè di pagina, in 8 lingue).
 
 ### 11 ottobre 2026 (round 7)
 - Corretto: il testo del piè di pagina (7 lingue) diceva che l'app non salva nulla nel browser, mentre i preferiti sono conservati in `localStorage`.
