@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.5 · **Last updated:** 2026-10-26
+**Version:** 2.0.0 · **Last updated:** 2026-10-26
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -25,6 +25,7 @@ Verified in the code:
 - Filters: content type (video, audio, texts, images, software, etree, data, web archives, collections), sorting (including random), 24/48/96 results per page, language, year range; "Load more" (cap of ~10,000 results).
 - Detail card: description (converted to plain text), subjects, parent collections, the first 25 files with a download link, an "Open on archive.org" link.
 - Framed preview (iframe `archive.org/embed/...`) for video, audio, texts, software, etree; the largest image for the "images" type.
+- **Full-text reader (2.0.0):** for books with an OCR text layer (`*_djvu.txt`), "Read the full text" loads the text from archive.org and shows it by section, with in-book search (case- and diacritic-insensitive, with snippets and highlighting), bookmarks and "where I left off" (automatic resume; "Reading (n)" list). Progress and bookmarks stay local (`arhiva-ff-lectura-v1`). Limit: texts up to 30 MB.
 - Favorites saved locally in the browser (localStorage, key `arhiva-ff-favorite-v1`), with JSON export/import.
 - The last 8 successful searches are suggested in the search box (locally, in the browser; "Clear recent searches" button).
 - On a network error, a "Try the same search on archive.org →" link to the official search appears.

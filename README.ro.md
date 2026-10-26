@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.5 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -25,6 +25,7 @@ Verificate în cod:
 - Filtre: tip de conținut (video, audio, texte, imagini, software, etree, date, arhive web, colecții), sortare (inclusiv aleatoriu), 24/48/96 rezultate pe pagină, limbă, interval de ani; „Încarcă mai multe" (plafon ~10 000 rezultate).
 - Fișă detaliu: descriere (convertită în text simplu), subiecte, colecții părinte, primele 25 de fișiere cu link de descărcare, link „Deschide pe archive.org".
 - Previzualizare în cadru (iframe `archive.org/embed/...`) pentru video, audio, texte, software, etree; imaginea cea mai mare pentru tipul „imagini".
+- **Cititor de text integral (2.0.0):** pentru cărțile cu strat OCR (`*_djvu.txt`), butonul „Citește textul integral” descarcă textul de pe archive.org și îl afișează pe secțiuni, cu căutare în interiorul cărții (insensibilă la majuscule și diacritice, cu fragmente și evidențiere), semne de carte și „unde am rămas” (reluare automată; lista „Lecturi (n)”). Progresul și semnele rămân local (`arhiva-ff-lectura-v1`). Limită: texte până la 30 MB; nu sunt incluse încă citările BibTeX/APA și exportul listei de lectură.
 - Favorite salvate local în browser (localStorage, cheia `arhiva-ff-favorite-v1`), cu export/import JSON.
 - Ultimele 8 căutări reușite sunt sugerate în câmpul de căutare (local, în browser; buton „Șterge căutările recente”).
 - La eroare de rețea apare un link „Încearcă aceeași căutare pe archive.org →” către căutarea oficială.
