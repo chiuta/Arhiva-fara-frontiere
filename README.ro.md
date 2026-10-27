@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
+**Versiune:** 2.2.0 · **Ultima actualizare:** 2026-10-27
 
 **Stare:** stabil · **Offline:** cere internet pentru orice căutare și citire (datele vin de la archive.org)
 
@@ -36,6 +36,7 @@ Verificate în cod:
 - Interfață în română, engleză, franceză, italiană, spaniolă, portugheză, germană, maghiară (`?lang=xx` sau limba browserului).
 - Tastatură: carduri focalizabile (Enter/Spațiu), Esc închide fereastra, focus captiv în fereastră.
 - **Filtru de licență (2.1.0):** alegi domeniu public/CC0 sau o variantă CC (BY, BY-SA, BY-ND, BY-NC, BY-NC-SA, BY-NC-ND); fișa afișează licența declarată de încărcător. Este licența *declarată*, nu o verificare.
+- **Filtru pe tip de media peste rezultatele încărcate (2.2.0):** sub caseta de căutare, chip-uri cu număr (Toate, Texte / Cărți, Video, Audio…) afișează sau ascund cardurile deja de pe ecran, în rezultate și în favorite; **nu face nicio cerere nouă**. Filtrează doar ce e încărcat (folosește „Încarcă mai multe” pentru mai multe); selectorul „Tip de conținut” de sus interoghează în continuare archive.org. Tipurile necunoscute apar cu numele brut. Texte în 8 limbi (FR/IT/ES/PT/DE/HU traduse automat).
 - **Wayback Machine, opțional (2.1.0):** o casetă separată verifică dacă o singură adresă web are o copie în Wayback Machine (o cerere către archive.org, doar la apăsarea butonului) și trimite la cea mai apropiată copie sau la calendar. Aplicația tot nu caută în conținutul arhivelor web.
 - **Export favorite (2.1.0):** pe lângă JSON, CSV (protejat împotriva formulelor) și Markdown cu linkuri.
 
@@ -71,6 +72,9 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 MIT — vezi fișierul [LICENSE](LICENSE).
 
 ## Istoric / Changelog
+
+### 2.2.0 — 2026-10-27
+- Chip-uri de tip de media peste rezultatele încărcate și favorite (fără cerere în plus). Test nou: `tests/v22.test.mjs` (13 verificări).
 
 ### 2.1.0 — 2026-10-27
 - Filtru de licență (domeniu public/CC0 și șase variante CC) și licența declarată în fișă.
