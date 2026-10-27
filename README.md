@@ -2,7 +2,9 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.0 · **Last updated:** 2026-10-26
+**Version:** 2.1.0 · **Last updated:** 2026-10-27
+
+**Status:** stable · **Offline:** needs internet for any search or reading (the data comes from archive.org)
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -16,7 +18,7 @@ A single HTML file for searching and browsing collections, authors and public up
 
 ## What it is
 
-An unofficial web client for the Internet Archive's public API: you type a collection, an uploader, an author or a subject (or paste an `archive.org/details/...` link) and see the results as cards, with an in-app preview where possible. It is not affiliated with the Internet Archive. It is not a tool for searching web archives (Wayback Machine, Arquivo.pt, etc.): it only queries `advancedsearch.php` and `metadata` on archive.org.
+An unofficial web client for the Internet Archive's public API: you type a collection, an uploader, an author or a subject (or paste an `archive.org/details/...` link) and see the results as cards, with an in-app preview where possible. It is not affiliated with the Internet Archive. It is not a tool for searching web archives (Wayback Machine, Arquivo.pt, etc.): it only queries `advancedsearch.php` and `metadata` on archive.org. Since 2.1.0 there is one optional exception, clearly separate: a button that asks whether a *single web address* has a copy in the Wayback Machine (`archive.org/wayback/available`); it does not search inside web archives.
 
 ## Features
 
@@ -33,6 +35,9 @@ Verified in the code:
 - Shortcut: `/` moves the focus to the search box.
 - Interface in Romanian, English, French, Italian, Spanish, Portuguese, German, Hungarian (`?lang=xx` or the browser language).
 - Keyboard: focusable cards (Enter/Space), Esc closes the window, focus is trapped in the window.
+- **License filter (2.1.0):** choose public domain/CC0 or a CC variant (BY, BY-SA, BY-ND, BY-NC, BY-NC-SA, BY-NC-ND); the detail card shows the license declared by the uploader. It is the *declared* license, not a verification.
+- **Wayback Machine, optional (2.1.0):** a separate box checks whether one web address has a copy in the Wayback Machine (one request to archive.org, only on button press) and links to the nearest copy or to the calendar. The app still does not search the content of web archives.
+- **Favorites export (2.1.0):** besides JSON, CSV (formula-safe) and Markdown with links.
 
 ## User guide
 
@@ -55,6 +60,7 @@ Verified in the code:
 - If archive.org is unavailable or rate-limits requests, the app shows an error message (requests time out after 20 seconds).
 - The framed preview depends on the Internet Archive player and may be blocked by the browser or by cookie settings; it has not been tested in this repository with a real network.
 - The API cap limits the search to roughly the first 10,000 results.
+- The license filter uses the `licenseurl` field **declared by the uploader** (not verified, and many items declare nothing); the query patterns follow the archive.org search guide but **have not been tested against the real archive.org in this repository**. The Wayback check relies on `archive.org/wayback/available`, whose browser (CORS) behaviour is also untested here; on failure the app offers the web.archive.org calendar link.
 
 ## Local / offline use
 
@@ -65,6 +71,13 @@ Download `index.html` and open it in a browser. It does not work without interne
 MIT — see the [LICENSE](LICENSE) file.
 
 ## History / Changelog
+
+### 2.1.0 — 2026-10-27
+- License filter (public domain/CC0 and six CC variants) and the declared license in the detail card.
+- Optional Wayback Machine check for a single web address (separate box; the app still does not search web archives).
+- Favorites export as CSV and Markdown (besides JSON).
+- Not done: Wayback full-text/CDX search (beyond the stated scope); license/query patterns untested against the real archive.org.
+- Already present: media-type filter ("Content type"). New test: `tests/v21.test.mjs`.
 
 ### 1.2.3 — 2026-10-22
 - fff-kit 1.1.4: touch targets and minimum text size

@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
+
+**Stare:** stabil · **Offline:** cere internet pentru orice căutare și citire (datele vin de la archive.org)
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -16,7 +18,7 @@ Un singur fișier HTML pentru a căuta și răsfoi colecții, autori și încăr
 
 ## Ce este
 
-Un client web neoficial pentru API-ul public al Internet Archive: scrii o colecție, un uploader, un autor sau un subiect (sau lipești un link `archive.org/details/...`) și vezi rezultatele ca fișe, cu previzualizare în aplicație unde este posibil. Nu este afiliat cu Internet Archive. Nu este un instrument de căutare în arhive web (Wayback Machine, Arquivo.pt etc.): interoghează doar `advancedsearch.php` și `metadata` de pe archive.org.
+Un client web neoficial pentru API-ul public al Internet Archive: scrii o colecție, un uploader, un autor sau un subiect (sau lipești un link `archive.org/details/...`) și vezi rezultatele ca fișe, cu previzualizare în aplicație unde este posibil. Nu este afiliat cu Internet Archive. Nu este un instrument de căutare în arhive web (Wayback Machine, Arquivo.pt etc.): interoghează doar `advancedsearch.php` și `metadata` de pe archive.org. Din 2.1.0 există o singură excepție opțională, separată clar: un buton care întreabă dacă *o singură adresă web* are o copie în Wayback Machine (`archive.org/wayback/available`); nu caută în interiorul arhivelor web.
 
 ## Funcții
 
@@ -33,6 +35,9 @@ Verificate în cod:
 - Scurtătură: `/` mută focusul în câmpul de căutare.
 - Interfață în română, engleză, franceză, italiană, spaniolă, portugheză, germană, maghiară (`?lang=xx` sau limba browserului).
 - Tastatură: carduri focalizabile (Enter/Spațiu), Esc închide fereastra, focus captiv în fereastră.
+- **Filtru de licență (2.1.0):** alegi domeniu public/CC0 sau o variantă CC (BY, BY-SA, BY-ND, BY-NC, BY-NC-SA, BY-NC-ND); fișa afișează licența declarată de încărcător. Este licența *declarată*, nu o verificare.
+- **Wayback Machine, opțional (2.1.0):** o casetă separată verifică dacă o singură adresă web are o copie în Wayback Machine (o cerere către archive.org, doar la apăsarea butonului) și trimite la cea mai apropiată copie sau la calendar. Aplicația tot nu caută în conținutul arhivelor web.
+- **Export favorite (2.1.0):** pe lângă JSON, CSV (protejat împotriva formulelor) și Markdown cu linkuri.
 
 ## Manual de utilizare
 
@@ -55,6 +60,7 @@ Verificate în cod:
 - Dacă archive.org este indisponibil sau limitează cererile, aplicația arată un mesaj de eroare (cererile expiră după 20 de secunde).
 - Previzualizarea în cadru depinde de playerul Internet Archive și poate fi blocată de browser sau de setările de cookie-uri; nu a fost testată în acest repository cu rețea reală.
 - Plafonul API-ului limitează căutarea la aproximativ primele 10 000 de rezultate.
+- Filtrul de licență folosește câmpul `licenseurl` **declarat de încărcător** (neverificat; multe materiale nu declară nimic); modelele de interogare urmează ghidul de căutare archive.org, dar **nu au fost testate pe archive.org real în acest depozit**. Verificarea Wayback se bazează pe `archive.org/wayback/available`, al cărui comportament în browser (CORS) este de asemenea netestat aici; la eroare, aplicația oferă linkul către calendarul web.archive.org.
 
 ## Rulare locală / offline
 
@@ -65,6 +71,13 @@ Descarcă `index.html` și deschide-l în browser. Nu funcționează fără inte
 MIT — vezi fișierul [LICENSE](LICENSE).
 
 ## Istoric / Changelog
+
+### 2.1.0 — 2026-10-27
+- Filtru de licență (domeniu public/CC0 și șase variante CC) și licența declarată în fișă.
+- Verificare opțională Wayback Machine pentru o singură adresă web (casetă separată; aplicația tot nu caută în arhive web).
+- Export favorite în CSV și Markdown (pe lângă JSON).
+- Nefăcut: căutare Wayback în text integral/CDX (în afara domeniului declarat); modelele de interogare pentru licență sunt netestate pe archive.org real.
+- Existent deja: filtrul pe tip de conținut (media). Test nou: `tests/v21.test.mjs`.
 
 ### 1.2.3 — 2026-10-22
 - fff-kit 1.1.4: ținte tactile și text minim
