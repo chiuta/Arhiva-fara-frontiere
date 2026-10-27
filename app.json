@@ -2,8 +2,8 @@
   "schema": 1,
   "slug": "arhiva-fara-frontiere",
   "name": "Arhiva fără frontiere — răsfoiește Archive.org fără cont",
-  "version": "2.0.0",
-  "updated": "2026-10-26",
+  "version": "2.1.0",
+  "updated": "2026-10-27",
   "description": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 7 limbi. Neoficial; cererile merg direct la archive.org.",
   "egress": [
     {
@@ -32,8 +32,8 @@
     "arhiva-ff-lectura-v1",
     "arhiva-ff-recente-v1"
   ],
-  "sizeBytes": 294812,
-  "sha256": "81b1e19c18ad09c3b0af31fa7e194b0a0e0065cda1a6a956653d64cf3b5daa3d",
+  "sizeBytes": 313725,
+  "sha256": "68e23fcbb9167595838a063e4172804bea7beff7559b8c998630d597ec3ff1dd",
   "csp": {
     "present": true,
     "directives": {
