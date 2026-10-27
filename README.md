@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.1.0 · **Last updated:** 2026-10-27
+**Version:** 2.2.0 · **Last updated:** 2026-10-27
 
 **Status:** stable · **Offline:** needs internet for any search or reading (the data comes from archive.org)
 
@@ -36,6 +36,7 @@ Verified in the code:
 - Interface in Romanian, English, French, Italian, Spanish, Portuguese, German, Hungarian (`?lang=xx` or the browser language).
 - Keyboard: focusable cards (Enter/Space), Esc closes the window, focus is trapped in the window.
 - **License filter (2.1.0):** choose public domain/CC0 or a CC variant (BY, BY-SA, BY-ND, BY-NC, BY-NC-SA, BY-NC-ND); the detail card shows the license declared by the uploader. It is the *declared* license, not a verification.
+- **Media-type filter on the loaded results (2.2.0):** below the search box, chips with counts (All, Text/Books, Video, Audio…) show or hide the cards already on screen, in search results and in favorites; it makes **no new request**. It only filters what is loaded (use "Load more" for more); the "Content type" selector above still queries archive.org. Unknown types are shown with their raw name. Texts in 8 languages (FR/IT/ES/PT/DE/HU machine-translated).
 - **Wayback Machine, optional (2.1.0):** a separate box checks whether one web address has a copy in the Wayback Machine (one request to archive.org, only on button press) and links to the nearest copy or to the calendar. The app still does not search the content of web archives.
 - **Favorites export (2.1.0):** besides JSON, CSV (formula-safe) and Markdown with links.
 
@@ -71,6 +72,9 @@ Download `index.html` and open it in a browser. It does not work without interne
 MIT — see the [LICENSE](LICENSE) file.
 
 ## History / Changelog
+
+### 2.2.0 — 2026-10-27
+- Media-type chips over the loaded results and favorites (no extra request). New test: `tests/v22.test.mjs` (13 checks).
 
 ### 2.1.0 — 2026-10-27
 - License filter (public domain/CC0 and six CC variants) and the declared license in the detail card.
