@@ -32,8 +32,8 @@
     "arhiva-ff-lectura-v1",
     "arhiva-ff-recente-v1"
   ],
-  "sizeBytes": 317297,
-  "sha256": "b5b6af95feb65c85a544d583165442e1cf274b399bbbbe1af4be120b2b47b12f",
+  "sizeBytes": 457731,
+  "sha256": "851fe167760324efb43aad1f25c67855408fc5fe9085e7e09d434535e14afc22",
   "csp": {
     "present": true,
     "directives": {
@@ -73,7 +73,11 @@
       "store",
       "dialog",
       "label",
-      "bundle"
+      "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history"
     ]
   },
   "kit": {
@@ -83,7 +87,11 @@
       "store",
       "dialog",
       "label",
-      "bundle"
+      "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history"
     ]
   },
   "selfSerializing": false
