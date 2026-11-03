@@ -2,8 +2,8 @@
   "schema": 1,
   "slug": "arhiva-fara-frontiere",
   "name": "Arhiva fără frontiere — răsfoiește Archive.org fără cont",
-  "version": "2.2.1",
-  "updated": "2026-11-02",
+  "version": "2.2.2",
+  "updated": "2026-11-03",
   "description": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 8 limbi. Neoficial; cererile merg direct la archive.org.",
   "egress": [
     {
@@ -24,21 +24,24 @@
     }
   ],
   "permissions": [
+    "clipboard",
     "serviceWorker",
-    "localStorage"
+    "localStorage",
+    "Web Crypto",
+    "BroadcastChannel"
   ],
   "storageKeys": [
     "arhiva-ff-favorite-v1",
     "arhiva-ff-lectura-v1",
     "arhiva-ff-recente-v1"
   ],
-  "sizeBytes": 458296,
-  "sha256": "e538905734c43fbed60c936e181ffa7d82e75b27b010f29b7c7aa2121a3e6d0c",
+  "sizeBytes": 500052,
+  "sha256": "37808b86ae6d0ff3f9b6da0be7b78a394ab36af76d6c24f67434a973a99a44b9",
   "csp": {
     "present": true,
     "directives": {
       "default-src": "'none'",
-      "script-src": "sha256×3",
+      "script-src": "sha256×5",
       "style-src": "'unsafe-inline'",
       "img-src": "'self' https://archive.org https://*.archive.org data:",
       "connect-src": "https://archive.org https://*.archive.org",
