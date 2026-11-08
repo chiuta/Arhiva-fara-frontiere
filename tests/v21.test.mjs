@@ -87,7 +87,7 @@ check('Markdown: caractere speciale scăpate', /Film \\\| "special" \\\*x\\\*/.t
 // --- limbi
 const keys = await page.evaluate(() => 0);
 const txt = fs.readFileSync(FILE.replace('file://', ''), 'utf8');
-const ks = ['licAny','licPD','modalLicensePrefix','exportFavCsvBtn','exportFavMdBtn','wbSummary','wbNote','wbBtn','wbFound','wbNone','wbError','wbCalendar','statusNoFavoritesExport','favoritesMdTitle'];
+const ks = ['licAny','licPD','modalLicensePrefix','exportFavCsvBtn','exportFavMdBtn','wbSummary','wbNote','availNote','wbBtn','wbFound','wbNone','wbError','wbCalendar','statusNoFavoritesExport','favoritesMdTitle'];
 const langs = ['ro','en','fr','it','es','pt','de','hu'];
 check('chei noi în toate cele 8 limbi', langs.every((l) => { const i = txt.indexOf('\n  "' + l + '": {\n'); const j = txt.indexOf('\n  },', i); const seg = txt.slice(i, j); return ks.every((k) => seg.includes('"' + k + '":')); }));
 await page.setViewportSize({width: 360, height: 800});

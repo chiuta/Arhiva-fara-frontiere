@@ -2,6 +2,10 @@
 
 Format: [SemVer](https://semver.org/lang/ro/) (MAJOR.MINOR.PATCH). Istoricul complet al versiunilor anterioare este în secțiunea „Istoric / Changelog” din [README.ro.md](README.ro.md).
 
+## 2.2.7 — 2026-11-08
+
+- Nou: notă sub rezultate că unele fișe pot fi doar de împrumut/cu acces restricționat pe archive.org (aplicația nu poate filtra după disponibilitate) — 8 limbi.
+
 ## 2.2.4 — 2026-11-03
 
 Etapa 4: jurnal de teren geolocalizat comun (plicul geo/journal, export GeoJSON/GPX), cu atlas în Arhiva fără frontiere
