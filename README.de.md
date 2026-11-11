@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 2.2.9 · **Zuletzt aktualisiert:** 2026-11-10
+**Version:** 2.2.10 · **Zuletzt aktualisiert:** 2026-11-10
 
 **Status:** stabil · **Offline:** braucht Internet für jede Suche und jedes Lesen (die Daten kommen von archive.org)
 
