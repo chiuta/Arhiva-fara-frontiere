@@ -2,7 +2,7 @@
   "schema": 1,
   "slug": "arhiva-fara-frontiere",
   "name": "' + xml(tr('pt', { i: i + 1, t: e.title, lat: e.lat, lon: e.lon })) + '",
-  "version": "2.2.12",
+  "version": "2.3.0",
   "updated": "2026-11-15",
   "description": "Răsfoiește colecții, autori și încărcări publice de pe Internet Archive (archive.org) într-un singur fișier HTML, în 8 limbi. Neoficial; cererile merg direct la archive.org.",
   "egress": [
@@ -37,8 +37,8 @@
     "arhiva-ff-lectura-v1",
     "arhiva-ff-recente-v1"
   ],
-  "sizeBytes": 641797,
-  "sha256": "ce8bdcafda0a5dc2cfa18ae6373d945cbf3580c77611f6337655c8c5991ea9f3",
+  "sizeBytes": 679816,
+  "sha256": "b94f2f634447470a183d8ab7ccc636e00de3746b9147c4b43790122a4fee7eb6",
   "csp": {
     "present": true,
     "directives": {
@@ -79,6 +79,7 @@
       "dialog",
       "exit",
       "view",
+      "a11y",
       "ux",
       "label",
       "bundle",
@@ -89,13 +90,14 @@
     ]
   },
   "kit": {
-    "version": "1.5.0",
+    "version": "1.6.0",
     "modules": [
       "core",
       "store",
       "dialog",
       "exit",
       "view",
+      "a11y",
       "ux",
       "label",
       "bundle",
