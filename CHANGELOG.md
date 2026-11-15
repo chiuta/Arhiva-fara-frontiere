@@ -2,6 +2,10 @@
 
 Format: [SemVer](https://semver.org/lang/ro/) (MAJOR.MINOR.PATCH). Istoricul complet al versiunilor anterioare este în secțiunea „Istoric / Changelog” din [README.ro.md](README.ro.md).
 
+## 2.2.12 — 2026-11-15
+
+- Nou: texturi fractale hiper-detaliate (fff-texturi 1.1.2) — fundalul și suprafețele mari (carduri, panouri, antete, butoane; filele și dialogurile ascunse la încărcare, când se deschid) primesc un material generat local (WebGL2, fără rețea și fără imagini), care se repetă fără cusătură; culorile aplicației rămân ale ei. Se oprește din dialogul „Transparență” sau cu `?notex=1`.
+
 ## 2.2.7 — 2026-11-08
 
 - Nou: notă sub rezultate că unele fișe pot fi doar de împrumut/cu acces restricționat pe archive.org (aplicația nu poate filtra după disponibilitate) — 8 limbi.
