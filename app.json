@@ -29,6 +29,7 @@
     "serviceWorker",
     "localStorage",
     "Web Crypto",
+    "WebGL",
     "BroadcastChannel"
   ],
   "storageKeys": [
@@ -36,13 +37,13 @@
     "arhiva-ff-lectura-v1",
     "arhiva-ff-recente-v1"
   ],
-  "sizeBytes": 584852,
-  "sha256": "c4f2be464422c766afd4e543023b027e0764c77b804377d809b091d787035cbe",
+  "sizeBytes": 636877,
+  "sha256": "7e60f69a7710e208526e1d7921473d859fab639a4828b458d236241338cf6a12",
   "csp": {
     "present": true,
     "directives": {
       "default-src": "'none'",
-      "script-src": "sha256×6",
+      "script-src": "sha256×7",
       "style-src": "'unsafe-inline'",
       "img-src": "'self' https://archive.org https://*.archive.org data:",
       "connect-src": "https://archive.org https://*.archive.org",
